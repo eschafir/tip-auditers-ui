@@ -1,6 +1,8 @@
 package audites.Login
 
+import audites.RevisionWindows
 import audites.appModel.LoginAppModel
+import audites.appModel.RevisionAppModel
 import org.uqbar.arena.layout.ColumnLayout
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
@@ -59,7 +61,13 @@ class LoginWindows extends SimpleWindow<LoginAppModel> {
 			caption = "Login"
 			width = 65
 			onClick [|
-				
+				val modelo = new RevisionAppModel => [
+					userLoged = this.modelObject.obtainUser
+
+				]
+				this.modelObject.validateUser
+				new RevisionWindows(this, modelo).open
+
 			]
 		]
 

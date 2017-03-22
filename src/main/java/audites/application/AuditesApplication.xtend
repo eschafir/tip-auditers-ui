@@ -1,22 +1,24 @@
 package audites.application
 
-import org.uqbar.arena.Application
-import audites.appModel.LoginAppModel
 import audites.Login.LoginWindows
-import audites.domain.User
+import audites.appModel.LoginAppModel
+import org.uqbar.arena.Application
 
 class AuditesApplication extends Application {
 
-	override protected createMainWindow() {
-		val model = new LoginAppModel => [
-			userLoged = new User()
-		]
-		new LoginWindows(this, model)
+	new(AuditesBootstrap bootstrap) {
+		super(bootstrap)
 	}
-	
+
+	override protected createMainWindow() {
+		val model = new LoginAppModel()
+		new LoginWindows(this, model)
+
+	}
+
 	def static main(String[] args) {
 
-		new AuditesApplication().start
+		new AuditesApplication(new AuditesBootstrap).start()
 	}
 
 }
