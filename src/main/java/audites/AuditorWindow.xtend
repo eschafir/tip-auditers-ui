@@ -9,11 +9,16 @@ import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 import audites.AuditorWindows.NewRevisionWindow
+import org.uqbar.arena.bindings.PropertyAdapter
+import audites.domain.Revision
+import org.uqbar.arena.widgets.List
+import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 
 class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 
 	new(WindowOwner parent, AuditorAppModel model) {
 		super(parent, model)
+		this.taskDescription = "Panel de Auditores"
 	}
 
 	override protected addActions(Panel actionsPanel) {
@@ -27,6 +32,7 @@ class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 	}
 
 	override protected createFormPanel(Panel mainPanel) {
+		this.title = "Audites"
 		val panelButtons = new Panel(mainPanel)
 		panelButtons.layout = new HorizontalLayout
 
@@ -39,11 +45,11 @@ class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 			]
 		]
 
-//		new List<Revision>(mainPanel) => [
-//			value.bindToProperty("revisionSelected")
-//			(items.bindToProperty("userLoged.auditorRevisions")).adapter = new PropertyAdapter(Revision, "name")
-//			height = 150
-//		]
+		new List<Revision>(mainPanel) => [
+			value <=> "revisionSelected"
+			(items.bindToProperty("userLoged.revisions")).adapter = new PropertyAdapter(Revision, "name")
+			height = 150
+		]
 	}
 
 }

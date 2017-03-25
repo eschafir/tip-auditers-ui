@@ -15,15 +15,26 @@ import org.uqbar.arena.widgets.Selector
 import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
+import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
+import org.uqbar.arena.bindings.DateTransformer
 
 class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 
 	new(WindowOwner parent, NewRevisionAppModel model) {
 		super(parent, model)
-		this.title = "Nueva revision"
 	}
 
 	override protected addActions(Panel actionsPanel) {
+
+		new Button(actionsPanel) => [
+			caption = "Aceptar"
+			onClick[|
+				this.close
+				this.modelObject.createRevison
+				new AuditorWindow(this, new AuditorAppModel(this.modelObject.userLoged)).open
+			]
+		]
+
 		new Button(actionsPanel) => [
 			caption = "Atras"
 			onClick[|
@@ -50,7 +61,7 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 
 		new Label(nameRevision).text = "Nombre"
 		new TextBox(nameRevision) => [
-			value.bindToProperty("revision.name")
+			value <=> "revision.name"
 			width = 200
 		]
 
@@ -61,8 +72,22 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 		new Selector(departmentRevision) => [
 			width = 185
 			allowNull(false)
-			value.bindToProperty("selectedDepartment")
+			value <=> "selectedDepartment"
 			(items.bindToProperty("departments")).adapter = new PropertyAdapter(Department, "name")
+		]
+
+		val description = new Panel(revisionPanel)
+		new Label(description).text = "Comentarios"
+		new TextBox(description) => [
+			multiLine = true
+			height = 200
+			width = 200
+			value <=> "revision.description"
+		]
+
+		val dates = new Panel(revisionPanel)
+		new TextBox(dates) => [
+			value.bindToProperty("revision.endDate").transformer = new DateTransformer
 		]
 
 	}

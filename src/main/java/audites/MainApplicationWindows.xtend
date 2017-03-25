@@ -15,13 +15,14 @@ class MainApplicationWindows extends SimpleWindow<MainApplicationAppModel> {
 
 	new(WindowOwner parent, MainApplicationAppModel model) {
 		super(parent, model)
+		this.taskDescription = "Bienvenido " + this.modelObject.userLoged.name
 	}
 
 	override protected addActions(Panel arg0) {
 	}
 
 	override protected createFormPanel(Panel mainPanel) {
-		this.title = this.modelObject.userLoged.name
+		this.title = "Audites"
 
 		val panel = new Panel(mainPanel)
 		panel.layout = new HorizontalLayout
