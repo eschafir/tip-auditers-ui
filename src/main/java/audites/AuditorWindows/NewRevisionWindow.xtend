@@ -4,6 +4,7 @@ import audites.AuditorWindow
 import audites.appModel.AuditorAppModel
 import audites.appModel.NewRevisionAppModel
 import audites.domain.Department
+import org.uqbar.arena.bindings.DateTransformer
 import org.uqbar.arena.bindings.PropertyAdapter
 import org.uqbar.arena.layout.ColumnLayout
 import org.uqbar.arena.layout.VerticalLayout
@@ -15,13 +16,15 @@ import org.uqbar.arena.widgets.Selector
 import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
+
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-import org.uqbar.arena.bindings.DateTransformer
+import audites.domain.Requirement
 
 class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 
 	new(WindowOwner parent, NewRevisionAppModel model) {
 		super(parent, model)
+		this.taskDescription = "Complete la informacion necesaria para la nueva revision"
 	}
 
 	override protected addActions(Panel actionsPanel) {
@@ -29,8 +32,8 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 		new Button(actionsPanel) => [
 			caption = "Aceptar"
 			onClick[|
-				this.close
 				this.modelObject.createRevison
+				this.close
 				new AuditorWindow(this, new AuditorAppModel(this.modelObject.userLoged)).open
 			]
 		]
@@ -45,10 +48,12 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 	}
 
 	override protected createFormPanel(Panel mainPanel) {
+		this.title = "Audites"
 		val principalPanel = new Panel(mainPanel)
 		principalPanel.layout = new ColumnLayout(2)
 
 		createRevisionPanel(principalPanel)
+		createRequirementsPanel(principalPanel)
 
 	}
 
@@ -90,6 +95,23 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 			value.bindToProperty("revision.endDate").transformer = new DateTransformer
 		]
 
+	}
+
+	def createRequirementsPanel(Panel panel) {
+		val reqPanel = new GroupPanel(panel)
+		reqPanel.title = "Requerimientos"
+
+		new Label(reqPanel) => [
+			value <=> "revision.name"
+			fontSize = 30
+		]
+
+		new Button(reqPanel) => [
+			caption = "Agregar..."
+			onClick[|
+				new NewRequirementWindow(this, new Requirement).open
+			]
+		]
 	}
 
 }

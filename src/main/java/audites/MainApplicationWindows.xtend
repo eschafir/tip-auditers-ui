@@ -1,7 +1,9 @@
 package audites
 
+import audites.Login.LoginWindows
 import audites.appModel.AdminPanelAppModel
 import audites.appModel.AuditorAppModel
+import audites.appModel.LoginAppModel
 import audites.appModel.MainApplicationAppModel
 import audites.domain.Role
 import java.util.HashMap
@@ -19,10 +21,18 @@ class MainApplicationWindows extends SimpleWindow<MainApplicationAppModel> {
 	}
 
 	override protected addActions(Panel arg0) {
+		new Button(arg0) => [
+			caption = "Logout"
+			onClick[
+				this.close
+				new LoginWindows(this, new LoginAppModel).open
+			]
+		]
 	}
 
 	override protected createFormPanel(Panel mainPanel) {
 		this.title = "Audites"
+		this.iconImage = "C:/Users/Esteban/git/tip-audites-dom/logo.png"
 
 		val panel = new Panel(mainPanel)
 		panel.layout = new HorizontalLayout
@@ -57,6 +67,8 @@ class MainApplicationWindows extends SimpleWindow<MainApplicationAppModel> {
 				new Button(panel) => [
 					caption = "Revisiones"
 					onClick[|
+						this.close
+						new AuditedWindow(this, new AuditorAppModel(this.modelObject.userLoged)).open
 					]
 
 				]

@@ -2,7 +2,7 @@ package audites.Login
 
 import audites.MainApplicationWindows
 import audites.appModel.LoginAppModel
-import org.uqbar.arena.layout.ColumnLayout
+import audites.appModel.MainApplicationAppModel
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.Label
@@ -11,7 +11,7 @@ import org.uqbar.arena.widgets.PasswordField
 import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
-import audites.appModel.MainApplicationAppModel
+
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 
 class LoginWindows extends SimpleWindow<LoginAppModel> {
@@ -49,35 +49,29 @@ class LoginWindows extends SimpleWindow<LoginAppModel> {
 
 	override protected createFormPanel(Panel mainPanel) {
 		this.title = "Audites"
+		this.iconImage = "C:/Users/Esteban/git/tip-audites-dom/logo.png"
 
 		crearPanelLogin(mainPanel)
-		crearBotonera(mainPanel)
 	}
 
 	def crearPanelLogin(Panel owner) {
 
-		val panelHeader = new Panel(owner)
-		panelHeader.layout = new ColumnLayout(2)
+		new Label(owner).text = "Usuario:"
 
-		new Label(panelHeader).text = "Usuario:"
-
-		new TextBox(panelHeader) => [
-			width = 70
+		new TextBox(owner) => [
+			width = 200
 			value.bindToProperty("userLoged.email")
 		]
 
-		new Label(panelHeader) => [
+		new Label(owner) => [
 			text = "Contraseña:"
 		]
 
-		new PasswordField(panelHeader) => [
-			width = 70
+		new PasswordField(owner) => [
+			width = 200
 			value.bindToProperty("passwordSubmited")
 		]
 
-	}
-
-	def crearBotonera(Panel owner) {
 	}
 
 }

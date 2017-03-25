@@ -12,6 +12,8 @@ import audites.domain.Audited
 class AuditesBootstrap implements Bootstrap {
 
 	User admin
+	User auditado
+	User auditor
 	Department seginf
 
 	def void initUsers() {
@@ -22,9 +24,26 @@ class AuditesBootstrap implements Bootstrap {
 			roles.add(new Admin)
 			roles.add(new Auditor)
 			roles.add(new Audited)
+		]
+
+		auditado = new User => [
+			name = "Esteban Schafir"
+			password = "123"
+			email = "eschafir"
+			roles.add(new Audited)
 			addDepartment(seginf)
 		]
+
+		auditor = new User => [
+			name = "Diego Perez"
+			password = "123"
+			email = "dperez"
+			roles.add(new Auditor)
+		]
+
 		this.createUser(admin)
+		this.createUser(auditado)
+		this.createUser(auditor)
 	}
 
 	def void initDepartments() {
