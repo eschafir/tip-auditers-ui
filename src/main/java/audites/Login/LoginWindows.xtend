@@ -1,8 +1,7 @@
 package audites.Login
 
-import audites.RevisionWindows
+import audites.MainApplicationWindows
 import audites.appModel.LoginAppModel
-import audites.appModel.RevisionAppModel
 import org.uqbar.arena.layout.ColumnLayout
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
@@ -12,6 +11,8 @@ import org.uqbar.arena.widgets.PasswordField
 import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
+import audites.appModel.MainApplicationAppModel
+import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 
 class LoginWindows extends SimpleWindow<LoginAppModel> {
 
@@ -21,6 +22,29 @@ class LoginWindows extends SimpleWindow<LoginAppModel> {
 	}
 
 	override protected addActions(Panel arg0) {
+		arg0.layout = new HorizontalLayout
+		new Button(arg0) => [
+			caption = "Login"
+			width = 65
+			enabled <=> "passwordIngresed"
+			onClick [|
+				val modelo = new MainApplicationAppModel => [
+					userLoged = this.modelObject.obtainUser
+				]
+				this.modelObject.validateUser
+				this.close
+				new MainApplicationWindows(this, modelo).open
+
+			]
+		]
+
+		new Button(arg0) => [
+			caption = "Cancelar"
+			width = 65
+			onClick [|
+				this.close
+			]
+		]
 	}
 
 	override protected createFormPanel(Panel mainPanel) {
@@ -54,30 +78,6 @@ class LoginWindows extends SimpleWindow<LoginAppModel> {
 	}
 
 	def crearBotonera(Panel owner) {
-		val botonera = new Panel(owner)
-		botonera.layout = new HorizontalLayout
-
-		new Button(botonera) => [
-			caption = "Login"
-			width = 65
-			onClick [|
-				val modelo = new RevisionAppModel => [
-					userLoged = this.modelObject.obtainUser
-
-				]
-				this.modelObject.validateUser
-				new RevisionWindows(this, modelo).open
-
-			]
-		]
-
-		new Button(botonera) => [
-			caption = "Cancelar"
-			width = 65
-			onClick [|
-				this.close
-			]
-		]
 	}
 
 }

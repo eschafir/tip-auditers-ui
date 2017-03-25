@@ -19,7 +19,7 @@ class AdminWindow extends SimpleWindow<AdminPanelAppModel> {
 			caption = "Atras"
 			onClick[|
 				this.close
-				new MainApplicationWindow(this, new MainApplicationAppModel(this.modelObject.userLoged)).open
+				new MainApplicationWindows(this, new MainApplicationAppModel(this.modelObject.userLoged)).open
 			]
 		]
 	}

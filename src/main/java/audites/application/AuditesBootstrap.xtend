@@ -3,18 +3,36 @@ package audites.application
 import org.uqbar.arena.bootstrap.Bootstrap
 import audites.domain.User
 import audites.repos.RepoUsers
+import audites.domain.Admin
+import audites.domain.Department
+import audites.repos.RepoDepartments
+import audites.domain.Auditor
+import audites.domain.Audited
 
 class AuditesBootstrap implements Bootstrap {
 
 	User admin
+	Department seginf
 
 	def void initUsers() {
 		admin = new User() => [
-			name = "admin"
+			name = "Administrador"
 			password = "admin"
-			email = "esteban.schafir@gmail.com"
+			email = "admin"
+			roles.add(new Admin)
+			roles.add(new Auditor)
+			roles.add(new Audited)
+			addDepartment(seginf)
 		]
 		this.createUser(admin)
+	}
+
+	def void initDepartments() {
+		seginf = new Department() => [
+			name = "Seguridad Informatica"
+			email = "seginf@gmail.com"
+		]
+		this.createDepartment(seginf)
 	}
 
 	def createUser(User user) {
@@ -30,11 +48,25 @@ class AuditesBootstrap implements Bootstrap {
 		}
 	}
 
+	def createDepartment(Department department) {
+		val repoDep = RepoDepartments.instance
+		val listDepartments = repoDep.searchByExample(department)
+		if (listDepartments.isEmpty) {
+			repoDep.create(department)
+			println("Department " + department.name + " creado")
+		} else {
+			val depBD = listDepartments.head
+			department.id = depBD.id
+			repoDep.update(department)
+		}
+	}
+
 	override isPending() {
 		false
 	}
 
 	override run() {
+		initDepartments
 		initUsers
 	}
 

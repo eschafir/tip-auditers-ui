@@ -6,8 +6,9 @@ import audites.appModel.NewRevisionAppModel
 import audites.domain.Department
 import org.uqbar.arena.bindings.PropertyAdapter
 import org.uqbar.arena.layout.ColumnLayout
-import org.uqbar.arena.layout.HorizontalLayout
+import org.uqbar.arena.layout.VerticalLayout
 import org.uqbar.arena.widgets.Button
+import org.uqbar.arena.widgets.GroupPanel
 import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.Selector
@@ -34,35 +35,31 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 
 	override protected createFormPanel(Panel mainPanel) {
 		val principalPanel = new Panel(mainPanel)
-		principalPanel.layout = new ColumnLayout(3)
+		principalPanel.layout = new ColumnLayout(2)
 
 		createRevisionPanel(principalPanel)
 
 	}
 
 	def createRevisionPanel(Panel panel) {
-		val revisionPanel = new Panel(panel)
-		//revisionPanel.width = 200
-
-		new Label(revisionPanel) => [
-			text = "Revisiones"
-			fontSize = 15
-		]
+		val revisionPanel = new GroupPanel(panel)
+		revisionPanel.title = "Nueva revision"
 
 		val nameRevision = new Panel(revisionPanel)
-		nameRevision.layout = new HorizontalLayout
+		nameRevision.layout = new VerticalLayout
 
-		new Label(nameRevision).text = "Nombre de revision"
+		new Label(nameRevision).text = "Nombre"
 		new TextBox(nameRevision) => [
 			value.bindToProperty("revision.name")
 			width = 200
 		]
 
 		val departmentRevision = new Panel(revisionPanel)
-		departmentRevision.layout = new HorizontalLayout
+		departmentRevision.layout = new VerticalLayout
 
 		new Label(departmentRevision).text = "Departamento"
 		new Selector(departmentRevision) => [
+			width = 185
 			allowNull(false)
 			value.bindToProperty("selectedDepartment")
 			(items.bindToProperty("departments")).adapter = new PropertyAdapter(Department, "name")

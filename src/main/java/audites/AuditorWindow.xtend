@@ -21,7 +21,7 @@ class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 			caption = "Atras"
 			onClick[|
 				this.close
-				new MainApplicationWindow(this, new MainApplicationAppModel(this.modelObject.userLoged)).open
+				new MainApplicationWindows(this, new MainApplicationAppModel(this.modelObject.userLoged)).open
 			]
 		]
 	}
@@ -35,7 +35,7 @@ class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 			onClick[|
 				this.close
 				new NewRevisionWindow(this, new NewRevisionAppModel(this.modelObject.userLoged)).open
-				
+
 			]
 		]
 
@@ -44,7 +44,6 @@ class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 //			(items.bindToProperty("userLoged.auditorRevisions")).adapter = new PropertyAdapter(Revision, "name")
 //			height = 150
 //		]
-
 	}
 
 }
