@@ -13,6 +13,7 @@ import org.uqbar.arena.bindings.PropertyAdapter
 import audites.domain.Revision
 import org.uqbar.arena.widgets.List
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
+import audites.AuditorWindows.EditRevisionWindow
 
 class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 
@@ -49,6 +50,14 @@ class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 			value <=> "revisionSelected"
 			(items.bindToProperty("userLoged.revisions")).adapter = new PropertyAdapter(Revision, "name")
 			height = 150
+		]
+
+		new Button(mainPanel) => [
+			caption = "Ver Revision"
+			enabled <=> "revisionIsSelected"
+			onClick[|
+				new EditRevisionWindow(this, this.modelObject.revisionSelected).open
+			]
 		]
 	}
 

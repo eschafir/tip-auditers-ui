@@ -30,6 +30,9 @@ class AuditedWindow extends SimpleWindow<AuditorAppModel> {
 	}
 
 	override protected createFormPanel(Panel mainPanel) {
+		this.title = "Audites"
+		this.iconImage = "C:/Users/Esteban/git/tip-audites-dom/logo.png"
+
 		new List<Revision>(mainPanel) => [
 			value <=> "revisionSelected"
 			(items.bindToProperty("userLoged.revisions")).adapter = new PropertyAdapter(Revision, "name")

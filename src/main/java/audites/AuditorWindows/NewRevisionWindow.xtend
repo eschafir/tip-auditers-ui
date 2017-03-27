@@ -16,9 +16,10 @@ import org.uqbar.arena.widgets.Selector
 import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
-
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 import audites.domain.Requirement
+import org.uqbar.arena.widgets.List
+import audites.repos.RepoRevisions
 
 class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 
@@ -32,9 +33,9 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 		new Button(actionsPanel) => [
 			caption = "Aceptar"
 			onClick[|
-				this.modelObject.createRevison
-				this.close
-				new AuditorWindow(this, new AuditorAppModel(this.modelObject.userLoged)).open
+				if (RepoRevisions.instance.searchByExample(this.modelObject.revision).empty) {
+					this.modelObject.createRevison
+				}
 			]
 		]
 
@@ -49,6 +50,7 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 
 	override protected createFormPanel(Panel mainPanel) {
 		this.title = "Audites"
+		this.iconImage = "C:/Users/Esteban/git/tip-audites-dom/logo.png"
 		val principalPanel = new Panel(mainPanel)
 		principalPanel.layout = new ColumnLayout(2)
 
@@ -100,16 +102,29 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 	def createRequirementsPanel(Panel panel) {
 		val reqPanel = new GroupPanel(panel)
 		reqPanel.title = "Requerimientos"
+		reqPanel.width = 200
 
 		new Label(reqPanel) => [
 			value <=> "revision.name"
-			fontSize = 30
+		]
+
+		new List<Requirement>(reqPanel) => [
+			value <=> "selectedRequirement"
+			(items.bindToProperty("revision.requirements")).adapter = new PropertyAdapter(Requirement, "name")
 		]
 
 		new Button(reqPanel) => [
 			caption = "Agregar..."
 			onClick[|
-				new NewRequirementWindow(this, new Requirement).open
+				new NewRequirementWindow(this, new Requirement, this.modelObject.revision).open
+			]
+		]
+
+		new Button(reqPanel) => [
+			caption = "Editar..."
+			enabled <=> "hasRequirements"
+			onClick[|
+				new EditRequirementWindow(this, this.modelObject.selectedRequirement, this.modelObject.revision).open
 			]
 		]
 	}
