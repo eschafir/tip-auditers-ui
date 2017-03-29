@@ -1,6 +1,6 @@
 package audites.AuditorWindows
 
-import audites.domain.Requirement
+import audites.appModel.NewRequirementAppModel
 import audites.domain.Revision
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.GroupPanel
@@ -11,12 +11,12 @@ import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-import audites.appModel.NewRequirementAppModel
+import audites.domain.User
 
 class NewRequirementWindow extends SimpleWindow<NewRequirementAppModel> {
 
-	new(WindowOwner parent, Requirement requirement, Revision revision) {
-		super(parent, new NewRequirementAppModel(requirement, revision))
+	new(WindowOwner parent, Revision revision, User user) {
+		super(parent, new NewRequirementAppModel(revision, user))
 	}
 
 	override protected addActions(Panel actionsPanel) {
@@ -39,7 +39,7 @@ class NewRequirementWindow extends SimpleWindow<NewRequirementAppModel> {
 
 	override protected createFormPanel(Panel mainPanel) {
 		this.title = "Audites"
-		this.iconImage = "C:/Users/Esteban/git/tip-audites-dom/logo.png"
+		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
 
 		val groupPanel = new GroupPanel(mainPanel)
 		groupPanel.title = "Datos del requerimiento"

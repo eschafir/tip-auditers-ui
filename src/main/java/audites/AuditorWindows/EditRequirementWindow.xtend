@@ -6,11 +6,12 @@ import org.uqbar.arena.windows.WindowOwner
 import org.uqbar.arena.widgets.Panel
 import audites.appModel.NewRequirementAppModel
 import audites.domain.Revision
+import audites.domain.User
 
 class EditRequirementWindow extends SimpleWindow<NewRequirementAppModel> {
 
-	new(WindowOwner parent, Requirement model, Revision revision) {
-		super(parent, new NewRequirementAppModel(model, revision))
+	new(WindowOwner parent, Revision model, Requirement requirement, User user) {
+		super(parent, new NewRequirementAppModel(model, requirement, user))
 		this.taskDescription = this.modelObject.requirement.name
 	}
 
@@ -19,7 +20,7 @@ class EditRequirementWindow extends SimpleWindow<NewRequirementAppModel> {
 
 	override protected createFormPanel(Panel mainPanel) {
 		this.title = "Audites"
-		this.iconImage = "C:/Users/Esteban/git/tip-audites-dom/logo.png"
+		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
 	}
 
 }

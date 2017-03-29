@@ -4,6 +4,8 @@ import audites.AuditorWindow
 import audites.appModel.AuditorAppModel
 import audites.appModel.NewRevisionAppModel
 import audites.domain.Department
+import audites.domain.Requirement
+import audites.repos.RepoRevisions
 import org.uqbar.arena.bindings.DateTransformer
 import org.uqbar.arena.bindings.PropertyAdapter
 import org.uqbar.arena.layout.ColumnLayout
@@ -11,15 +13,14 @@ import org.uqbar.arena.layout.VerticalLayout
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.GroupPanel
 import org.uqbar.arena.widgets.Label
+import org.uqbar.arena.widgets.List
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.Selector
 import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
+
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-import audites.domain.Requirement
-import org.uqbar.arena.widgets.List
-import audites.repos.RepoRevisions
 
 class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 
@@ -50,7 +51,7 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 
 	override protected createFormPanel(Panel mainPanel) {
 		this.title = "Audites"
-		this.iconImage = "C:/Users/Esteban/git/tip-audites-dom/logo.png"
+		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
 		val principalPanel = new Panel(mainPanel)
 		principalPanel.layout = new ColumnLayout(2)
 
@@ -93,6 +94,7 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 		]
 
 		val dates = new Panel(revisionPanel)
+		new Label(dates).text = "Fecha limite"
 		new TextBox(dates) => [
 			value.bindToProperty("revision.endDate").transformer = new DateTransformer
 		]
@@ -116,17 +118,19 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 		new Button(reqPanel) => [
 			caption = "Agregar..."
 			onClick[|
-				new NewRequirementWindow(this, new Requirement, this.modelObject.revision).open
+				new NewRequirementWindow(this, this.modelObject.revision, this.modelObject.userLoged).open
 			]
 		]
 
-		new Button(reqPanel) => [
-			caption = "Editar..."
-			enabled <=> "hasRequirements"
-			onClick[|
-				new EditRequirementWindow(this, this.modelObject.selectedRequirement, this.modelObject.revision).open
+		new Button(reqPanel) =>
+			[
+				caption = "Editar..."
+				enabled <=> "hasRequirements"
+				onClick[|
+					new EditRequirementWindow(this, this.modelObject.revision, this.modelObject.selectedRequirement,
+						this.modelObject.userLoged).open
+				]
 			]
-		]
 	}
 
 }

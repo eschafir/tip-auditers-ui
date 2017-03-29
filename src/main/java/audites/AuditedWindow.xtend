@@ -31,7 +31,7 @@ class AuditedWindow extends SimpleWindow<AuditorAppModel> {
 
 	override protected createFormPanel(Panel mainPanel) {
 		this.title = "Audites"
-		this.iconImage = "C:/Users/Esteban/git/tip-audites-dom/logo.png"
+		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
 
 		new List<Revision>(mainPanel) => [
 			value <=> "revisionSelected"

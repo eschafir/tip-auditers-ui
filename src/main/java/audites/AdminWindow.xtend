@@ -32,6 +32,13 @@ class AdminWindow extends SimpleWindow<AdminPanelAppModel> {
 				
 			]
 		]
+		
+		new Button(mainPanel) => [
+			caption = "Eliminar usuario"
+			onClick [| 
+				
+			]
+		]
 
 	}
 

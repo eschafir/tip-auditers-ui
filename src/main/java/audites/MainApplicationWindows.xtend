@@ -32,7 +32,7 @@ class MainApplicationWindows extends SimpleWindow<MainApplicationAppModel> {
 
 	override protected createFormPanel(Panel mainPanel) {
 		this.title = "Audites"
-		this.iconImage = "C:/Users/Esteban/git/tip-audites-dom/logo.png"
+		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
 
 		val panel = new Panel(mainPanel)
 		panel.layout = new HorizontalLayout
