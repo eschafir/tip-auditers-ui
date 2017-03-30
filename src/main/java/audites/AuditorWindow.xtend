@@ -50,7 +50,7 @@ class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 			value <=> "revisionSelected"
 			(items.bindToProperty("userLoged.revisions")).adapter = new PropertyAdapter(Revision, "name")
 			height = 150
-			width = 300
+			width = 250
 		]
 
 		new Button(mainPanel) => [

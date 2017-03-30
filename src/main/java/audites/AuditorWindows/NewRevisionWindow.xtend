@@ -113,12 +113,24 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 		new List<Requirement>(reqPanel) => [
 			value <=> "selectedRequirement"
 			(items.bindToProperty("revision.requirements")).adapter = new PropertyAdapter(Requirement, "name")
+			height = 255
+			width = 230
 		]
 
 		new Button(reqPanel) => [
 			caption = "Agregar..."
 			onClick[|
 				new NewRequirementWindow(this, this.modelObject.revision, this.modelObject.userLoged).open
+			]
+		]
+
+		new Button(reqPanel) => [
+			caption = "Eliminar"
+			enabled <=> "hasRequirements"
+			onClick[|
+				if (this.modelObject.selectedRequirement != null) {
+					this.modelObject.deleteRequirement
+				}
 			]
 		]
 
