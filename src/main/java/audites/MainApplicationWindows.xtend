@@ -55,7 +55,7 @@ class MainApplicationWindows extends SimpleWindow<MainApplicationAppModel> {
 					caption = "Auditor"
 					onClick[|
 						this.close
-						new AuditorWindow(this, new AuditorAppModel(this.modelObject.userLoged)).open
+						new AuditorWindow(this, this.modelObject.userLoged).open
 					]
 				]
 

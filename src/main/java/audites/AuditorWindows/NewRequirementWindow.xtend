@@ -2,6 +2,7 @@ package audites.AuditorWindows
 
 import audites.appModel.NewRequirementAppModel
 import audites.domain.Revision
+import audites.domain.User
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.GroupPanel
 import org.uqbar.arena.widgets.Label
@@ -11,7 +12,6 @@ import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-import audites.domain.User
 
 class NewRequirementWindow extends SimpleWindow<NewRequirementAppModel> {
 
@@ -24,6 +24,7 @@ class NewRequirementWindow extends SimpleWindow<NewRequirementAppModel> {
 		new Button(actionsPanel) => [
 			caption = "Aceptar"
 			onClick[|
+				this.modelObject.validateRequirement
 				this.modelObject.createRequirement
 				this.close
 			]

@@ -1,7 +1,6 @@
 package audites.AuditorWindows
 
 import audites.AuditorWindow
-import audites.appModel.AuditorAppModel
 import audites.appModel.NewRevisionAppModel
 import audites.domain.Department
 import audites.domain.Requirement
@@ -35,8 +34,10 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 			caption = "Aceptar"
 			onClick[|
 				if (RepoRevisions.instance.searchByExample(this.modelObject.revision).empty) {
+					this.modelObject.validateRevision
 					this.modelObject.createRevison
 				}
+				RepoRevisions.instance.update(this.modelObject.revision)
 			]
 		]
 
@@ -44,7 +45,7 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 			caption = "Atras"
 			onClick[|
 				this.close
-				new AuditorWindow(this, new AuditorAppModel(this.modelObject.userLoged)).open
+				new AuditorWindow(this, this.modelObject.userLoged).open
 			]
 		]
 	}
@@ -120,6 +121,7 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 		new Button(reqPanel) => [
 			caption = "Agregar..."
 			onClick[|
+				this.modelObject.validateSavedRevision
 				new NewRequirementWindow(this, this.modelObject.revision, this.modelObject.userLoged).open
 			]
 		]

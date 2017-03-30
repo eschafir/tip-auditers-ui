@@ -14,11 +14,12 @@ import audites.domain.Revision
 import org.uqbar.arena.widgets.List
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 import audites.AuditorWindows.EditRevisionWindow
+import audites.domain.User
 
 class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 
-	new(WindowOwner parent, AuditorAppModel model) {
-		super(parent, model)
+	new(WindowOwner parent, User user) {
+		super(parent, new AuditorAppModel(user))
 		this.taskDescription = "Panel de Auditores"
 	}
 
@@ -34,6 +35,8 @@ class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 
 	override protected createFormPanel(Panel mainPanel) {
 		this.title = "Audites"
+		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
+
 		val panelButtons = new Panel(mainPanel)
 		panelButtons.layout = new HorizontalLayout
 
