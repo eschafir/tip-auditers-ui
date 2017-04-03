@@ -28,6 +28,7 @@ class AuditesBootstrap implements Bootstrap {
 			roles.add(new Admin)
 			roles.add(new Auditor)
 			roles.add(new Audited)
+			addDepartment(seginf)
 		]
 
 		auditado = new User => [

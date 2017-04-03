@@ -31,8 +31,11 @@ class MainApplicationWindows extends SimpleWindow<MainApplicationAppModel> {
 	}
 
 	override protected createFormPanel(Panel mainPanel) {
-		this.title = "Audites"
+		this.title = "Auditers"
 		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
+		
+//		val image = new Label(mainPanel)
+//		image.bindImageToProperty("image",new Transformer<Role, Image>())
 
 		val panel = new Panel(mainPanel)
 		panel.layout = new HorizontalLayout
@@ -74,7 +77,8 @@ class MainApplicationWindows extends SimpleWindow<MainApplicationAppModel> {
 				]
 			]
 		)
-
+	
+		println(this.modelObject.userLoged.roles)
 		for (Role r : this.modelObject.userLoged.roles) {
 			botonera.get(r.name).apply
 		}

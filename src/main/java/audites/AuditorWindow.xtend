@@ -34,7 +34,7 @@ class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 	}
 
 	override protected createFormPanel(Panel mainPanel) {
-		this.title = "Audites"
+		this.title = "Auditers"
 		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
 
 		val panelButtons = new Panel(mainPanel)

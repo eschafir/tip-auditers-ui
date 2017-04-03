@@ -29,7 +29,8 @@ class LoginWindows extends SimpleWindow<LoginAppModel> {
 			enabled <=> "passwordIngresed"
 			onClick [|
 				val modelo = new MainApplicationAppModel => [
-					userLoged = this.modelObject.obtainUser
+					userLoged  = this.modelObject.obtainUser
+					image = ""
 				]
 				this.modelObject.validateUser
 				this.close
@@ -48,7 +49,7 @@ class LoginWindows extends SimpleWindow<LoginAppModel> {
 	}
 
 	override protected createFormPanel(Panel mainPanel) {
-		this.title = "Audites"
+		this.title = "Auditers"
 		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
 
 		crearPanelLogin(mainPanel)
