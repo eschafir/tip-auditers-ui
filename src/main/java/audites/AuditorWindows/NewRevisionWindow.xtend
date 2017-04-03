@@ -120,8 +120,9 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 
 		new Button(reqPanel) => [
 			caption = "Agregar..."
+			enabled <=> "departmentIngresed"
 			onClick[|
-				this.modelObject.validateSavedRevision
+				this.modelObject.createRevison
 				new NewRequirementWindow(this, this.modelObject.revision, this.modelObject.userLoged).open
 			]
 		]
