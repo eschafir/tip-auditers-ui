@@ -38,6 +38,8 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 					this.modelObject.createRevison
 				}
 				RepoRevisions.instance.update(this.modelObject.revision)
+				this.close
+				new AuditorWindow(this, this.modelObject.userLoged).open
 			]
 		]
 
@@ -146,6 +148,7 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 						this.modelObject.userLoged).open
 				]
 			]
+
 	}
 
 }

@@ -15,6 +15,7 @@ import org.uqbar.arena.widgets.List
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 import audites.AuditorWindows.EditRevisionWindow
 import audites.domain.User
+import org.uqbar.arena.widgets.Label
 
 class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 
@@ -48,7 +49,9 @@ class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 
 			]
 		]
-
+		
+		
+		new Label(mainPanel).text = "Revisiones generadas"
 		new List<Revision>(mainPanel) => [
 			value <=> "revisionSelected"
 			(items.bindToProperty("userLoged.revisions")).adapter = new PropertyAdapter(Revision, "name")
