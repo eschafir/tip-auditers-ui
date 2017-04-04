@@ -46,6 +46,7 @@ class CheckRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 
 		createRequirementPanel(principalPanel)
 		createReqDescriptionPanel(principalPanel)
+		createStatePanel(principalPanel)
 
 	}
 
@@ -72,4 +73,12 @@ class CheckRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 		]
 	}
 
+	def createStatePanel(Panel panel) {
+		val state = new Panel(panel).layout = new HorizontalLayout
+
+		new Label(state).text = "Estado: "
+		new Label(state) => [
+			value <=> "selectedRequirement.requirementStatus"
+		]
+	}
 }
