@@ -7,7 +7,6 @@ import audites.appModel.LoginAppModel
 import audites.appModel.MainApplicationAppModel
 import audites.domain.Role
 import java.util.HashMap
-import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.SimpleWindow
@@ -35,7 +34,6 @@ class MainApplicationWindows extends SimpleWindow<MainApplicationAppModel> {
 		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
 
 		val panel = new Panel(mainPanel)
-		panel.layout = new HorizontalLayout
 
 		var botonera = new HashMap
 
@@ -53,6 +51,7 @@ class MainApplicationWindows extends SimpleWindow<MainApplicationAppModel> {
 			[|
 				new Button(panel) => [
 					caption = "Auditor"
+					width = 150
 					onClick[|
 						this.close
 						new AuditorWindow(this, this.modelObject.userLoged).open

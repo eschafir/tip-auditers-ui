@@ -11,6 +11,8 @@ import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
+import org.uqbar.arena.layout.HorizontalLayout
+import org.uqbar.arena.widgets.GroupPanel
 
 class EditRevisionWindow extends NewRevisionWindow {
 
@@ -46,22 +48,41 @@ class EditRevisionWindow extends NewRevisionWindow {
 			width = 250
 		]
 
-		new Label(mainPanel).text = "Requerimientos"
-		new List(mainPanel) => [
+		val groupPanel = new GroupPanel(mainPanel) => [
+			title = "Requerimientos"
+		]
+
+		new List(groupPanel) => [
 			value <=> "selectedRequirement"
 			(items.bindToProperty("revision.requirements")).adapter = new PropertyAdapter(Revision, "name")
 			height = 150
 			width = 250
 		]
 
-		new Button(mainPanel) =>
+		val options = new Panel(groupPanel).layout = new HorizontalLayout
+
+		new Button(options) => [
+			caption = "Agregar"
+			onClick[|
+				new NewRequirementWindow(this, this.modelObject.revision, this.modelObject.userLoged).open
+			]
+		]
+
+		new Button(options) =>
 			[
-				caption = "Editar..."
+				caption = "Editar"
 				onClick[|
 					new EditRequirementWindow(this, this.modelObject.revision, this.modelObject.selectedRequirement,
 						this.modelObject.userLoged).open
 				]
 			]
+
+		new Button(options) => [
+			caption = "Eliminar"
+			onClick[|
+					
+				]
+		]
 
 	}
 

@@ -16,6 +16,7 @@ import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 import audites.AuditorWindows.EditRevisionWindow
 import audites.domain.User
 import org.uqbar.arena.widgets.Label
+import audites.AuditorWindows.CheckRevisionWindow
 
 class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 
@@ -41,16 +42,6 @@ class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 		val panelButtons = new Panel(mainPanel)
 		panelButtons.layout = new HorizontalLayout
 
-		new Button(panelButtons) => [
-			caption = "Nueva revision"
-			onClick[|
-				this.close
-				new NewRevisionWindow(this, new NewRevisionAppModel(this.modelObject.userLoged)).open
-
-			]
-		]
-		
-		
 		new Label(mainPanel).text = "Revisiones generadas"
 		new List<Revision>(mainPanel) => [
 			value <=> "revisionSelected"
@@ -59,8 +50,27 @@ class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 			width = 250
 		]
 
-		new Button(mainPanel) => [
-			caption = "Ver Revision"
+		val options = new Panel(mainPanel).layout = new HorizontalLayout
+
+		new Button(options) => [
+			caption = "Nueva"
+			onClick[|
+				this.close
+				new NewRevisionWindow(this, new NewRevisionAppModel(this.modelObject.userLoged)).open
+
+			]
+		]
+
+		new Button(options) => [
+			caption = "Ver"
+			enabled <=> "revisionIsSelected"
+			onClick[|
+				new CheckRevisionWindow(this, this.modelObject.revisionSelected, this.modelObject.userLoged).open
+			]
+		]
+
+		new Button(options) => [
+			caption = "Editar"
 			enabled <=> "revisionIsSelected"
 			onClick[|
 				new EditRevisionWindow(this, this.modelObject.revisionSelected).open
