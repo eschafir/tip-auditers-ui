@@ -1,30 +1,29 @@
 package audites.AuditorWindows
 
-import audites.appModel.CheckOrAttendRevisionAppModel
+import audites.Transformers.RequirementStatusTransformer
+import audites.appModel.NewRevisionAppModel
 import audites.domain.Revision
 import audites.domain.User
-import java.awt.Color
+import java.awt.Desktop
+import java.io.File
+import java.nio.file.Paths
 import org.uqbar.arena.bindings.PropertyAdapter
-import org.uqbar.arena.bindings.ValueTransformer
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
+import org.uqbar.arena.widgets.GroupPanel
 import org.uqbar.arena.widgets.Label
+import org.uqbar.arena.widgets.Link
 import org.uqbar.arena.widgets.List
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-import org.uqbar.arena.widgets.GroupPanel
-import org.uqbar.arena.widgets.Link
-import java.nio.file.Paths
-import java.awt.Desktop
-import java.io.File
 
-class CheckRevisionWindow extends SimpleWindow<CheckOrAttendRevisionAppModel> {
+class CheckRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 
 	new(WindowOwner parent, Revision revision, User user) {
-		super(parent, new CheckOrAttendRevisionAppModel(revision, user))
+		super(parent, new NewRevisionAppModel(revision, user))
 		this.taskDescription = "Estado de revision"
 	}
 
@@ -96,43 +95,23 @@ class CheckRevisionWindow extends SimpleWindow<CheckOrAttendRevisionAppModel> {
 
 		new Label(ppanel).text = "Comentarios de " + this.modelObject.revision.responsable.name + ":"
 		new Label(ppanel) => [
-			value <=> "departmentComments"
+			value <=> "selectedRequirement.comments"
 			height = 150
 			width = 150
 		]
 
-		if (this.modelObject.filePath != "") {
+		if (this.modelObject.selectedRequirement.evidence != "") {
 			new Label(ppanel).text = "Adjuntos:"
 			new Link(ppanel) => [
-				val file = Paths.get(this.modelObject.filePath).fileName
+				val file = Paths.get(this.modelObject.selectedRequirement.evidence).fileName
 				caption = file.toString;
 				onClick[|
 					val desktop = Desktop.desktop
-					desktop.open(new File(this.modelObject.filePath))
+					desktop.open(new File(this.modelObject.selectedRequirement.evidence))
 
 				]
 			]
 		}
 
 	}
-}
-
-class RequirementStatusTransformer implements ValueTransformer<String, Object> {
-
-	override getModelType() {
-		typeof(String)
-	}
-
-	override getViewType() {
-		typeof(Object)
-	}
-
-	override modelToView(String valueFromModel) {
-		if(valueFromModel == "Completado") Color.GREEN else Color.ORANGE
-	}
-
-	override viewToModel(Object valueFromView) {
-		null
-	}
-
 }
