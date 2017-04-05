@@ -26,6 +26,7 @@ class EditRevisionWindow extends NewRevisionWindow {
 		new Button(actionsPanel) => [
 			caption = "Cerrar"
 			onClick[|
+				this.modelObject.validateRequirements
 				this.close
 			]
 		]
@@ -71,6 +72,7 @@ class EditRevisionWindow extends NewRevisionWindow {
 		new Button(options) =>
 			[
 				caption = "Editar"
+				enabled <=> "hasRequirements"
 				onClick[|
 					new EditRequirementWindow(this, this.modelObject.revision, this.modelObject.selectedRequirement,
 						this.modelObject.userLoged).open
@@ -79,9 +81,12 @@ class EditRevisionWindow extends NewRevisionWindow {
 
 		new Button(options) => [
 			caption = "Eliminar"
+			enabled <=> "hasRequirements"
 			onClick[|
-					
-				]
+				if (this.modelObject.selectedRequirement != null) {
+					this.modelObject.deleteRequirement
+				}
+			]
 		]
 
 	}

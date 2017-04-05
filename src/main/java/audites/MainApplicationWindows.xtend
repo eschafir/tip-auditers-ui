@@ -33,8 +33,17 @@ class MainApplicationWindows extends SimpleWindow<MainApplicationAppModel> {
 		this.title = "Auditers"
 		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
 
-		val panel = new Panel(mainPanel)
+//		new Link(mainPanel) => [
+//			val file1 = Paths.get(this.modelObject.image).fileName;
+//			caption = file1.fileName.toString;
+//			onClick[|
+//				val desktop = Desktop.desktop
+//				desktop.open(new File(this.modelObject.image))
+//
+//			]
+//		]
 
+		val panel = new Panel(mainPanel)
 		var botonera = new HashMap
 
 		botonera.put("Administrator", [|
