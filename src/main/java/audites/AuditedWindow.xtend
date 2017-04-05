@@ -11,6 +11,7 @@ import org.uqbar.arena.windows.WindowOwner
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 import audites.appModel.MainApplicationAppModel
 import org.uqbar.arena.widgets.Button
+import audites.AuditedWindows.AttendRevisionWindow
 
 class AuditedWindow extends SimpleWindow<AuditorAppModel> {
 
@@ -37,6 +38,14 @@ class AuditedWindow extends SimpleWindow<AuditorAppModel> {
 			value <=> "revisionSelected"
 			(items.bindToProperty("userLoged.revisions")).adapter = new PropertyAdapter(Revision, "name")
 			height = 150
+		]
+
+		new Button(mainPanel) => [
+			caption = "Atender"
+			enabled <=> "revisionIsSelected"
+			onClick[|
+				new AttendRevisionWindow(this, this.modelObject.revisionSelected, this.modelObject.userLoged).open
+			]
 		]
 	}
 

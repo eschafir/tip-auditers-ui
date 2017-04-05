@@ -27,6 +27,7 @@ class AuditesBootstrap implements Bootstrap {
 			email = "admin"
 			roles.add(new Admin)
 			roles.add(new Auditor)
+			roles.add(new Audited)
 		]
 
 		auditado = new User => [
