@@ -19,6 +19,7 @@ import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
+import audites.domain.Evidence
 
 class CheckRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 
@@ -100,18 +101,23 @@ class CheckRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 			width = 150
 		]
 
-		if (this.modelObject.selectedRequirement.evidence != "") {
-			new Label(ppanel).text = "Adjuntos:"
-			new Link(ppanel) => [
-				val file = Paths.get(this.modelObject.selectedRequirement.evidence).fileName
-				caption = file.toString;
-				onClick[|
-					val desktop = Desktop.desktop
-					desktop.open(new File(this.modelObject.selectedRequirement.evidence))
+		validateAttachments(ppanel)
+	}
 
+	def validateAttachments(Panel panel) {
+		if (this.modelObject.selectedRequirement.evidences.size > 0) {
+			new Label(panel).text = "Adjuntos:"
+			val desktop = Desktop.desktop
+
+			for (Evidence e : this.modelObject.selectedRequirement.evidences) {
+				new Link(panel) => [
+					val file = Paths.get(e.path).fileName
+					caption = file.toString
+					onClick[|
+						desktop.open(new File(e.path))
+					]
 				]
-			]
+			}
 		}
-
 	}
 }

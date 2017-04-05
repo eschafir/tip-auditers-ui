@@ -5,14 +5,10 @@ import audites.appModel.NewRevisionAppModel
 import audites.domain.Revision
 import audites.domain.User
 import audites.repos.RepoRevisions
-import java.awt.Desktop
-import java.io.File
-import java.nio.file.Paths
 import org.uqbar.arena.bindings.PropertyAdapter
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.Label
-import org.uqbar.arena.widgets.Link
 import org.uqbar.arena.widgets.List
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.TextBox
@@ -115,18 +111,6 @@ class AttendRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 			width = 150
 		]
 
-		if (this.modelObject.selectedRequirement.evidence != "") {
-			new Label(ppanel).text = "Adjuntos:"
-			new Link(ppanel) => [
-				val file = Paths.get(this.modelObject.selectedRequirement.evidence).fileName
-				caption = file.toString;
-				onClick[|
-					val desktop = Desktop.desktop
-					desktop.open(new File(this.modelObject.selectedRequirement.evidence))
-
-				]
-			]
-		}
 	}
 
 }
