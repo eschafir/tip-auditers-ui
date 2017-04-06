@@ -2,6 +2,7 @@ package audites.AuditorWindows
 
 import audites.Transformers.RequirementStatusTransformer
 import audites.appModel.NewRevisionAppModel
+import audites.domain.Evidence
 import audites.domain.Revision
 import audites.domain.User
 import java.awt.Desktop
@@ -19,8 +20,6 @@ import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-import audites.domain.Evidence
-import audites.domain.Requirement
 
 class CheckRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 
@@ -102,15 +101,15 @@ class CheckRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 			width = 150
 		]
 
-		validateAttachments(this.modelObject.selectedRequirement, ppanel)
+		validateAttachments(ppanel)
 	}
 
-	def validateAttachments(Requirement requirement, Panel panel) {
-		if (requirement.evidences.size > 0) {
+	def validateAttachments(Panel panel) {
+		if (this.modelObject.selectedRequirement.evidences.size > 0) {
 			new Label(panel).text = "Adjuntos:"
 			val desktop = Desktop.desktop
 
-			for (Evidence e : requirement.evidences) {
+			for (Evidence e : this.modelObject.selectedRequirement.evidences) {
 				new Link(panel) => [
 					var file = Paths.get(e.path).fileName
 					caption = file.toString

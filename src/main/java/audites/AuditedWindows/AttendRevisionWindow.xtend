@@ -17,6 +17,7 @@ import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
+import audites.domain.Evidence
 
 class AttendRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 
@@ -114,7 +115,13 @@ class AttendRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 			caption = "Agregar evidencia"
 			enabled <=> "hasRequirements"
 			value <=> "selectedFile"
-		// extensions("*.example")
+		]
+		
+		new List(ppanel) => [
+			//value <=> "selectedRequirement"
+			(items.bindToProperty("selectedRequirement.evidences")).adapter = new PropertyAdapter(Evidence, "path")
+			height = 150
+			width = 150
 		]
 	}
 }
