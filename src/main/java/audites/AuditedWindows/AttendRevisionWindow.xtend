@@ -47,18 +47,10 @@ class AttendRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 		this.title = "Auditers"
 		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
 
-		val ppanel = new Panel(mainPanel)
-		ppanel.layout = new HorizontalLayout
-
 		new Label(mainPanel) => [
 			text = this.modelObject.revision.name
 			fontSize = 15
 		]
-
-		val infoPanel = new Panel(mainPanel)
-		infoPanel.layout = new HorizontalLayout
-		new Label(infoPanel).text = "Autor: "
-		new Label(infoPanel).text = this.modelObject.revision.author.name
 
 		val principalPanel = new Panel(mainPanel)
 		principalPanel.layout = new HorizontalLayout
@@ -66,6 +58,12 @@ class AttendRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 		createRequirementsPanel(principalPanel)
 		createReqDescriptionPanel(principalPanel)
 		createStatePanel(principalPanel)
+		
+		
+		val infoPanel = new Panel(mainPanel)
+		infoPanel.layout = new HorizontalLayout
+		new Label(infoPanel).text = "Autor: "
+		new Label(infoPanel).text = this.modelObject.revision.author.name
 	}
 
 	def createRequirementsPanel(Panel panel) {
@@ -102,6 +100,13 @@ class AttendRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 			(background <=> "selectedRequirement.requirementStatus").transformer = new RequirementStatusTransformer
 			value <=> "selectedRequirement.requirementStatus"
 		]
+		new Button(state) => [
+			caption = "<<"
+			height = 15
+			onClick[|
+				this.modelObject.selectedRequirement.changeRequirmentStatus
+			]
+		]
 
 		new Label(ppanel).text = "Comentarios:"
 		new TextBox(ppanel) => [
@@ -120,7 +125,7 @@ class AttendRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 		new List(ppanel) => [
 			//value <=> "selectedRequirement"
 			(items.bindToProperty("selectedRequirement.evidences")).adapter = new PropertyAdapter(Evidence, "path")
-			height = 150
+			height = 30
 			width = 150
 		]
 	}
