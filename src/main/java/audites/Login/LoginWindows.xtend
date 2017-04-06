@@ -29,8 +29,7 @@ class LoginWindows extends SimpleWindow<LoginAppModel> {
 			enabled <=> "passwordIngresed"
 			onClick [|
 				val modelo = new MainApplicationAppModel => [
-					userLoged  = this.modelObject.obtainUser
-					image = ""
+					userLoged = this.modelObject.obtainUser
 				]
 				this.modelObject.validateUser
 				this.close

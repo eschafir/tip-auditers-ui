@@ -8,6 +8,7 @@ import audites.repos.RepoRevisions
 import org.uqbar.arena.bindings.PropertyAdapter
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
+import org.uqbar.arena.widgets.FileSelector
 import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.List
 import org.uqbar.arena.widgets.Panel
@@ -30,7 +31,6 @@ class AttendRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 			onClick[|
 				RepoRevisions.instance.update(this.modelObject.revision)
 				this.close
-
 			]
 		]
 
@@ -40,7 +40,6 @@ class AttendRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 				this.close
 			]
 		]
-
 	}
 
 	override protected createFormPanel(Panel mainPanel) {
@@ -111,6 +110,11 @@ class AttendRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 			width = 150
 		]
 
+		new FileSelector(ppanel) => [
+			caption = "Agregar evidencia"
+			enabled <=> "hasRequirements"
+			value <=> "selectedFile"
+		// extensions("*.example")
+		]
 	}
-
 }
