@@ -2,7 +2,7 @@ package audites
 
 import audites.Login.LoginWindows
 import audites.appModel.AdminPanelAppModel
-import audites.appModel.AuditorAppModel
+import audites.appModel.AuditedAppModel
 import audites.appModel.LoginAppModel
 import audites.appModel.MainApplicationAppModel
 import audites.domain.Role
@@ -66,7 +66,7 @@ class MainApplicationWindows extends SimpleWindow<MainApplicationAppModel> {
 					caption = "Revisiones"
 					onClick[|
 						this.close
-						new AuditedWindow(this, new AuditorAppModel(this.modelObject.userLoged)).open
+						new AuditedWindow(this, new AuditedAppModel(this.modelObject.userLoged)).open
 					]
 
 				]
