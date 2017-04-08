@@ -102,7 +102,7 @@ class AttendRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 		]
 		new Button(state) => [
 			caption = "<<"
-			height = 15
+			height = 20
 			onClick[|
 				this.modelObject.selectedRequirement.changeRequirmentStatus
 			]

@@ -12,6 +12,7 @@ import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 import audites.appModel.MainApplicationAppModel
 import org.uqbar.arena.widgets.Button
 import audites.AuditedWindows.AttendRevisionWindow
+import org.uqbar.arena.widgets.Label
 
 class AuditedWindow extends SimpleWindow<AuditorAppModel> {
 
@@ -47,6 +48,10 @@ class AuditedWindow extends SimpleWindow<AuditorAppModel> {
 				new AttendRevisionWindow(this, this.modelObject.revisionSelected, this.modelObject.userLoged).open
 			]
 		]
+
+		if (this.modelObject.userLoged.maximumResponsable(this.modelObject.revisionSelected.responsable)) {
+			new Label(mainPanel).text = "Asignar a..."
+		}
 	}
 
 }
