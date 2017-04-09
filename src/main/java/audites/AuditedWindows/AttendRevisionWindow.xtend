@@ -33,6 +33,7 @@ class AttendRevisionWindow extends SimpleWindow<AttendRevisionAppModel> {
 			caption = "Aceptar"
 			onClick[|
 				RepoRevisions.instance.update(this.modelObject.revision)
+				this.modelObject.verifyIfCompleted
 				this.close
 				new AuditedWindow(this, new AuditedAppModel(this.modelObject.userLoged)).open
 			]

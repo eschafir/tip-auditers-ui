@@ -70,7 +70,6 @@ class AuditedWindow extends SimpleWindow<AuditedAppModel> {
 			]
 		]
 
-		validateMaximumAuthority(ppanel)
 		revisionDetail(principal)
 	}
 
@@ -78,6 +77,7 @@ class AuditedWindow extends SimpleWindow<AuditedAppModel> {
 		val revisionDetailPanel = new Panel(panel)
 		if (!this.modelObject.userLoged.revisions.empty &&
 			this.modelObject.userLoged.maximumResponsable(this.modelObject.revisionSelected.responsable)) {
+			validateMaximumAuthority(revisionDetailPanel)
 			infoAssigned(revisionDetailPanel)
 			infoProgress(revisionDetailPanel)
 		}
@@ -108,14 +108,13 @@ class AuditedWindow extends SimpleWindow<AuditedAppModel> {
 	}
 
 	def validateMaximumAuthority(Panel mainPanel) {
-		if (!this.modelObject.userLoged.revisions.empty &&
-			this.modelObject.userLoged.maximumResponsable(this.modelObject.revisionSelected.responsable)) {
-			new Label(mainPanel).text = "Asignar a..."
-			new Selector<User>(mainPanel) => [
-				allowNull(false)
-				value <=> "selectedUser"
-				(items.bindToProperty("obtainUsers")).adapter = new PropertyAdapter(Revision, "name")
-			]
-		}
+		val panel = new Panel(mainPanel).layout = new HorizontalLayout
+		new Label(panel).text = "Asignar a:"
+		new Selector<User>(panel) => [
+			allowNull(false)
+			value <=> "selectedUser"
+			(items.bindToProperty("obtainUsers")).adapter = new PropertyAdapter(Revision, "name")
+		]
 	}
+
 }
