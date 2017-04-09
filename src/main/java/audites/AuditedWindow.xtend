@@ -51,7 +51,7 @@ class AuditedWindow extends SimpleWindow<AuditedAppModel> {
 
 		new Button(ppanel) => [
 			caption = "Atender"
-			enabled <=> "revisionIsSelected"
+			enabled <=> "revisionIsSelectedAudited"
 			onClick[|
 				new AttendRevisionWindow(this, this.modelObject.revisionSelected, this.modelObject.userLoged).open
 			]
@@ -79,9 +79,6 @@ class AuditedWindow extends SimpleWindow<AuditedAppModel> {
 				allowNull(false)
 				value <=> "selectedUser"
 				(items.bindToProperty("obtainUsers")).adapter = new PropertyAdapter(Revision, "name")
-				onSelection[|
-					this.modelObject.applyAttendant
-				]
 			]
 		}
 	}

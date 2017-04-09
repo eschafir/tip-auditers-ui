@@ -63,7 +63,7 @@ class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 
 		new Button(options) => [
 			caption = "Ver"
-			enabled <=> "revisionIsSelected"
+			enabled <=> "revisionIsSelectedAuditor"
 			onClick[|
 				new CheckRevisionWindow(this, this.modelObject.revisionSelected, this.modelObject.userLoged).open
 			]
@@ -71,7 +71,7 @@ class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 
 		new Button(options) => [
 			caption = "Editar"
-			enabled <=> "revisionIsSelected"
+			enabled <=> "revisionIsSelectedAuditor"
 			onClick[|
 				new EditRevisionWindow(this, this.modelObject.revisionSelected).open
 			]
