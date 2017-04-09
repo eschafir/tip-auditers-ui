@@ -1,7 +1,8 @@
 package audites.AuditedWindows
 
 import audites.Transformers.RequirementStatusTransformer
-import audites.appModel.NewRevisionAppModel
+import audites.appModel.AttendRevisionAppModel
+import audites.domain.Evidence
 import audites.domain.Revision
 import audites.domain.User
 import audites.repos.RepoRevisions
@@ -17,12 +18,13 @@ import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-import audites.domain.Evidence
+import audites.AuditedWindow
+import audites.appModel.AuditedAppModel
 
-class AttendRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
+class AttendRevisionWindow extends SimpleWindow<AttendRevisionAppModel> {
 
 	new(WindowOwner parent, Revision revision, User user) {
-		super(parent, new NewRevisionAppModel(revision, user))
+		super(parent, new AttendRevisionAppModel(revision, user))
 		this.taskDescription = "Atender revision"
 	}
 
@@ -32,6 +34,7 @@ class AttendRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 			onClick[|
 				RepoRevisions.instance.update(this.modelObject.revision)
 				this.close
+				new AuditedWindow(this, new AuditedAppModel(this.modelObject.userLoged)).open
 			]
 		]
 
@@ -39,6 +42,7 @@ class AttendRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 			caption = "Atras"
 			onClick[|
 				this.close
+				new AuditedWindow(this, new AuditedAppModel(this.modelObject.userLoged)).open
 			]
 		]
 	}
@@ -58,8 +62,7 @@ class AttendRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 		createRequirementsPanel(principalPanel)
 		createReqDescriptionPanel(principalPanel)
 		createStatePanel(principalPanel)
-		
-		
+
 		val infoPanel = new Panel(mainPanel)
 		infoPanel.layout = new HorizontalLayout
 		new Label(infoPanel).text = "Autor: "
@@ -104,7 +107,7 @@ class AttendRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 			caption = "<<"
 			height = 20
 			onClick[|
-				this.modelObject.selectedRequirement.changeRequirmentStatus
+				this.modelObject.changeRequirmentStatus
 			]
 		]
 
@@ -121,9 +124,9 @@ class AttendRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 			enabled <=> "hasRequirements"
 			value <=> "selectedFile"
 		]
-		
+
 		new List(ppanel) => [
-			//value <=> "selectedRequirement"
+			// value <=> "selectedRequirement"
 			(items.bindToProperty("selectedRequirement.evidences")).adapter = new PropertyAdapter(Evidence, "path")
 			height = 30
 			width = 150

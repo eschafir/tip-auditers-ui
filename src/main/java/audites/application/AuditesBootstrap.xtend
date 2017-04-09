@@ -12,9 +12,10 @@ import audites.domain.Audited
 class AuditesBootstrap implements Bootstrap {
 
 	User admin
-	User auditado
-	User auditor
-	User authority
+	User eschafir
+	User dperez
+	User rmachado
+	User dcullari
 	Department seginf
 	Department legales
 	Department riesgos
@@ -32,7 +33,7 @@ class AuditesBootstrap implements Bootstrap {
 			roles.add(new Audited)
 		]
 
-		auditado = new User => [
+		eschafir = new User => [
 			name = "Esteban Schafir"
 			password = "123"
 			email = "eschafir"
@@ -40,25 +41,34 @@ class AuditesBootstrap implements Bootstrap {
 			addDepartment(seginf)
 		]
 
-		auditor = new User => [
+		dperez = new User => [
 			name = "Diego Perez"
 			password = "123"
 			email = "dperez"
 			roles.add(new Auditor)
 		]
 
-		authority = new User => [
-			name = "Pedro Lopez"
+		rmachado = new User => [
+			name = "Romina Machado"
 			password = "123"
-			email = "plopez"
+			email = "rmachado"
 			addDepartment(seginf)
 			roles.add(new Audited)
 		]
+		
+		dcullari = new User => [
+			name = "Daniel Cullari"
+			password = "123"
+			email = "dcullari"
+			roles.add(new Audited)
+			addDepartment(seginf)
+		]
 
 		this.createUser(admin)
-		this.createUser(auditado)
-		this.createUser(auditor)
-		this.createUser(authority)
+		this.createUser(eschafir)
+		this.createUser(dperez)
+		this.createUser(rmachado)
+		this.createUser(dcullari)
 		initDepartments
 	}
 
@@ -66,7 +76,7 @@ class AuditesBootstrap implements Bootstrap {
 		seginf = new Department() => [
 			name = "Seguridad Informatica"
 			email = "seginf@gmail.com"
-			maxAuthority = authority
+			maxAuthority = rmachado
 		]
 
 		legales = new Department() => [
