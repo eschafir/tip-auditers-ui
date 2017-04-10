@@ -1,11 +1,14 @@
 package audites.AuditedWindows
 
+import audites.AuditedWindow
 import audites.Transformers.RequirementStatusTransformer
 import audites.appModel.AttendRevisionAppModel
+import audites.appModel.AuditedAppModel
 import audites.domain.Evidence
 import audites.domain.Revision
 import audites.domain.User
 import audites.repos.RepoRevisions
+import javax.swing.JOptionPane
 import org.uqbar.arena.bindings.PropertyAdapter
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
@@ -18,8 +21,6 @@ import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-import audites.AuditedWindow
-import audites.appModel.AuditedAppModel
 
 class AttendRevisionWindow extends SimpleWindow<AttendRevisionAppModel> {
 
@@ -33,7 +34,10 @@ class AttendRevisionWindow extends SimpleWindow<AttendRevisionAppModel> {
 			caption = "Aceptar"
 			onClick[|
 				RepoRevisions.instance.update(this.modelObject.revision)
-				this.modelObject.verifyIfCompleted
+				if (this.modelObject.revisionCompleted) {
+					openConfirmationDialog()
+				}
+
 				this.close
 				new AuditedWindow(this, new AuditedAppModel(this.modelObject.userLoged)).open
 			]
@@ -132,5 +136,17 @@ class AttendRevisionWindow extends SimpleWindow<AttendRevisionAppModel> {
 			height = 30
 			width = 150
 		]
+	}
+
+	protected def openConfirmationDialog() {
+		val dialogButton = JOptionPane.YES_NO_OPTION;
+		val dialogAnswer = JOptionPane.showConfirmDialog(null,
+			"La revision '" + this.modelObject.revision.name + "' fue completada. Se derivara a " +
+				this.modelObject.revision.responsable.maxAuthority.name + " para su revision. ¿Desea continuar?",
+			"question", dialogButton);
+
+		if (dialogAnswer == JOptionPane.YES_OPTION) {
+			this.modelObject.deriveToMaxAuthority
+		}
 	}
 }
