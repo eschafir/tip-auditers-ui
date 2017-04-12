@@ -33,12 +33,9 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 		new Button(actionsPanel) => [
 			caption = "Aceptar"
 			onClick[|
-//					if (RepoRevisions.instance.searchByExample(this.modelObject.revision).empty) {
-//						this.modelObject.validateRevision
-//						this.modelObject.createRevison
-//					}
 				this.modelObject.validateRevision
 				RepoRevisions.instance.update(this.modelObject.revision)
+				this.modelObject.logAndNotify
 				this.close
 				new AuditorWindow(this, this.modelObject.userLoged).open
 			]

@@ -23,6 +23,7 @@ class MainApplicationWindows extends SimpleWindow<MainApplicationAppModel> {
 		new Button(arg0) => [
 			caption = "Logout"
 			onClick[
+				this.modelObject.writeLog(this.modelObject.userLoged)
 				this.close
 				new LoginWindows(this, new LoginAppModel).open
 			]
