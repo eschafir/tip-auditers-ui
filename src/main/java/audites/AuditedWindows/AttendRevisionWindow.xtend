@@ -142,11 +142,12 @@ class AttendRevisionWindow extends SimpleWindow<AttendRevisionAppModel> {
 		val dialogButton = JOptionPane.YES_NO_OPTION;
 		val dialogAnswer = JOptionPane.showConfirmDialog(null,
 			"La revision '" + this.modelObject.revision.name + "' fue completada. Se derivara a " +
-				this.modelObject.revision.responsable.maxAuthority.name + " para su revision. ¿Desea continuar?",
-			"question", dialogButton);
+				this.modelObject.revision.responsable.maxAuthority.name + " para su revision." + "\r\n" +
+				"¿Desea continuar?", "question", dialogButton);
 
-		if (dialogAnswer == JOptionPane.YES_OPTION) {
-			this.modelObject.deriveToMaxAuthority
+			if (dialogAnswer == JOptionPane.YES_OPTION) {
+				this.modelObject.deriveToMaxAuthority
+			}
 		}
 	}
-}
+	

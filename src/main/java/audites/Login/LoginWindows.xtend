@@ -34,7 +34,6 @@ class LoginWindows extends SimpleWindow<LoginAppModel> {
 				this.modelObject.validateUser
 				this.close
 				new MainApplicationWindows(this, modelo).open
-
 			]
 		]
 
@@ -60,7 +59,7 @@ class LoginWindows extends SimpleWindow<LoginAppModel> {
 
 		new TextBox(owner) => [
 			width = 200
-			value.bindToProperty("userLoged.email")
+			value.bindToProperty("userLoged.username")
 		]
 
 		new Label(owner) => [
@@ -71,7 +70,6 @@ class LoginWindows extends SimpleWindow<LoginAppModel> {
 			width = 200
 			value.bindToProperty("passwordSubmited")
 		]
-
 	}
 
 }

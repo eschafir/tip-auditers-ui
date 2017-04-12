@@ -26,6 +26,7 @@ class AuditesBootstrap implements Bootstrap {
 
 		admin = new User() => [
 			name = "Administrador"
+			username = "admin"
 			password = "admin"
 			email = "admin"
 			roles.add(new Admin)
@@ -35,31 +36,35 @@ class AuditesBootstrap implements Bootstrap {
 
 		eschafir = new User => [
 			name = "Esteban Schafir"
+			username = "eschafir"
 			password = "123"
-			email = "eschafir"
+			email = "esteban.schafir@gmail.com"
 			roles.add(new Audited)
 			addDepartment(seginf)
 		]
 
 		dperez = new User => [
 			name = "Diego Perez"
+			username = "dperez"
 			password = "123"
-			email = "dperez"
+			email = "esteban.schafir@gmail.com"
 			roles.add(new Auditor)
 		]
 
 		rmachado = new User => [
 			name = "Romina Machado"
+			username = "rmachado"
 			password = "123"
-			email = "rmachado"
+			email = "esteban.schafir@gmail.com"
 			addDepartment(seginf)
 			roles.add(new Audited)
 		]
-		
+
 		dcullari = new User => [
 			name = "Daniel Cullari"
+			username = "dcullari"
 			password = "123"
-			email = "dcullari"
+			email = "esteban.schafir@gmail.com"
 			roles.add(new Audited)
 			addDepartment(seginf)
 		]

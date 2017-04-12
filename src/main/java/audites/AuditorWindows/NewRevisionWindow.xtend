@@ -33,10 +33,11 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 		new Button(actionsPanel) => [
 			caption = "Aceptar"
 			onClick[|
-				if (RepoRevisions.instance.searchByExample(this.modelObject.revision).empty) {
-					this.modelObject.validateRevision
-					this.modelObject.createRevison
-				}
+//					if (RepoRevisions.instance.searchByExample(this.modelObject.revision).empty) {
+//						this.modelObject.validateRevision
+//						this.modelObject.createRevison
+//					}
+				this.modelObject.validateRevision
 				RepoRevisions.instance.update(this.modelObject.revision)
 				this.close
 				new AuditorWindow(this, this.modelObject.userLoged).open
@@ -124,7 +125,10 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 			caption = "Agregar..."
 			enabled <=> "departmentIngresed"
 			onClick[|
-				this.modelObject.createRevison
+				if (RepoRevisions.instance.searchByExample(this.modelObject.revision).empty) {
+					this.modelObject.createRevison
+				}
+
 				new NewRequirementWindow(this, this.modelObject.revision, this.modelObject.userLoged).open
 			]
 		]

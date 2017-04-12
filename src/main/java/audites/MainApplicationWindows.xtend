@@ -50,7 +50,7 @@ class MainApplicationWindows extends SimpleWindow<MainApplicationAppModel> {
 			[|
 				new Button(panel) => [
 					caption = "Auditor"
-					width = 150
+					width = 200
 					onClick[|
 						this.close
 						new AuditorWindow(this, this.modelObject.userLoged).open
@@ -64,6 +64,7 @@ class MainApplicationWindows extends SimpleWindow<MainApplicationAppModel> {
 			[|
 				new Button(panel) => [
 					caption = "Revisiones"
+					width = 200
 					onClick[|
 						this.close
 						new AuditedWindow(this, new AuditedAppModel(this.modelObject.userLoged)).open
