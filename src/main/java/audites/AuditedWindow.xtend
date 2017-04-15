@@ -80,6 +80,7 @@ class AuditedWindow extends SimpleWindow<AuditedAppModel> {
 			validateMaximumAuthority(revisionDetailPanel)
 			infoAssigned(revisionDetailPanel)
 			infoProgress(revisionDetailPanel)
+			buttonApproved(revisionDetailPanel)
 		}
 	}
 
@@ -114,6 +115,15 @@ class AuditedWindow extends SimpleWindow<AuditedAppModel> {
 			allowNull(false)
 			value <=> "selectedUser"
 			(items.bindToProperty("obtainUsers")).adapter = new PropertyAdapter(Revision, "name")
+		]
+	}
+
+	def buttonApproved(Panel panel) {
+		new Button(panel) =>[
+			caption = "Aprobar"
+			onClick[|
+				
+			]
 		]
 	}
 
