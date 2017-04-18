@@ -18,6 +18,7 @@ import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
+import javax.swing.JOptionPane
 
 class AuditedWindow extends SimpleWindow<AuditedAppModel> {
 
@@ -70,6 +71,7 @@ class AuditedWindow extends SimpleWindow<AuditedAppModel> {
 			]
 		]
 
+		buttonApprove(buttonPanel)
 		revisionDetail(principal)
 	}
 
@@ -80,7 +82,6 @@ class AuditedWindow extends SimpleWindow<AuditedAppModel> {
 			validateMaximumAuthority(revisionDetailPanel)
 			infoAssigned(revisionDetailPanel)
 			infoProgress(revisionDetailPanel)
-			buttonApproved(revisionDetailPanel)
 		}
 	}
 
@@ -113,18 +114,36 @@ class AuditedWindow extends SimpleWindow<AuditedAppModel> {
 		new Label(panel).text = "Asignar a:"
 		new Selector<User>(panel) => [
 			allowNull(false)
+			enabled <=> "isAsignedToAuthor"
 			value <=> "selectedUser"
 			(items.bindToProperty("obtainUsers")).adapter = new PropertyAdapter(Revision, "name")
+			width = 200
 		]
 	}
 
-	def buttonApproved(Panel panel) {
-		new Button(panel) =>[
-			caption = "Aprobar"
-			onClick[|
-				
+	def buttonApprove(Panel mainPanel) {
+		if (!this.modelObject.userLoged.revisions.empty &&
+			this.modelObject.userLoged.maximumResponsable(this.modelObject.revisionSelected.responsable)) {
+			new Button(mainPanel) => [
+				caption = "Aprobar"
+				enabled <=> "revisionFinished"
+				onClick[|
+					openConfirmationDialog
+				]
 			]
-		]
+		}
 	}
 
-}
+	def openConfirmationDialog() {
+		val dialogButton = JOptionPane.YES_NO_OPTION;
+		val dialogAnswer = JOptionPane.showConfirmDialog(null,
+			"La revision '" + this.modelObject.revisionSelected.name + "' será derivada a " +
+				this.modelObject.revisionSelected.author.name + " para su revision final." + "\r\n" +
+				"¿Desea continuar?", "question", dialogButton);
+
+			if (dialogAnswer == JOptionPane.YES_OPTION) {
+				this.modelObject.deriveToAuthor
+			}
+		}
+	}
+	

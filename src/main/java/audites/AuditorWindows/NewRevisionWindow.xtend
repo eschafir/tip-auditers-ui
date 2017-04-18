@@ -90,7 +90,7 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 		new TextBox(description) => [
 			multiLine = true
 			height = 200
-			width = 200
+			width = 500
 			value <=> "revision.description"
 		]
 
