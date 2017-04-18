@@ -55,7 +55,7 @@ class NewRequirementWindow extends SimpleWindow<NewRequirementAppModel> {
 			value <=> "requirement.descripcion"
 			multiLine = true
 			height = 200
-			width = 200
+			width = 500
 		]
 
 	}

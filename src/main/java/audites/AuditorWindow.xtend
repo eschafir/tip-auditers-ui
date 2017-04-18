@@ -71,7 +71,7 @@ class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 
 		new Button(options) => [
 			caption = "Editar"
-			enabled <=> "revisionIsSelectedAuditor"
+			enabled <=> "revisionIsNotFinished"
 			onClick[|
 				new EditRevisionWindow(this, this.modelObject.revisionSelected).open
 			]

@@ -38,7 +38,7 @@ class EditRequirementWindow extends SimpleWindow<NewRequirementAppModel> {
 			value <=> "reqDescription"
 			multiLine = true
 			width = 200
-			height = 200
+			height = 500
 		]
 
 	}

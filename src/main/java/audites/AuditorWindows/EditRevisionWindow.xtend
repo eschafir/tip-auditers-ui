@@ -46,7 +46,7 @@ class EditRevisionWindow extends NewRevisionWindow {
 			value <=> "revisionComment"
 			multiLine = true
 			height = 150
-			width = 250
+			width = 500 // 250
 		]
 
 		val groupPanel = new GroupPanel(mainPanel) => [

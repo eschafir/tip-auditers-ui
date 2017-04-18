@@ -47,7 +47,7 @@ class CheckRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 		new Label(gp) => [
 			text = this.modelObject.revisionComment
 			height = 70
-			width = 150
+			width = 500
 		]
 
 		val principalPanel = new Panel(mainPanel)
@@ -78,7 +78,7 @@ class CheckRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 		new Label(reqDescPanel) => [
 			value <=> "selectedRequirement.descripcion"
 			height = 200
-			width = 150
+			width = 500
 		]
 	}
 
@@ -98,7 +98,7 @@ class CheckRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 		new Label(ppanel) => [
 			value <=> "selectedRequirement.comments"
 			height = 150
-			width = 150
+			width = 300
 		]
 
 		validateAttachments(ppanel)

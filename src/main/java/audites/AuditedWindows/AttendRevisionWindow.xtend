@@ -83,7 +83,7 @@ class AttendRevisionWindow extends SimpleWindow<AttendRevisionAppModel> {
 			value <=> "selectedRequirement"
 			(items.bindToProperty("revision.requirements")).adapter = new PropertyAdapter(Revision, "name")
 			height = 150
-			width = 150
+			width = 200
 		]
 	}
 
@@ -94,7 +94,7 @@ class AttendRevisionWindow extends SimpleWindow<AttendRevisionAppModel> {
 		new Label(reqDescPanel) => [
 			value <=> "selectedRequirement.descripcion"
 			height = 200
-			width = 200
+			width = 500
 		]
 	}
 
@@ -122,7 +122,7 @@ class AttendRevisionWindow extends SimpleWindow<AttendRevisionAppModel> {
 			value <=> "selectedRequirement.comments"
 			multiLine = true
 			height = 150
-			width = 150
+			width = 500
 		]
 
 		new FileSelector(ppanel) => [
