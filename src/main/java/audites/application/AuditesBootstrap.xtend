@@ -8,6 +8,10 @@ import audites.domain.Department
 import audites.repos.RepoDepartments
 import audites.domain.Auditor
 import audites.domain.Audited
+import audites.domain.Revision
+import java.util.Date
+import audites.domain.Requirement
+import audites.repos.RepoRevisions
 
 class AuditesBootstrap implements Bootstrap {
 
@@ -16,11 +20,13 @@ class AuditesBootstrap implements Bootstrap {
 	User dperez
 	User rmachado
 	User dcullari
+	User mdiez
 	Department seginf
 	Department legales
 	Department riesgos
 	Department auditoria
 	Department rrhh
+	Revision revision
 
 	def void initUsers() {
 
@@ -49,6 +55,7 @@ class AuditesBootstrap implements Bootstrap {
 			password = "123"
 			email = "esteban.schafir@gmail.com"
 			roles.add(new Auditor)
+			revisions.add(revision)
 		]
 
 		rmachado = new User => [
@@ -57,6 +64,15 @@ class AuditesBootstrap implements Bootstrap {
 			password = "123"
 			email = "esteban.schafir@gmail.com"
 			addDepartment(seginf)
+			roles.add(new Audited)
+		]
+		
+		mdiez = new User =>[
+			name = "Marcelo Diez"
+			username = "mdiez"
+			password = "123"
+			email = "esteban.schafir@gmail.com"
+			addDepartment(legales)
 			roles.add(new Audited)
 		]
 
@@ -68,12 +84,12 @@ class AuditesBootstrap implements Bootstrap {
 			roles.add(new Audited)
 			addDepartment(seginf)
 		]
-
 		this.createUser(admin)
 		this.createUser(eschafir)
 		this.createUser(dperez)
 		this.createUser(rmachado)
 		this.createUser(dcullari)
+		this.createUser(mdiez)
 		initDepartments
 	}
 
@@ -82,6 +98,7 @@ class AuditesBootstrap implements Bootstrap {
 			name = "Seguridad Informatica"
 			email = "seginf@gmail.com"
 			maxAuthority = rmachado
+			revisions.add(revision)
 		]
 
 		legales = new Department() => [
@@ -111,6 +128,21 @@ class AuditesBootstrap implements Bootstrap {
 		this.createDepartment(rrhh)
 	}
 
+	def initRevision() {
+		revision = new Revision =>
+			[
+				name = "Revision 1: Usuarios y perfiles"
+				description = "Revision de usuarios y perfiles para Seguridad Informatica."
+				author = dperez
+				endDate = new Date()
+				responsable = seginf
+				attendant = rmachado
+				requirements = #[new Requirement("Requerimiento 1", "Descripcion del requerimiento 1"),
+					new Requirement("Requerimiento 2", "Descripcion del requerimiento 2")]
+			]
+		this.createRevision(revision)
+	}
+
 	def createUser(User user) {
 		val repoUsers = RepoUsers.instance
 		val listUsers = repoUsers.searchByExample(user)
@@ -137,11 +169,25 @@ class AuditesBootstrap implements Bootstrap {
 		}
 	}
 
+	def createRevision(Revision revision) {
+		val repoRev = RepoRevisions.instance
+		val listRevision = repoRev.searchByExample(revision)
+		if (listRevision.isEmpty) {
+			repoRev.create(revision)
+			println("Revision " + revision.name + " creada")
+		} else {
+			val revBD = listRevision.head
+			revision.id = revBD.id
+			repoRev.update(revision)
+		}
+	}
+
 	override isPending() {
 		false
 	}
 
 	override run() {
+		initRevision
 		initDepartments
 		initUsers
 	}
