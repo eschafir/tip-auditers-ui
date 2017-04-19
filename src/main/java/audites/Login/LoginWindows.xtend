@@ -13,6 +13,7 @@ import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
+import org.uqbar.arena.graphics.Image
 
 class LoginWindows extends SimpleWindow<LoginAppModel> {
 
@@ -50,6 +51,12 @@ class LoginWindows extends SimpleWindow<LoginAppModel> {
 	override protected createFormPanel(Panel mainPanel) {
 		this.title = "Auditers"
 		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
+
+		new Label(mainPanel) => [
+			bindImageToProperty("pathImagen", [ imagePath |
+				new Image(imagePath)
+			])
+		]
 
 		crearPanelLogin(mainPanel)
 	}
