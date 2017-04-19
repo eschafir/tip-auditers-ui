@@ -11,6 +11,8 @@ import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
+import org.uqbar.arena.widgets.Label
+import org.uqbar.arena.graphics.Image
 
 class MainApplicationWindows extends SimpleWindow<MainApplicationAppModel> {
 
@@ -33,8 +35,17 @@ class MainApplicationWindows extends SimpleWindow<MainApplicationAppModel> {
 	override protected createFormPanel(Panel mainPanel) {
 		this.title = "Auditers"
 		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
+		
+		val imagePanel = new Panel(mainPanel)
+		
+		new Label(imagePanel) => [
+			bindImageToProperty("pathImagen", [ imagePath |
+				new Image(imagePath)
+			])
+		]
 
 		val panel = new Panel(mainPanel)
+		new Label(panel).text = "Menues"
 		var botonera = new HashMap
 
 		botonera.put("Administrator", [|
