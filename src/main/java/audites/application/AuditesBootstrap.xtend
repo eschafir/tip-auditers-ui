@@ -63,7 +63,6 @@ class AuditesBootstrap implements Bootstrap {
 			email = "esteban.schafir@gmail.com"
 			addDepartment(seginf)
 			roles.add(new Audited)
-//			addRevision(revision)
 		]
 
 		dcullari = new User => [
