@@ -1,22 +1,24 @@
 package audites
 
+import audites.AuditorWindows.CheckRevisionWindow
+import audites.AuditorWindows.EditRevisionWindow
+import audites.AuditorWindows.NewRevisionWindow
+import audites.Transformers.AverageStatusTransformer
 import audites.appModel.AuditorAppModel
 import audites.appModel.MainApplicationAppModel
 import audites.appModel.NewRevisionAppModel
+import audites.domain.Revision
+import audites.domain.User
+import org.uqbar.arena.bindings.PropertyAdapter
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
+import org.uqbar.arena.widgets.Label
+import org.uqbar.arena.widgets.List
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
-import audites.AuditorWindows.NewRevisionWindow
-import org.uqbar.arena.bindings.PropertyAdapter
-import audites.domain.Revision
-import org.uqbar.arena.widgets.List
+
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-import audites.AuditorWindows.EditRevisionWindow
-import audites.domain.User
-import org.uqbar.arena.widgets.Label
-import audites.AuditorWindows.CheckRevisionWindow
 
 class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 
@@ -39,10 +41,20 @@ class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 		this.title = "Auditers"
 		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
 
-		val panelButtons = new Panel(mainPanel)
-		panelButtons.layout = new HorizontalLayout
+		val principal = new Panel(mainPanel)
+		principal.layout = new HorizontalLayout
 
-		new Label(mainPanel).text = "Revisiones generadas"
+		revisionsList(principal)
+		revisionsDetail(principal)
+
+	}
+
+	def revisionsList(Panel panel) {
+		val mainPanel = new Panel(panel)
+		new Label(mainPanel) => [
+			text = "Revisiones generadas"
+			fontSize = 13
+		]
 		new List<Revision>(mainPanel) => [
 			value <=> "revisionSelected"
 			(items.bindToProperty("userLoged.revisions")).adapter = new PropertyAdapter(Revision, "name")
@@ -75,6 +87,38 @@ class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 			onClick[|
 				new EditRevisionWindow(this, this.modelObject.revisionSelected).open
 			]
+		]
+	}
+
+	def revisionsDetail(Panel mainPanel) {
+		val principal = new Panel(mainPanel)
+
+		new Label(principal) => [
+			text = "Detalles"
+			fontSize = 13
+		]
+		val panel = new Panel(principal).layout = new HorizontalLayout
+		new Label(panel).text = "Departamento: "
+		new Label(panel) => [
+			value <=> "revisionSelected.responsable.name"
+			width = 200
+		]
+		infoProgress(principal)
+	}
+
+	def infoProgress(Panel mainPanel) {
+		val panel = new Panel(mainPanel).layout = new HorizontalLayout
+		new Label(panel) => [
+			text = "Progreso: "
+			(background <=> "revisionSelected.average").transformer = new AverageStatusTransformer
+		]
+		new Label(panel) => [
+			(background <=> "revisionSelected.average").transformer = new AverageStatusTransformer
+			value <=> "revisionSelected.average"
+		]
+		new Label(panel) => [
+			(background <=> "revisionSelected.average").transformer = new AverageStatusTransformer
+			text = "%"
 		]
 	}
 
