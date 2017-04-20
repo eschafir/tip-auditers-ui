@@ -19,6 +19,7 @@ class AuditesBootstrap implements Bootstrap {
 	User dperez
 	User rmachado
 	User dcullari
+	User mdiez
 	Department seginf
 	Department legales
 	Department riesgos
@@ -64,6 +65,15 @@ class AuditesBootstrap implements Bootstrap {
 			addDepartment(seginf)
 			roles.add(new Audited)
 		]
+		
+		mdiez = new User => [
+			name = "Marcelo Diez"
+			username = "mdiez"
+			password = "123"
+			email = "esteban.schafir@gmail.com"
+			addDepartment(auditoria)
+			roles.add(new Audited)
+		]
 
 		dcullari = new User => [
 			name = "Daniel Cullari"
@@ -79,6 +89,7 @@ class AuditesBootstrap implements Bootstrap {
 		this.createUser(dperez)
 		this.createUser(rmachado)
 		this.createUser(dcullari)
+		this.createUser(mdiez)
 		initDepartments
 	}
 
@@ -103,6 +114,7 @@ class AuditesBootstrap implements Bootstrap {
 		auditoria = new Department() => [
 			name = "Auditoria Interna"
 			email = "ai@gmail.com"
+			maxAuthority = mdiez
 		]
 
 		rrhh = new Department() => [
