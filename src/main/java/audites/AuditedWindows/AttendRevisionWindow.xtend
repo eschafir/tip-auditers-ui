@@ -30,19 +30,18 @@ class AttendRevisionWindow extends SimpleWindow<AttendRevisionAppModel> {
 	}
 
 	override protected addActions(Panel actionsPanel) {
-		new Button(actionsPanel) =>
-			[
-				caption = "Aceptar"
-				onClick[|
-					RepoRevisions.instance.update(this.modelObject.revision)
-					if (this.modelObject.revisionCompletedAndUserIsNotMaxAuthority) {
-						openConfirmationDialog()
-					}
+		new Button(actionsPanel) => [
+			caption = "Aceptar"
+			onClick[|
+				RepoRevisions.instance.update(this.modelObject.revision)
+				if (this.modelObject.revisionCompletedAndUserIsNotMaxAuthority) {
+					openConfirmationDialog()
+				}
 
-					this.close
-					new AuditedWindow(this, new AuditedAppModel(this.modelObject.userLoged)).open
-				]
+				this.close
+				new AuditedWindow(this, new AuditedAppModel(this.modelObject.userLoged)).open
 			]
+		]
 
 		new Button(actionsPanel) => [
 			caption = "Atras"
@@ -132,7 +131,7 @@ class AttendRevisionWindow extends SimpleWindow<AttendRevisionAppModel> {
 		]
 
 		new List(ppanel) => [
-			// value <=> "selectedRequirement"
+			// value <=> "selectedRequirement"			
 			(items.bindToProperty("selectedRequirement.evidences")).adapter = new PropertyAdapter(Evidence, "path")
 			height = 30
 			width = 150

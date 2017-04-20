@@ -5,7 +5,6 @@ import audites.domain.Evidence
 import audites.domain.Requirement
 import java.awt.Desktop
 import java.io.File
-import java.nio.file.Paths
 import org.uqbar.arena.aop.windows.TransactionalDialog
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.Link
@@ -30,13 +29,11 @@ class AttachtmentWindow extends TransactionalDialog<CheckRevisionAppModel> {
 
 	override protected createFormPanel(Panel mainPanel) {
 		val desktop = Desktop.desktop
-
 		for (Evidence e : this.modelObject.evidencesOfRequirementSelected) {
 			new Link(mainPanel) => [
-				var file = Paths.get(e.path).fileName
-				caption = file.toString
+				caption = e.path
 				onClick[|
-					desktop.open(new File(e.path))
+					desktop.open(new File(e.completePath))
 				]
 			]
 		}
