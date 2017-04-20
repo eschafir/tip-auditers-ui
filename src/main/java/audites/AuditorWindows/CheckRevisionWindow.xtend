@@ -1,19 +1,14 @@
 package audites.AuditorWindows
 
 import audites.Transformers.RequirementStatusTransformer
-import audites.appModel.NewRevisionAppModel
-import audites.domain.Evidence
+import audites.appModel.CheckRevisionAppModel
 import audites.domain.Revision
 import audites.domain.User
-import java.awt.Desktop
-import java.io.File
-import java.nio.file.Paths
 import org.uqbar.arena.bindings.PropertyAdapter
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.GroupPanel
 import org.uqbar.arena.widgets.Label
-import org.uqbar.arena.widgets.Link
 import org.uqbar.arena.widgets.List
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.SimpleWindow
@@ -21,10 +16,10 @@ import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 
-class CheckRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
+class CheckRevisionWindow extends SimpleWindow<CheckRevisionAppModel> {
 
 	new(WindowOwner parent, Revision revision, User user) {
-		super(parent, new NewRevisionAppModel(revision, user))
+		super(parent, new CheckRevisionAppModel(revision, user))
 		this.taskDescription = "Estado de revision"
 	}
 
@@ -101,23 +96,12 @@ class CheckRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 			width = 300
 		]
 
-		validateAttachments(ppanel)
-	}
-
-	def validateAttachments(Panel panel) {
-		if (this.modelObject.selectedRequirement.evidences.size > 0) {
-			new Label(panel).text = "Adjuntos:"
-			val desktop = Desktop.desktop
-
-			for (Evidence e : this.modelObject.selectedRequirement.evidences) {
-				new Link(panel) => [
-					var file = Paths.get(e.path).fileName
-					caption = file.toString
-					onClick[|
-						desktop.open(new File(e.path))
-					]
-				]
-			}
-		}
+		new Button(ppanel) => [
+			caption = "Ver adjuntos"
+			enabled <=> "hasEvidence"
+			onClick[|
+				new AttachtmentWindow(this, this.modelObject.selectedRequirement).open
+			]
+		]
 	}
 }
