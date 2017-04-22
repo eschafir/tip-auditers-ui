@@ -19,6 +19,8 @@ import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
+import org.uqbar.arena.widgets.GroupPanel
+import org.uqbar.arena.graphics.Image
 
 class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 
@@ -41,6 +43,14 @@ class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 		this.title = "Auditers"
 		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
 
+		val imagePanel = new Panel(mainPanel)
+		
+		new Label(imagePanel) => [
+			bindImageToProperty("pathImagen", [ imagePath |
+				new Image(imagePath)
+			])
+		]
+
 		val principal = new Panel(mainPanel)
 		principal.layout = new HorizontalLayout
 
@@ -49,20 +59,20 @@ class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 
 	}
 
-	def revisionsList(Panel panel) {
-		val mainPanel = new Panel(panel)
-		new Label(mainPanel) => [
+	def revisionsList(Panel mainPanel) {
+		val principal = new GroupPanel(mainPanel) => [title = ""]
+		new Label(principal) => [
 			text = "Revisiones generadas"
 			fontSize = 13
 		]
-		new List<Revision>(mainPanel) => [
+		new List<Revision>(principal) => [
 			value <=> "revisionSelected"
 			(items.bindToProperty("userLoged.revisions")).adapter = new PropertyAdapter(Revision, "name")
 			height = 150
 			width = 250
 		]
 
-		val options = new Panel(mainPanel).layout = new HorizontalLayout
+		val options = new Panel(principal).layout = new HorizontalLayout
 
 		new Button(options) => [
 			caption = "Nueva"
@@ -91,7 +101,7 @@ class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 	}
 
 	def revisionsDetail(Panel mainPanel) {
-		val principal = new Panel(mainPanel)
+		val principal = new GroupPanel(mainPanel) => [title = ""]
 
 		new Label(principal) => [
 			text = "Detalles"

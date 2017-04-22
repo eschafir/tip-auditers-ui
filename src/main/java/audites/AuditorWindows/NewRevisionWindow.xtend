@@ -71,7 +71,7 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 		new Label(nameRevision).text = "Nombre"
 		new TextBox(nameRevision) => [
 			value <=> "revision.name"
-			width = 200
+			width = 500
 		]
 
 		val departmentRevision = new Panel(revisionPanel)

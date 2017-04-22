@@ -7,6 +7,7 @@ import audites.appModel.AuditedAppModel
 import audites.appModel.MainApplicationAppModel
 import audites.domain.Revision
 import audites.domain.User
+import javax.swing.JOptionPane
 import org.uqbar.arena.bindings.PropertyAdapter
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
@@ -18,13 +19,14 @@ import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-import javax.swing.JOptionPane
+import org.uqbar.arena.widgets.GroupPanel
+import org.uqbar.arena.graphics.Image
 
 class AuditedWindow extends SimpleWindow<AuditedAppModel> {
 
 	new(WindowOwner parent, AuditedAppModel model) {
 		super(parent, model)
-		this.taskDescription = "Revisiones asignadas"
+		this.taskDescription = "Panel de Auditado"
 	}
 
 	override protected addActions(Panel actionsPanel) {
@@ -41,15 +43,34 @@ class AuditedWindow extends SimpleWindow<AuditedAppModel> {
 		this.title = "Audites"
 		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
 
+		val imagePanel = new Panel(mainPanel)
+
+		new Label(imagePanel) => [
+			bindImageToProperty("pathImagen", [ imagePath |
+				new Image(imagePath)
+			])
+		]
+
 		val principal = new Panel(mainPanel)
 		principal.layout = new HorizontalLayout
 
-		val ppanel = new Panel(principal)
+		revisionList(principal)
+		revisionDetail(principal)
+	}
+
+	protected def revisionList(Panel principal) {
+		val ppanel = new GroupPanel(principal) => [title = ""]
+
+		new Label(ppanel) => [
+			text = "Revisiones Asignadas"
+			fontSize = 13
+		]
+
 		new List<Revision>(ppanel) => [
 			value <=> "revisionSelected"
 			(items.bindToProperty("userLoged.revisions")).adapter = new PropertyAdapter(Revision, "name")
-			height = 150
-			width = 200
+			height = 250
+			width = 250
 		]
 
 		val buttonPanel = new Panel(ppanel)
@@ -72,13 +93,18 @@ class AuditedWindow extends SimpleWindow<AuditedAppModel> {
 		]
 
 		buttonApprove(buttonPanel)
-		revisionDetail(principal)
 	}
 
 	def revisionDetail(Panel panel) {
-		val revisionDetailPanel = new Panel(panel)
 		if (!this.modelObject.userLoged.revisions.empty &&
 			this.modelObject.userLoged.maximumResponsable(this.modelObject.revisionSelected.responsable)) {
+
+			val revisionDetailPanel = new GroupPanel(panel) => [title = ""]
+			new Label(revisionDetailPanel) => [
+				text = "Detalles"
+				fontSize = 13
+			]
+
 			validateMaximumAuthority(revisionDetailPanel)
 			infoAssigned(revisionDetailPanel)
 			infoProgress(revisionDetailPanel)

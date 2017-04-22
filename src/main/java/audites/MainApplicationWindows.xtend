@@ -7,12 +7,12 @@ import audites.appModel.LoginAppModel
 import audites.appModel.MainApplicationAppModel
 import audites.domain.Role
 import java.util.HashMap
+import org.uqbar.arena.graphics.Image
 import org.uqbar.arena.widgets.Button
+import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
-import org.uqbar.arena.widgets.Label
-import org.uqbar.arena.graphics.Image
 
 class MainApplicationWindows extends SimpleWindow<MainApplicationAppModel> {
 
@@ -36,13 +36,7 @@ class MainApplicationWindows extends SimpleWindow<MainApplicationAppModel> {
 		this.title = "Auditers"
 		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
 		
-		val imagePanel = new Panel(mainPanel)
-		
-		new Label(imagePanel) => [
-			bindImageToProperty("pathImagen", [ imagePath |
-				new Image(imagePath)
-			])
-		]
+		putCompanyLogo(mainPanel)
 
 		val panel = new Panel(mainPanel)
 		new Label(panel).text = "Menues"
@@ -90,5 +84,15 @@ class MainApplicationWindows extends SimpleWindow<MainApplicationAppModel> {
 		for (Role r : this.modelObject.userLoged.roles) {
 			botonera.get(r.name).apply
 		}
+	}
+	
+	protected def putCompanyLogo(Panel mainPanel) {
+		val imagePanel = new Panel(mainPanel)
+		
+		new Label(imagePanel) => [
+			bindImageToProperty("pathImagen", [ imagePath |
+				new Image(imagePath)
+			])
+		]
 	}
 }

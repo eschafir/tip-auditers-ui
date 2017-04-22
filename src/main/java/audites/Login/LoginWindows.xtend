@@ -19,7 +19,6 @@ class LoginWindows extends SimpleWindow<LoginAppModel> {
 
 	new(WindowOwner parent, LoginAppModel model) {
 		super(parent, model)
-		this.taskDescription = "Ingrese sus credenciales"
 	}
 
 	override protected addActions(Panel arg0) {
@@ -49,7 +48,7 @@ class LoginWindows extends SimpleWindow<LoginAppModel> {
 	}
 
 	override protected createFormPanel(Panel mainPanel) {
-		this.title = "Auditers"
+		this.title = "AuditERS"
 		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
 
 		new Label(mainPanel) => [
@@ -77,6 +76,12 @@ class LoginWindows extends SimpleWindow<LoginAppModel> {
 		new PasswordField(owner) => [
 			width = 200
 			value.bindToProperty("passwordSubmited")
+		]
+		
+		val author = new Panel(owner)
+		new Label(author) => [
+			text = "Created by: Esteban R. Schafir"
+			fontSize = 5
 		]
 	}
 

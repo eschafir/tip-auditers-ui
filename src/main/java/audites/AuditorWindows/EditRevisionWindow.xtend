@@ -3,16 +3,15 @@ package audites.AuditorWindows
 import audites.appModel.NewRevisionAppModel
 import audites.domain.Revision
 import org.uqbar.arena.bindings.PropertyAdapter
+import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
-import org.uqbar.arena.widgets.Label
+import org.uqbar.arena.widgets.GroupPanel
 import org.uqbar.arena.widgets.List
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-import org.uqbar.arena.layout.HorizontalLayout
-import org.uqbar.arena.widgets.GroupPanel
 
 class EditRevisionWindow extends NewRevisionWindow {
 
@@ -36,19 +35,13 @@ class EditRevisionWindow extends NewRevisionWindow {
 		this.title = "Audites"
 		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
 
-		new Label(mainPanel).text = "Nombre de la revision"
-		new TextBox(mainPanel) => [
-			value <=> "revisionName"
-		]
+		revisionName(mainPanel)
+		revisionDescription(mainPanel)
+		revisionRequirements(mainPanel)
 
-		new Label(mainPanel).text = "Descripcion"
-		new TextBox(mainPanel) => [
-			value <=> "revisionComment"
-			multiLine = true
-			height = 150
-			width = 500 // 250
-		]
+	}
 
+	protected def revisionRequirements(Panel mainPanel) {
 		val groupPanel = new GroupPanel(mainPanel) => [
 			title = "Requerimientos"
 		]
@@ -88,7 +81,24 @@ class EditRevisionWindow extends NewRevisionWindow {
 				}
 			]
 		]
+	}
 
+	protected def revisionDescription(Panel mainPanel) {
+		val revisionDescription = new GroupPanel(mainPanel) => [title = "Descripcion"]
+		new TextBox(revisionDescription) => [
+			value <=> "revisionComment"
+			multiLine = true
+			height = 150
+			width = 500
+		]
+	}
+
+	protected def revisionName(Panel mainPanel) {
+		val revisionName = new GroupPanel(mainPanel) => [title = "Nombre de la revision"]
+		new TextBox(revisionName) => [
+			value <=> "revisionName"
+			width = 500
+		]
 	}
 
 }

@@ -25,7 +25,7 @@ class CheckRevisionWindow extends SimpleWindow<CheckRevisionAppModel> {
 
 	override protected addActions(Panel actionsPanel) {
 		new Button(actionsPanel) => [
-			caption = "Atras"
+			caption = "Cerrar"
 			onClick[|
 				this.close
 			]
@@ -36,12 +36,12 @@ class CheckRevisionWindow extends SimpleWindow<CheckRevisionAppModel> {
 		this.title = "Auditers"
 		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
 
-		val gp = new GroupPanel(mainPanel)
-		gp.title = this.modelObject.revision.name
+		val revisionGeneral = new GroupPanel(mainPanel)
+		revisionGeneral.title = this.modelObject.revision.name
 
-		new Label(gp) => [
+		new Label(revisionGeneral) => [
 			text = this.modelObject.revisionComment
-			height = 70
+			height = 200
 			width = 500
 		]
 
@@ -55,30 +55,28 @@ class CheckRevisionWindow extends SimpleWindow<CheckRevisionAppModel> {
 	}
 
 	def createRequirementPanel(Panel panel) {
-		val reqPanel = new Panel(panel)
-		new Label(reqPanel).text = "Requerimientos"
+		val reqPanel = new GroupPanel(panel) => [title = "Requerimientos"]
 
 		new List(reqPanel) => [
 			value <=> "selectedRequirement"
 			(items.bindToProperty("revision.requirements")).adapter = new PropertyAdapter(Revision, "name")
-			height = 150
-			width = 150
+			height = 300
+			width = 250
 		]
 	}
 
 	def createReqDescriptionPanel(Panel panel) {
-		val reqDescPanel = new Panel(panel)
-		new Label(reqDescPanel).text = "Descripcion"
+		val reqDescPanel = new GroupPanel(panel) => [title = "Descripcion"]
 
 		new Label(reqDescPanel) => [
 			value <=> "selectedRequirement.descripcion"
-			height = 200
+			height = 325
 			width = 500
 		]
 	}
 
 	def createStatePanel(Panel panel) {
-		val ppanel = new Panel(panel)
+		val ppanel = new GroupPanel(panel) => [title = "Detalles"]
 		val state = new Panel(ppanel) => [
 			layout = new HorizontalLayout
 		]
@@ -89,11 +87,12 @@ class CheckRevisionWindow extends SimpleWindow<CheckRevisionAppModel> {
 			value <=> "selectedRequirement.requirementStatus"
 		]
 
-		new Label(ppanel).text = "Comentarios de " + this.modelObject.revision.responsable.name + ":"
-		new Label(ppanel) => [
+		val responsableDescription = new Panel(ppanel) => [layout = new HorizontalLayout]
+		new Label(responsableDescription).text = "Comentarios de " + this.modelObject.revision.responsable.name + ":"
+		new Label(responsableDescription) => [
 			value <=> "selectedRequirement.comments"
-			height = 150
-			width = 300
+			height = 257
+			width = 400
 		]
 
 		new Button(ppanel) => [
