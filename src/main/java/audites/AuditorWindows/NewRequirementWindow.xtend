@@ -19,9 +19,14 @@ class NewRequirementWindow extends SimpleWindow<NewRequirementAppModel> {
 		super(parent, new NewRequirementAppModel(revision, user))
 	}
 
-	override protected addActions(Panel actionsPanel) {
+	override createContents(Panel mainPanel) {
+		createFormPanel(mainPanel)
+		addActions(mainPanel)
+	}
 
-		new Button(actionsPanel) => [
+	override protected addActions(Panel actionsPanel) {
+		val buttonsPanel = new Panel(actionsPanel)
+		new Button(buttonsPanel) => [
 			caption = "Aceptar"
 			onClick[|
 				this.modelObject.validateRequirement
@@ -57,7 +62,5 @@ class NewRequirementWindow extends SimpleWindow<NewRequirementAppModel> {
 			height = 200
 			width = 500
 		]
-
 	}
-
 }

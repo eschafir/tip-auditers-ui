@@ -15,11 +15,16 @@ class AttachtmentWindow extends TransactionalDialog<CheckRevisionAppModel> {
 
 	new(WindowOwner parent, Requirement requirement) {
 		super(parent, new CheckRevisionAppModel(requirement))
-		this.taskDescription = "Adjuntos"
+	}
+
+	override createContents(Panel mainPanel) {
+		createFormPanel(mainPanel)
+		addActions(mainPanel)
 	}
 
 	override protected addActions(Panel actionsPanel) {
-		new Button(actionsPanel) => [
+		val buttonsPanel = new Panel(actionsPanel)
+		new Button(buttonsPanel) => [
 			caption = "Atras"
 			onClick[|
 				this.close

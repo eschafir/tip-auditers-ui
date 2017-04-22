@@ -17,12 +17,16 @@ class EditRevisionWindow extends NewRevisionWindow {
 
 	new(WindowOwner parent, Revision revision) {
 		super(parent, new NewRevisionAppModel(revision))
-		this.taskDescription = "Edita la revision " + this.modelObject.revisionName
+	}
+
+	override createContents(Panel mainPanel) {
+		createFormPanel(mainPanel)
+		addActions(mainPanel)
 	}
 
 	override protected addActions(Panel actionsPanel) {
-
-		new Button(actionsPanel) => [
+		val buttonsPanel = new Panel(actionsPanel)
+		new Button(buttonsPanel) => [
 			caption = "Cerrar"
 			onClick[|
 				this.modelObject.validateRequirements

@@ -15,11 +15,16 @@ class EditRequirementWindow extends SimpleWindow<NewRequirementAppModel> {
 
 	new(WindowOwner parent, Revision model, Requirement requirement, User user) {
 		super(parent, new NewRequirementAppModel(model, requirement, user))
-		this.taskDescription = "Editar el requerimiento" + this.modelObject.reqName
+	}
+
+	override createContents(Panel mainPanel) {
+		createFormPanel(mainPanel)
+		addActions(mainPanel)
 	}
 
 	override protected addActions(Panel actionsPanel) {
-		new Button(actionsPanel) => [
+		val buttonsPanel = new Panel(actionsPanel)
+		new Button(buttonsPanel) => [
 			caption = "Aceptar"
 			onClick[|this.close]
 		]
@@ -37,8 +42,8 @@ class EditRequirementWindow extends SimpleWindow<NewRequirementAppModel> {
 		new TextBox(mainPanel) => [
 			value <=> "reqDescription"
 			multiLine = true
-			width = 200
-			height = 500
+			width = 500
+			height = 400
 		]
 
 	}

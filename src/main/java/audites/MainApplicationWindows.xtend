@@ -11,18 +11,18 @@ import org.uqbar.arena.graphics.Image
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.Panel
-import org.uqbar.arena.windows.SimpleWindow
+import org.uqbar.arena.windows.Window
 import org.uqbar.arena.windows.WindowOwner
 
-class MainApplicationWindows extends SimpleWindow<MainApplicationAppModel> {
+class MainApplicationWindows extends Window<MainApplicationAppModel> {
 
 	new(WindowOwner parent, MainApplicationAppModel model) {
 		super(parent, model)
-		this.taskDescription = "Bienvenido " + this.modelObject.userLoged.name
 	}
 
-	override protected addActions(Panel arg0) {
-		new Button(arg0) => [
+	def protected addActions(Panel mainPanel) {
+		val buttonPanel = new Panel(mainPanel)
+		new Button(buttonPanel) => [
 			caption = "Logout"
 			onClick[
 				this.modelObject.writeLog(this.modelObject.userLoged)
@@ -32,7 +32,7 @@ class MainApplicationWindows extends SimpleWindow<MainApplicationAppModel> {
 		]
 	}
 
-	override protected createFormPanel(Panel mainPanel) {
+	def protected createFormPanel(Panel mainPanel) {
 		this.title = "Auditers"
 		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
 		
@@ -95,4 +95,10 @@ class MainApplicationWindows extends SimpleWindow<MainApplicationAppModel> {
 			])
 		]
 	}
+	
+	override createContents(Panel mainPanel) {
+		createFormPanel(mainPanel)
+		addActions(mainPanel)
+	}
+	
 }

@@ -20,17 +20,19 @@ import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
+import org.uqbar.arena.layout.HorizontalLayout
 
 class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 
 	new(WindowOwner parent, NewRevisionAppModel model) {
 		super(parent, model)
-		this.taskDescription = "Complete la informacion necesaria para la nueva revision"
 	}
 
 	override protected addActions(Panel actionsPanel) {
 
-		new Button(actionsPanel) => [
+		val buttonsPanel = new Panel(actionsPanel) => [layout = new HorizontalLayout]
+
+		new Button(buttonsPanel) => [
 			caption = "Aceptar"
 			onClick[|
 				this.modelObject.validateRevision
@@ -41,7 +43,7 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 			]
 		]
 
-		new Button(actionsPanel) => [
+		new Button(buttonsPanel) => [
 			caption = "Atras"
 			onClick[|
 				this.close
@@ -149,7 +151,11 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 						this.modelObject.userLoged).open
 				]
 			]
+	}
 
+	override createContents(Panel mainPanel) {
+		createFormPanel(mainPanel)
+		addActions(mainPanel)
 	}
 
 }

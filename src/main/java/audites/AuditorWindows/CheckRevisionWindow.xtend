@@ -20,11 +20,11 @@ class CheckRevisionWindow extends SimpleWindow<CheckRevisionAppModel> {
 
 	new(WindowOwner parent, Revision revision, User user) {
 		super(parent, new CheckRevisionAppModel(revision, user))
-		this.taskDescription = "Estado de revision"
 	}
 
 	override protected addActions(Panel actionsPanel) {
-		new Button(actionsPanel) => [
+		val buttonPanel = new Panel(actionsPanel)
+		new Button(buttonPanel) => [
 			caption = "Cerrar"
 			onClick[|
 				this.close
@@ -96,11 +96,16 @@ class CheckRevisionWindow extends SimpleWindow<CheckRevisionAppModel> {
 		]
 
 		new Button(ppanel) => [
-			caption = "Ver adjuntos"
+			caption = "Ver evidencias"
 			enabled <=> "hasEvidence"
 			onClick[|
 				new AttachtmentWindow(this, this.modelObject.selectedRequirement).open
 			]
 		]
+	}
+
+	override createContents(Panel mainPanel) {
+		createFormPanel(mainPanel)
+		addActions(mainPanel)
 	}
 }

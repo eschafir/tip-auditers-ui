@@ -3,6 +3,7 @@ package audites.Login
 import audites.MainApplicationWindows
 import audites.appModel.LoginAppModel
 import audites.appModel.MainApplicationAppModel
+import org.uqbar.arena.graphics.Image
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.Label
@@ -13,7 +14,6 @@ import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-import org.uqbar.arena.graphics.Image
 
 class LoginWindows extends SimpleWindow<LoginAppModel> {
 
@@ -21,11 +21,14 @@ class LoginWindows extends SimpleWindow<LoginAppModel> {
 		super(parent, model)
 	}
 
-	override protected addActions(Panel arg0) {
-		arg0.layout = new HorizontalLayout
-		new Button(arg0) => [
+	override protected addActions(Panel panel) {
+		val buttonPanel = new Panel(panel) => [
+			layout = new HorizontalLayout
+		]
+
+		new Button(buttonPanel) => [
 			caption = "Login"
-			width = 65
+			// width = 65
 			enabled <=> "passwordIngresed"
 			onClick [|
 				val model = new MainApplicationAppModel => [
@@ -38,9 +41,9 @@ class LoginWindows extends SimpleWindow<LoginAppModel> {
 			]
 		]
 
-		new Button(arg0) => [
+		new Button(buttonPanel) => [
 			caption = "Cancelar"
-			width = 65
+			// width = 65
 			onClick [|
 				this.close
 			]
@@ -77,12 +80,17 @@ class LoginWindows extends SimpleWindow<LoginAppModel> {
 			width = 200
 			value.bindToProperty("passwordSubmited")
 		]
-		
+
 		val author = new Panel(owner)
 		new Label(author) => [
 			text = "Created by: Esteban R. Schafir"
 			fontSize = 5
 		]
+	}
+
+	override createContents(Panel mainPanel) {
+		createFormPanel(mainPanel)
+		addActions(mainPanel)
 	}
 
 }

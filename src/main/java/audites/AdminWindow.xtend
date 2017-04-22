@@ -15,7 +15,8 @@ class AdminWindow extends SimpleWindow<AdminPanelAppModel> {
 	}
 
 	override protected addActions(Panel actionsPanel) {
-		new Button(actionsPanel) => [
+		val buttonPanel = new Panel(actionsPanel)
+		new Button(buttonPanel) => [
 			caption = "Atras"
 			onClick[|
 				this.close
@@ -32,14 +33,17 @@ class AdminWindow extends SimpleWindow<AdminPanelAppModel> {
 				
 			]
 		]
-		
+
 		new Button(mainPanel) => [
 			caption = "Eliminar usuario"
 			onClick [| 
 				
 			]
 		]
-
 	}
 
+	override createContents(Panel mainPanel) {
+		createFormPanel(mainPanel)
+		addActions(mainPanel)
+	}
 }

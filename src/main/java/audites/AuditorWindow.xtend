@@ -10,27 +10,33 @@ import audites.appModel.NewRevisionAppModel
 import audites.domain.Revision
 import audites.domain.User
 import org.uqbar.arena.bindings.PropertyAdapter
+import org.uqbar.arena.graphics.Image
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
+import org.uqbar.arena.widgets.GroupPanel
 import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.List
 import org.uqbar.arena.widgets.Panel
-import org.uqbar.arena.windows.SimpleWindow
+import org.uqbar.arena.windows.Window
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-import org.uqbar.arena.widgets.GroupPanel
-import org.uqbar.arena.graphics.Image
 
-class AuditorWindow extends SimpleWindow<AuditorAppModel> {
+class AuditorWindow extends Window<AuditorAppModel> {
 
 	new(WindowOwner parent, User user) {
 		super(parent, new AuditorAppModel(user))
-		this.taskDescription = "Panel de Auditores"
+	}
+	
+		override createContents(Panel mainPanel) {
+		createFormPanel(mainPanel)
+		addActions(mainPanel)
 	}
 
-	override protected addActions(Panel actionsPanel) {
-		new Button(actionsPanel) => [
+	def protected addActions(Panel actionsPanel) {
+		val buttonPanel = new Panel(actionsPanel)
+		
+		new Button(buttonPanel) => [
 			caption = "Atras"
 			onClick[|
 				this.close
@@ -39,7 +45,7 @@ class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 		]
 	}
 
-	override protected createFormPanel(Panel mainPanel) {
+	def protected createFormPanel(Panel mainPanel) {
 		this.title = "Auditers"
 		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
 
@@ -131,5 +137,4 @@ class AuditorWindow extends SimpleWindow<AuditorAppModel> {
 			text = "%"
 		]
 	}
-
 }
