@@ -1,5 +1,6 @@
 package audites
 
+import audites.DefaultWindow.DefaultWindow
 import audites.Login.LoginWindows
 import audites.appModel.AdminPanelAppModel
 import audites.appModel.AuditedAppModel
@@ -11,18 +12,16 @@ import org.uqbar.arena.graphics.Image
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.Panel
-import org.uqbar.arena.windows.Window
 import org.uqbar.arena.windows.WindowOwner
 
-class MainApplicationWindows extends Window<MainApplicationAppModel> {
+class MainApplicationWindows extends DefaultWindow<MainApplicationAppModel> {
 
 	new(WindowOwner parent, MainApplicationAppModel model) {
 		super(parent, model)
 	}
 
-	def protected addActions(Panel mainPanel) {
-		val buttonPanel = new Panel(mainPanel)
-		new Button(buttonPanel) => [
+	override createButtonPanels(Panel mainPanel) {
+		new Button(mainPanel) => [
 			caption = "Logout"
 			onClick[
 				this.modelObject.writeLog(this.modelObject.userLoged)
@@ -32,10 +31,8 @@ class MainApplicationWindows extends Window<MainApplicationAppModel> {
 		]
 	}
 
-	def protected createFormPanel(Panel mainPanel) {
-		this.title = "Auditers"
-		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
-		
+	override createWindowToFormPanel(Panel mainPanel) {
+
 		putCompanyLogo(mainPanel)
 
 		val panel = new Panel(mainPanel)
@@ -85,20 +82,14 @@ class MainApplicationWindows extends Window<MainApplicationAppModel> {
 			botonera.get(r.name).apply
 		}
 	}
-	
+
 	protected def putCompanyLogo(Panel mainPanel) {
 		val imagePanel = new Panel(mainPanel)
-		
+
 		new Label(imagePanel) => [
 			bindImageToProperty("pathImagen", [ imagePath |
 				new Image(imagePath)
 			])
 		]
 	}
-	
-	override createContents(Panel mainPanel) {
-		createFormPanel(mainPanel)
-		addActions(mainPanel)
-	}
-	
 }

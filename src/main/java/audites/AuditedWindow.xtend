@@ -2,6 +2,7 @@ package audites
 
 import audites.AuditedWindows.AttendRevisionWindow
 import audites.AuditorWindows.CheckRevisionWindow
+import audites.DefaultWindow.DefaultWindow
 import audites.Transformers.AverageStatusTransformer
 import audites.appModel.AuditedAppModel
 import audites.appModel.MainApplicationAppModel
@@ -9,34 +10,27 @@ import audites.domain.Revision
 import audites.domain.User
 import javax.swing.JOptionPane
 import org.uqbar.arena.bindings.PropertyAdapter
+import org.uqbar.arena.graphics.Image
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
+import org.uqbar.arena.widgets.GroupPanel
 import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.List
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.Selector
-import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-import org.uqbar.arena.widgets.GroupPanel
-import org.uqbar.arena.graphics.Image
 
-class AuditedWindow extends SimpleWindow<AuditedAppModel> {
+class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 
 	new(WindowOwner parent, AuditedAppModel model) {
 		super(parent, model)
 		this.taskDescription = "Panel de Auditado"
 	}
 
-	override createContents(Panel mainPanel) {
-		createFormPanel(mainPanel)
-		addActions(mainPanel)
-	}
-
-	override protected addActions(Panel actionsPanel) {
-		val buttonPanel = new Panel(actionsPanel)
-		new Button(buttonPanel) => [
+	override createButtonPanels(Panel actionsPanel) {
+		new Button(actionsPanel) => [
 			caption = "Atras"
 			onClick[|
 				this.close
@@ -45,10 +39,7 @@ class AuditedWindow extends SimpleWindow<AuditedAppModel> {
 		]
 	}
 
-	override protected createFormPanel(Panel mainPanel) {
-		this.title = "Audites"
-		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
-
+	override createWindowToFormPanel(Panel mainPanel) {
 		val imagePanel = new Panel(mainPanel)
 
 		new Label(imagePanel) => [

@@ -1,38 +1,31 @@
 package audites.AuditorWindows
 
-import org.uqbar.arena.windows.SimpleWindow
-import audites.domain.Requirement
-import org.uqbar.arena.windows.WindowOwner
-import org.uqbar.arena.widgets.Panel
+import audites.DefaultWindow.DefaultWindow
 import audites.appModel.NewRequirementAppModel
+import audites.domain.Requirement
 import audites.domain.Revision
 import audites.domain.User
-import org.uqbar.arena.widgets.TextBox
-import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 import org.uqbar.arena.widgets.Button
+import org.uqbar.arena.widgets.Panel
+import org.uqbar.arena.widgets.TextBox
+import org.uqbar.arena.windows.WindowOwner
 
-class EditRequirementWindow extends SimpleWindow<NewRequirementAppModel> {
+import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
+
+class EditRequirementWindow extends DefaultWindow<NewRequirementAppModel> {
 
 	new(WindowOwner parent, Revision model, Requirement requirement, User user) {
 		super(parent, new NewRequirementAppModel(model, requirement, user))
 	}
 
-	override createContents(Panel mainPanel) {
-		createFormPanel(mainPanel)
-		addActions(mainPanel)
-	}
-
-	override protected addActions(Panel actionsPanel) {
-		val buttonsPanel = new Panel(actionsPanel)
-		new Button(buttonsPanel) => [
+	override createButtonPanels(Panel actionsPanel) {
+		new Button(actionsPanel) => [
 			caption = "Aceptar"
 			onClick[|this.close]
 		]
 	}
 
-	override protected createFormPanel(Panel mainPanel) {
-		this.title = "Audites"
-		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
+	override createWindowToFormPanel(Panel mainPanel) {
 
 		new TextBox(mainPanel) => [
 			value <=> "reqName"
@@ -47,5 +40,4 @@ class EditRequirementWindow extends SimpleWindow<NewRequirementAppModel> {
 		]
 
 	}
-
 }

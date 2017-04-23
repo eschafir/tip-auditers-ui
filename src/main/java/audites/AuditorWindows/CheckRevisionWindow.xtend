@@ -1,5 +1,6 @@
 package audites.AuditorWindows
 
+import audites.DefaultWindow.DefaultWindow
 import audites.Transformers.RequirementStatusTransformer
 import audites.appModel.CheckRevisionAppModel
 import audites.domain.Revision
@@ -11,20 +12,18 @@ import org.uqbar.arena.widgets.GroupPanel
 import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.List
 import org.uqbar.arena.widgets.Panel
-import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 
-class CheckRevisionWindow extends SimpleWindow<CheckRevisionAppModel> {
+class CheckRevisionWindow extends DefaultWindow<CheckRevisionAppModel> {
 
 	new(WindowOwner parent, Revision revision, User user) {
 		super(parent, new CheckRevisionAppModel(revision, user))
 	}
 
-	override protected addActions(Panel actionsPanel) {
-		val buttonPanel = new Panel(actionsPanel)
-		new Button(buttonPanel) => [
+	override createButtonPanels(Panel actionsPanel) {
+		new Button(actionsPanel) => [
 			caption = "Cerrar"
 			onClick[|
 				this.close
@@ -32,9 +31,7 @@ class CheckRevisionWindow extends SimpleWindow<CheckRevisionAppModel> {
 		]
 	}
 
-	override protected createFormPanel(Panel mainPanel) {
-		this.title = "Auditers"
-		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
+	override createWindowToFormPanel(Panel mainPanel) {
 
 		val revisionGeneral = new GroupPanel(mainPanel)
 		revisionGeneral.title = this.modelObject.revision.name
@@ -102,10 +99,5 @@ class CheckRevisionWindow extends SimpleWindow<CheckRevisionAppModel> {
 				new AttachtmentWindow(this, this.modelObject.selectedRequirement).open
 			]
 		]
-	}
-
-	override createContents(Panel mainPanel) {
-		createFormPanel(mainPanel)
-		addActions(mainPanel)
 	}
 }

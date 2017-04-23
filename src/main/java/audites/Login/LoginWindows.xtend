@@ -1,34 +1,30 @@
 package audites.Login
 
+import audites.DefaultWindow.DefaultWindow
 import audites.MainApplicationWindows
 import audites.appModel.LoginAppModel
 import audites.appModel.MainApplicationAppModel
 import org.uqbar.arena.graphics.Image
-import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.PasswordField
 import org.uqbar.arena.widgets.TextBox
-import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 
-class LoginWindows extends SimpleWindow<LoginAppModel> {
+class LoginWindows extends DefaultWindow<LoginAppModel> {
 
 	new(WindowOwner parent, LoginAppModel model) {
 		super(parent, model)
 	}
 
-	override protected addActions(Panel panel) {
-		val buttonPanel = new Panel(panel) => [
-			layout = new HorizontalLayout
-		]
+	override createButtonPanels(Panel panel) {
 
-		new Button(buttonPanel) => [
+		new Button(panel) => [
 			caption = "Login"
-			// width = 65
+			width = 65
 			enabled <=> "passwordIngresed"
 			onClick [|
 				val model = new MainApplicationAppModel => [
@@ -41,18 +37,16 @@ class LoginWindows extends SimpleWindow<LoginAppModel> {
 			]
 		]
 
-		new Button(buttonPanel) => [
+		new Button(panel) => [
 			caption = "Cancelar"
-			// width = 65
+			width = 65
 			onClick [|
 				this.close
 			]
 		]
 	}
 
-	override protected createFormPanel(Panel mainPanel) {
-		this.title = "AuditERS"
-		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
+	override createWindowToFormPanel(Panel mainPanel) {
 
 		new Label(mainPanel) => [
 			bindImageToProperty("pathImagen", [ imagePath |
@@ -87,10 +81,4 @@ class LoginWindows extends SimpleWindow<LoginAppModel> {
 			fontSize = 5
 		]
 	}
-
-	override createContents(Panel mainPanel) {
-		createFormPanel(mainPanel)
-		addActions(mainPanel)
-	}
-
 }

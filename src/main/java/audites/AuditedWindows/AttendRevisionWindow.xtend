@@ -1,6 +1,7 @@
 package audites.AuditedWindows
 
 import audites.AuditedWindow
+import audites.DefaultWindow.DefaultWindow
 import audites.Transformers.RequirementStatusTransformer
 import audites.appModel.AttendRevisionAppModel
 import audites.appModel.AuditedAppModel
@@ -17,19 +18,18 @@ import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.List
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.TextBox
-import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 
-class AttendRevisionWindow extends SimpleWindow<AttendRevisionAppModel> {
+class AttendRevisionWindow extends DefaultWindow<AttendRevisionAppModel> {
 
 	new(WindowOwner parent, Revision revision, User user) {
 		super(parent, new AttendRevisionAppModel(revision, user))
 		this.taskDescription = "Atender revision"
 	}
 
-	override protected addActions(Panel actionsPanel) {
+	override createButtonPanels(Panel actionsPanel) {
 		new Button(actionsPanel) => [
 			caption = "Aceptar"
 			onClick[|
@@ -52,9 +52,7 @@ class AttendRevisionWindow extends SimpleWindow<AttendRevisionAppModel> {
 		]
 	}
 
-	override protected createFormPanel(Panel mainPanel) {
-		this.title = "Auditers"
-		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
+	override createWindowToFormPanel(Panel mainPanel) {
 
 		new Label(mainPanel) => [
 			text = this.modelObject.revision.name

@@ -1,6 +1,7 @@
 package audites.AuditorWindows
 
 import audites.AuditorWindow
+import audites.DefaultWindow.DefaultWindow
 import audites.appModel.NewRevisionAppModel
 import audites.domain.Department
 import audites.domain.Requirement
@@ -16,23 +17,19 @@ import org.uqbar.arena.widgets.List
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.Selector
 import org.uqbar.arena.widgets.TextBox
-import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-import org.uqbar.arena.layout.HorizontalLayout
 
-class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
+class NewRevisionWindow extends DefaultWindow<NewRevisionAppModel> {
 
 	new(WindowOwner parent, NewRevisionAppModel model) {
 		super(parent, model)
 	}
 
-	override protected addActions(Panel actionsPanel) {
+	override createButtonPanels(Panel actionsPanel) {
 
-		val buttonsPanel = new Panel(actionsPanel) => [layout = new HorizontalLayout]
-
-		new Button(buttonsPanel) => [
+		new Button(actionsPanel) => [
 			caption = "Aceptar"
 			onClick[|
 				this.modelObject.validateRevision
@@ -43,7 +40,7 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 			]
 		]
 
-		new Button(buttonsPanel) => [
+		new Button(actionsPanel) => [
 			caption = "Atras"
 			onClick[|
 				this.close
@@ -52,9 +49,7 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 		]
 	}
 
-	override protected createFormPanel(Panel mainPanel) {
-		this.title = "Audites"
-		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
+	override createWindowToFormPanel(Panel mainPanel) {
 		val principalPanel = new Panel(mainPanel)
 		principalPanel.layout = new ColumnLayout(2)
 
@@ -152,10 +147,4 @@ class NewRevisionWindow extends SimpleWindow<NewRevisionAppModel> {
 				]
 			]
 	}
-
-	override createContents(Panel mainPanel) {
-		createFormPanel(mainPanel)
-		addActions(mainPanel)
-	}
-
 }

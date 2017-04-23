@@ -1,22 +1,21 @@
 package audites
 
+import audites.DefaultWindow.DefaultWindow
 import audites.appModel.AdminPanelAppModel
-import org.uqbar.arena.widgets.Panel
-import org.uqbar.arena.windows.SimpleWindow
-import org.uqbar.arena.windows.WindowOwner
-import org.uqbar.arena.widgets.Button
 import audites.appModel.MainApplicationAppModel
+import org.uqbar.arena.widgets.Button
+import org.uqbar.arena.widgets.Panel
+import org.uqbar.arena.windows.WindowOwner
 
-class AdminWindow extends SimpleWindow<AdminPanelAppModel> {
+class AdminWindow extends DefaultWindow<AdminPanelAppModel> {
 
 	new(WindowOwner parent, AdminPanelAppModel model) {
 		super(parent, model)
 		this.title = this.modelObject.userLoged.name
 	}
 
-	override protected addActions(Panel actionsPanel) {
-		val buttonPanel = new Panel(actionsPanel)
-		new Button(buttonPanel) => [
+	override createButtonPanels(Panel actionsPanel) {
+		new Button(actionsPanel) => [
 			caption = "Atras"
 			onClick[|
 				this.close
@@ -25,7 +24,7 @@ class AdminWindow extends SimpleWindow<AdminPanelAppModel> {
 		]
 	}
 
-	override protected createFormPanel(Panel mainPanel) {
+	override createWindowToFormPanel(Panel mainPanel) {
 
 		new Button(mainPanel) => [
 			caption = "Agregar usuario"
@@ -40,10 +39,5 @@ class AdminWindow extends SimpleWindow<AdminPanelAppModel> {
 				
 			]
 		]
-	}
-
-	override createContents(Panel mainPanel) {
-		createFormPanel(mainPanel)
-		addActions(mainPanel)
 	}
 }

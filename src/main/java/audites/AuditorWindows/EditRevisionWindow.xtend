@@ -19,14 +19,8 @@ class EditRevisionWindow extends NewRevisionWindow {
 		super(parent, new NewRevisionAppModel(revision))
 	}
 
-	override createContents(Panel mainPanel) {
-		createFormPanel(mainPanel)
-		addActions(mainPanel)
-	}
-
-	override protected addActions(Panel actionsPanel) {
-		val buttonsPanel = new Panel(actionsPanel)
-		new Button(buttonsPanel) => [
+	override createButtonPanels(Panel actionsPanel) {
+		new Button(actionsPanel) => [
 			caption = "Cerrar"
 			onClick[|
 				this.modelObject.validateRequirements
@@ -35,14 +29,10 @@ class EditRevisionWindow extends NewRevisionWindow {
 		]
 	}
 
-	override protected createFormPanel(Panel mainPanel) {
-		this.title = "Audites"
-		this.iconImage = "C:/Users/Esteban/git/tip-auditers-dom/logo.png"
-
+	override createWindowToFormPanel(Panel mainPanel) {
 		revisionName(mainPanel)
 		revisionDescription(mainPanel)
 		revisionRequirements(mainPanel)
-
 	}
 
 	protected def revisionRequirements(Panel mainPanel) {
