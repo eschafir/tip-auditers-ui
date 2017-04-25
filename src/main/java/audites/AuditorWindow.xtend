@@ -4,12 +4,12 @@ import audites.AuditorWindows.CheckRevisionWindow
 import audites.AuditorWindows.EditRevisionWindow
 import audites.AuditorWindows.NewRevisionWindow
 import audites.DefaultWindow.DefaultWindow
-import audites.Transformers.AverageStatusTransformer
 import audites.appModel.AuditorAppModel
 import audites.appModel.MainApplicationAppModel
 import audites.appModel.NewRevisionAppModel
 import audites.domain.Revision
 import audites.domain.User
+import java.awt.Color
 import org.uqbar.arena.graphics.Image
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
@@ -31,7 +31,6 @@ class AuditorWindow extends DefaultWindow<AuditorAppModel> {
 	}
 
 	override createButtonPanels(Panel actionsPanel) {
-
 		new Button(actionsPanel) => [
 			caption = "Atras"
 			onClick[|
@@ -52,17 +51,14 @@ class AuditorWindow extends DefaultWindow<AuditorAppModel> {
 		]
 
 		searchBar(mainPanel)
-
-		val principal = new Panel(mainPanel)
-		principal.layout = new HorizontalLayout
-
-		revisionsList(principal)
-		revisionsDetail(principal)
-
+		revisionsList(mainPanel)
 	}
 
 	def searchBar(Panel panel) {
-		val searchPanel = new Panel(panel) => [layout = new HorizontalLayout]
+		val searchPanel = new GroupPanel(panel) => [
+			title = ""
+			layout = new HorizontalLayout
+		]
 
 		new Label(searchPanel) => [
 			text = "Buscar: "
@@ -75,19 +71,64 @@ class AuditorWindow extends DefaultWindow<AuditorAppModel> {
 	}
 
 	def revisionsList(Panel mainPanel) {
-		val principal = new GroupPanel(mainPanel) => [title = ""]
-		new Label(principal) => [
+		
+		val principal = new Panel(mainPanel)
+		principal.layout = new HorizontalLayout
+
+		val tablePanel = new GroupPanel(principal) => [title = ""]
+		new Label(tablePanel) => [
 			text = "Revisiones generadas"
 			fontSize = 13
 		]
 
-		val table = new Table<Revision>(principal, typeof(Revision)) => [
+		val table = new Table<Revision>(tablePanel, typeof(Revision)) => [
 			items <=> "results"
 			value <=> "revisionSelected"
+			numberVisibleRows = 10
 		]
 
-		this.describeResultsGrid(table)
+		resultsTableGrid(table)
+		createRevisionButtons(tablePanel)
+	}
 
+	def resultsTableGrid(Table<Revision> table) {
+		new Column<Revision>(table) => [
+			title = "Nombre"
+			fixedSize = 250
+			bindContentsToProperty("name")
+		]
+
+		new Column<Revision>(table) => [
+			title = "Departamento"
+			fixedSize = 180
+			bindContentsToProperty("responsable.name")
+		]
+
+		new Column<Revision>(table) => [
+			title = "Creada"
+			bindContentsToProperty("initDate")
+		/**
+		 * Poner un transformer de fecha del estilo "DD-MM-AAAA"
+		 */
+		]
+
+		new Column<Revision>(table) => [
+			title = "Finaliza"
+			bindContentsToProperty("endDate")
+		/**
+		 * Poner un transformer de fecha del estilo "DD-MM-AAAA"
+		 * y un transforme de color para indicar si venció o no.
+		 */
+		]
+
+		new Column<Revision>(table) => [
+			title = "Progreso (%)"
+			bindContentsToProperty("average")
+			bindBackground("isCompleted").transformer = [Boolean completed|if(completed) Color.GREEN else Color.ORANGE]
+		]
+	}
+
+	def createRevisionButtons(GroupPanel principal) {
 		val options = new Panel(principal).layout = new HorizontalLayout
 
 		new Button(options) => [
@@ -113,46 +154,6 @@ class AuditorWindow extends DefaultWindow<AuditorAppModel> {
 			onClick[|
 				new EditRevisionWindow(this, this.modelObject.revisionSelected).open
 			]
-		]
-	}
-
-	def describeResultsGrid(Table<Revision> table) {
-		new Column<Revision>(table) => [
-			title = "Nombre"
-			fixedSize = 200
-			bindContentsToProperty("name")
-		]
-	}
-
-	def revisionsDetail(Panel mainPanel) {
-		val principal = new GroupPanel(mainPanel) => [title = ""]
-
-		new Label(principal) => [
-			text = "Detalles"
-			fontSize = 13
-		]
-		val panel = new Panel(principal).layout = new HorizontalLayout
-		new Label(panel).text = "Departamento: "
-		new Label(panel) => [
-			value <=> "revisionSelected.responsable.name"
-			width = 200
-		]
-		infoProgress(principal)
-	}
-
-	def infoProgress(Panel mainPanel) {
-		val panel = new Panel(mainPanel).layout = new HorizontalLayout
-		new Label(panel) => [
-			text = "Progreso: "
-			(background <=> "revisionSelected.average").transformer = new AverageStatusTransformer
-		]
-		new Label(panel) => [
-			(background <=> "revisionSelected.average").transformer = new AverageStatusTransformer
-			value <=> "revisionSelected.average"
-		]
-		new Label(panel) => [
-			(background <=> "revisionSelected.average").transformer = new AverageStatusTransformer
-			text = "%"
 		]
 	}
 }

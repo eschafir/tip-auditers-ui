@@ -25,7 +25,8 @@ class AuditesBootstrap implements Bootstrap {
 	Department riesgos
 	Department auditoria
 	Department rrhh
-	Revision revision
+	Revision revisionSegInf
+	Revision revisionAI
 
 	def void initUsers() {
 
@@ -54,7 +55,8 @@ class AuditesBootstrap implements Bootstrap {
 			password = "123"
 			email = "esteban.schafir@gmail.com"
 			roles.add(new Auditor)
-			addRevision(revision)
+			addRevision(revisionSegInf)
+			addRevision(revisionAI)
 		]
 
 		rmachado = new User => [
@@ -98,7 +100,7 @@ class AuditesBootstrap implements Bootstrap {
 			name = "Seguridad Informatica"
 			email = "seginf@gmail.com"
 			maxAuthority = rmachado
-			addRevision(revision)
+			addRevision(revisionSegInf)
 		]
 
 		legales = new Department() => [
@@ -115,6 +117,7 @@ class AuditesBootstrap implements Bootstrap {
 			name = "Auditoria Interna"
 			email = "ai@gmail.com"
 			maxAuthority = mdiez
+			addRevision(revisionAI)
 		]
 
 		rrhh = new Department() => [
@@ -131,7 +134,7 @@ class AuditesBootstrap implements Bootstrap {
 	}
 
 	def initRevision() {
-		revision = new Revision() => [
+		revisionSegInf = new Revision() => [
 			name = "Revision 1: Usuarios y Perfiles"
 			description = "Primera revision asignada a Seguridad Informatica"
 			author = dperez
@@ -140,7 +143,18 @@ class AuditesBootstrap implements Bootstrap {
 			addRequirement(new Requirement("Requerimiento 1", "Descripcion del requerimiento 1"))
 			addRequirement(new Requirement("Requerimiento 2", "Descripcion del requerimiento 2"))
 		]
-		this.createRevision(revision)
+		
+		revisionAI = new Revision() => [
+			name = "Revision 2: Documentacion realizada"
+			description = "Primera revision asignada a Auditoria interna"
+			author = dperez
+			attendant = mdiez
+			responsable = auditoria
+			addRequirement(new Requirement("Requerimiento 1", "Descripcion del requerimiento 1"))
+			addRequirement(new Requirement("Requerimiento 2", "Descripcion del requerimiento 2"))
+		]
+		this.createRevision(revisionSegInf)
+		this.createRevision(revisionAI)
 	}
 
 	def createUser(User user) {
