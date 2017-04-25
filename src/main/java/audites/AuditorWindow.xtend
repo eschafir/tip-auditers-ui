@@ -10,14 +10,15 @@ import audites.appModel.MainApplicationAppModel
 import audites.appModel.NewRevisionAppModel
 import audites.domain.Revision
 import audites.domain.User
-import org.uqbar.arena.bindings.PropertyAdapter
 import org.uqbar.arena.graphics.Image
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.GroupPanel
 import org.uqbar.arena.widgets.Label
-import org.uqbar.arena.widgets.List
 import org.uqbar.arena.widgets.Panel
+import org.uqbar.arena.widgets.TextBox
+import org.uqbar.arena.widgets.tables.Column
+import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
@@ -26,6 +27,7 @@ class AuditorWindow extends DefaultWindow<AuditorAppModel> {
 
 	new(WindowOwner parent, User user) {
 		super(parent, new AuditorAppModel(user))
+		modelObject.search
 	}
 
 	override createButtonPanels(Panel actionsPanel) {
@@ -49,6 +51,8 @@ class AuditorWindow extends DefaultWindow<AuditorAppModel> {
 			])
 		]
 
+		searchBar(mainPanel)
+
 		val principal = new Panel(mainPanel)
 		principal.layout = new HorizontalLayout
 
@@ -57,18 +61,32 @@ class AuditorWindow extends DefaultWindow<AuditorAppModel> {
 
 	}
 
+	def searchBar(Panel panel) {
+		val searchPanel = new Panel(panel) => [layout = new HorizontalLayout]
+
+		new Label(searchPanel) => [
+			text = "Buscar: "
+		]
+
+		new TextBox(searchPanel) => [
+			value <=> "revisionSearch"
+			width = 200
+		]
+	}
+
 	def revisionsList(Panel mainPanel) {
 		val principal = new GroupPanel(mainPanel) => [title = ""]
 		new Label(principal) => [
 			text = "Revisiones generadas"
 			fontSize = 13
 		]
-		new List<Revision>(principal) => [
+
+		val table = new Table<Revision>(principal, typeof(Revision)) => [
+			items <=> "results"
 			value <=> "revisionSelected"
-			(items.bindToProperty("userLoged.revisions")).adapter = new PropertyAdapter(Revision, "name")
-			height = 150
-			width = 250
 		]
+
+		this.describeResultsGrid(table)
 
 		val options = new Panel(principal).layout = new HorizontalLayout
 
@@ -95,6 +113,14 @@ class AuditorWindow extends DefaultWindow<AuditorAppModel> {
 			onClick[|
 				new EditRevisionWindow(this, this.modelObject.revisionSelected).open
 			]
+		]
+	}
+
+	def describeResultsGrid(Table<Revision> table) {
+		new Column<Revision>(table) => [
+			title = "Nombre"
+			fixedSize = 200
+			bindContentsToProperty("name")
 		]
 	}
 
