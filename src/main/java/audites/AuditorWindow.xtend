@@ -3,7 +3,7 @@ package audites
 import audites.AuditorWindows.CheckRevisionWindow
 import audites.AuditorWindows.EditRevisionWindow
 import audites.AuditorWindows.NewRevisionWindow
-import audites.DefaultWindow.DefaultWindow
+import audites.TemplatesWindows.DefaultWindow
 import audites.appModel.AuditorAppModel
 import audites.appModel.MainApplicationAppModel
 import audites.appModel.NewRevisionAppModel

@@ -1,7 +1,7 @@
 package audites
 
-import audites.DefaultWindow.DefaultWindow
 import audites.Login.LoginWindows
+import audites.TemplatesWindows.DefaultWindow
 import audites.appModel.AdminPanelAppModel
 import audites.appModel.AuditedAppModel
 import audites.appModel.LoginAppModel

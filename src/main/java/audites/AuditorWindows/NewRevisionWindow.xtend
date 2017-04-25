@@ -1,7 +1,7 @@
 package audites.AuditorWindows
 
 import audites.AuditorWindow
-import audites.DefaultWindow.DefaultWindow
+import audites.TemplatesWindows.DefaultWindow
 import audites.appModel.NewRevisionAppModel
 import audites.domain.Department
 import audites.domain.Requirement

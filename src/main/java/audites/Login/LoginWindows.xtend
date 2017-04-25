@@ -1,7 +1,7 @@
 package audites.Login
 
-import audites.DefaultWindow.DefaultWindow
 import audites.MainApplicationWindows
+import audites.TemplatesWindows.DefaultWindow
 import audites.appModel.LoginAppModel
 import audites.appModel.MainApplicationAppModel
 import org.uqbar.arena.graphics.Image

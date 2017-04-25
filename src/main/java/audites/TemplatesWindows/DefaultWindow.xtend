@@ -1,4 +1,4 @@
-package audites.DefaultWindow
+package audites.TemplatesWindows
 
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.SimpleWindow

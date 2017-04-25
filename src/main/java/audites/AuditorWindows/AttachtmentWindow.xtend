@@ -1,6 +1,6 @@
 package audites.AuditorWindows
 
-import audites.DefaultWindow.DefaultWindow
+import audites.TemplatesWindows.DefaultWindow
 import audites.appModel.CheckRevisionAppModel
 import audites.domain.Evidence
 import audites.domain.Requirement

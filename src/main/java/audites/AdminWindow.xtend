@@ -1,6 +1,6 @@
 package audites
 
-import audites.DefaultWindow.DefaultWindow
+import audites.TemplatesWindows.DefaultWindow
 import audites.appModel.AdminPanelAppModel
 import audites.appModel.MainApplicationAppModel
 import org.uqbar.arena.widgets.Button

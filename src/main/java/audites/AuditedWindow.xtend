@@ -2,8 +2,7 @@ package audites
 
 import audites.AuditedWindows.AttendRevisionWindow
 import audites.AuditorWindows.CheckRevisionWindow
-import audites.DefaultWindow.DefaultWindow
-import audites.Transformers.AverageStatusTransformer
+import audites.TemplatesWindows.DefaultWindow
 import audites.appModel.AuditedAppModel
 import audites.appModel.MainApplicationAppModel
 import audites.domain.Revision
@@ -104,24 +103,7 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 
 			validateMaximumAuthority(revisionDetailPanel)
 			infoAssigned(revisionDetailPanel)
-			infoProgress(revisionDetailPanel)
 		}
-	}
-
-	def infoProgress(Panel mainPanel) {
-		val panel = new Panel(mainPanel).layout = new HorizontalLayout
-		new Label(panel) => [
-			text = "Progreso: "
-			(background <=> "revisionSelected.average").transformer = new AverageStatusTransformer
-		]
-		new Label(panel) => [
-			(background <=> "revisionSelected.average").transformer = new AverageStatusTransformer
-			value <=> "revisionSelected.average"
-		]
-		new Label(panel) => [
-			(background <=> "revisionSelected.average").transformer = new AverageStatusTransformer
-			text = "%"
-		]
 	}
 
 	def infoAssigned(Panel mainPanel) {
