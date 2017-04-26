@@ -47,6 +47,7 @@ class AuditesBootstrap implements Bootstrap {
 			email = "esteban.schafir@gmail.com"
 			roles.add(new Audited)
 			addDepartment(seginf)
+			addDepartment(riesgos)
 		]
 
 		dperez = new User => [
@@ -65,6 +66,7 @@ class AuditesBootstrap implements Bootstrap {
 			password = "123"
 			email = "esteban.schafir@gmail.com"
 			addDepartment(seginf)
+			addDepartment(auditoria)
 			roles.add(new Audited)
 		]
 		
@@ -111,6 +113,7 @@ class AuditesBootstrap implements Bootstrap {
 		riesgos = new Department() => [
 			name = "Riesgos"
 			email = "riesgos@gmail.com"
+			maxAuthority = eschafir
 		]
 
 		auditoria = new Department() => [
