@@ -150,19 +150,20 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 		 */
 		]
 
-		if (modelObject.revisionSelected != null) {
-			if (modelObject.userLoged.maximumResponsable(this.modelObject.revisionSelected.responsable)) {
-				new Column<Revision>(table) => [
-					title = "Asignado a"
-					bindContentsToProperty("attendant.name")
-				]
-			}
-		}
+		new Column<Revision>(table) => [
+			title = "Asignado a"
+			bindContentsToProperty("attendant.name")
+		]
 
 		new Column<Revision>(table) => [
 			title = "Progreso (%)"
 			bindContentsToProperty("average")
 			bindBackground("isCompleted").transformer = [Boolean completed|if(completed) Color.GREEN else Color.ORANGE]
+		]
+
+		new Column<Revision>(table) => [
+			title = "Archivada"
+			bindContentsToProperty("archived").transformer = [Boolean archived|if(archived) "Si" else "No"]
 		]
 	}
 

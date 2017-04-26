@@ -121,6 +121,11 @@ class AuditorWindow extends DefaultWindow<AuditorAppModel> {
 			bindContentsToProperty("average")
 			bindBackground("isCompleted").transformer = [Boolean completed|if(completed) Color.GREEN else Color.ORANGE]
 		]
+
+		new Column<Revision>(table) => [
+			title = "Archivada"
+			bindContentsToProperty("archived").transformer = [Boolean archived|if(archived) "Si" else "No"]
+		]
 	}
 
 	def createRevisionButtons(GroupPanel principal) {
@@ -166,8 +171,9 @@ class AuditorWindow extends DefaultWindow<AuditorAppModel> {
 			width = 140
 			height = 40
 //			enabled <=> "revisionSelected.isCompleted"
+			enabled <=> "revisionCompletedAndAsigned"
 			onClick[|
-				this.modelObject.archive
+				modelObject.archive
 			]
 		]
 	}
