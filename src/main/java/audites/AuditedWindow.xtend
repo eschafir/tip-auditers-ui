@@ -8,6 +8,7 @@ import audites.appModel.MainApplicationAppModel
 import audites.domain.Revision
 import audites.domain.User
 import java.awt.Color
+import java.util.Date
 import javax.swing.JOptionPane
 import org.uqbar.arena.bindings.PropertyAdapter
 import org.uqbar.arena.graphics.Image
@@ -51,12 +52,8 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 		]
 
 		searchBar(mainPanel)
-
-		val principal = new Panel(mainPanel)
-		principal.layout = new HorizontalLayout
-
-		revisionList(principal)
-		createRevisionButtons(principal)
+		revisionList(mainPanel)
+		createRevisionButtons(mainPanel)
 	}
 
 	def searchBar(Panel panel) {
@@ -75,7 +72,9 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 		]
 	}
 
-	protected def revisionList(Panel principal) {
+	protected def revisionList(Panel mainPanel) {
+		val principal = new Panel(mainPanel)
+		principal.layout = new HorizontalLayout
 
 		val tablePanel = new GroupPanel(principal) => [title = ""]
 		new Label(tablePanel) => [
@@ -93,27 +92,35 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 		revisionAsign(tablePanel)
 	}
 
-	protected def createRevisionButtons(Panel panel) {
-		val buttonPanel = new GroupPanel(panel) => [title = ""]
+	protected def createRevisionButtons(Panel mainPanel) {
+
+		val panel = new Panel(mainPanel)
+
+		val buttonPanel = new GroupPanel(panel) => [
+			title = ""
+			layout = new HorizontalLayout
+		]
 		new Button(buttonPanel) => [
 			caption = "Atender"
+			fontSize = 10
+			width = 140
+			height = 40
 			enabled <=> "revisionIsSelectedAudited"
 			onClick[|
 				this.close
 				new AttendRevisionWindow(this, this.modelObject.revisionSelected, this.modelObject.userLoged).open
 			]
-			width = 150
-			height = 50
 		]
 
 		new Button(buttonPanel) => [
 			caption = "Ver"
+			fontSize = 10
+			width = 140
+			height = 40
 			enabled <=> "revisionIsDerived"
 			onClick[|
 				new CheckRevisionWindow(this, this.modelObject.revisionSelected, this.modelObject.userLoged).open
 			]
-			width = 150
-			height = 50
 		]
 
 		buttonApprove(buttonPanel)
@@ -122,30 +129,24 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 	def resultsTableGrid(Table<Revision> table) {
 		new Column<Revision>(table) => [
 			title = "Nombre"
-			fixedSize = 250
 			bindContentsToProperty("name")
 		]
 
 		new Column<Revision>(table) => [
 			title = "Departamento"
-			fixedSize = 180
 			bindContentsToProperty("responsable.name")
 		]
 
 		new Column<Revision>(table) => [
 			title = "Creada"
-			bindContentsToProperty("initDate")
-		/**
-		 * Poner un transformer de fecha del estilo "DD-MM-AAAA"
-		 */
+			bindContentsToProperty("initDate").transformer = [Date date|modelObject.formatDate(date)]
 		]
 
 		new Column<Revision>(table) => [
 			title = "Finaliza"
-			bindContentsToProperty("endDate")
+			bindContentsToProperty("endDate").transformer = [Date date|modelObject.formatDate(date)]
 		/**
-		 * Poner un transformer de fecha del estilo "DD-MM-AAAA"
-		 * y un transforme de color para indicar si venció o no.
+		 * Poner un transforme de color para indicar si venció o no.
 		 */
 		]
 
@@ -163,10 +164,10 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 		]
 	}
 
-	def revisionAsign(GroupPanel panel) {
+	def revisionAsign(Panel panel) {
 		if (!this.modelObject.userLoged.revisions.empty &&
 			this.modelObject.userLoged.maximumResponsable(this.modelObject.revisionSelected.responsable)) {
-			val revisionDetailPanel = new GroupPanel(panel) => [title = ""]
+			val revisionDetailPanel = new Panel(panel)
 			validateMaximumAuthority(revisionDetailPanel)
 		}
 	}
@@ -175,11 +176,11 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 		val panel = new Panel(mainPanel).layout = new HorizontalLayout
 		new Label(panel).text = "Asignar a:"
 		new Selector<User>(panel) => [
+			width = 250
 			allowNull(false)
 			enabled <=> "isAsignedToAuthor"
 			value <=> "selectedUser"
 			(items.bindToProperty("obtainUsers")).adapter = new PropertyAdapter(Revision, "name")
-			width = 400
 		]
 	}
 
@@ -188,12 +189,13 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 			this.modelObject.userLoged.maximumResponsable(this.modelObject.revisionSelected.responsable)) {
 			new Button(mainPanel) => [
 				caption = "Aprobar"
+				fontSize = 10
+				width = 140
+				height = 40
 				enabled <=> "revisionFinished"
 				onClick[|
 					openConfirmationDialog
 				]
-				width = 150
-				height = 50
 			]
 		}
 	}

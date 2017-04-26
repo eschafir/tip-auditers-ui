@@ -10,6 +10,7 @@ import audites.appModel.NewRevisionAppModel
 import audites.domain.Revision
 import audites.domain.User
 import java.awt.Color
+import java.util.Date
 import org.uqbar.arena.graphics.Image
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
@@ -71,7 +72,7 @@ class AuditorWindow extends DefaultWindow<AuditorAppModel> {
 	}
 
 	def revisionsList(Panel mainPanel) {
-		
+
 		val principal = new Panel(mainPanel)
 		principal.layout = new HorizontalLayout
 
@@ -94,30 +95,24 @@ class AuditorWindow extends DefaultWindow<AuditorAppModel> {
 	def resultsTableGrid(Table<Revision> table) {
 		new Column<Revision>(table) => [
 			title = "Nombre"
-			fixedSize = 250
 			bindContentsToProperty("name")
 		]
 
 		new Column<Revision>(table) => [
 			title = "Departamento"
-			fixedSize = 180
 			bindContentsToProperty("responsable.name")
 		]
 
 		new Column<Revision>(table) => [
 			title = "Creada"
-			bindContentsToProperty("initDate")
-		/**
-		 * Poner un transformer de fecha del estilo "DD-MM-AAAA"
-		 */
+			bindContentsToProperty("initDate").transformer = [Date date|modelObject.formatDate(date)]
 		]
 
 		new Column<Revision>(table) => [
 			title = "Finaliza"
-			bindContentsToProperty("endDate")
+			bindContentsToProperty("endDate").transformer = [Date date|modelObject.formatDate(date)]
 		/**
-		 * Poner un transformer de fecha del estilo "DD-MM-AAAA"
-		 * y un transforme de color para indicar si venció o no.
+		 * Poner un transforme de color para indicar si venció o no.
 		 */
 		]
 
@@ -133,6 +128,9 @@ class AuditorWindow extends DefaultWindow<AuditorAppModel> {
 
 		new Button(options) => [
 			caption = "Nueva"
+			fontSize = 10
+			width = 140
+			height = 40
 			onClick[|
 				this.close
 				new NewRevisionWindow(this, new NewRevisionAppModel(this.modelObject.userLoged)).open
@@ -142,6 +140,9 @@ class AuditorWindow extends DefaultWindow<AuditorAppModel> {
 
 		new Button(options) => [
 			caption = "Ver"
+			fontSize = 10
+			width = 140
+			height = 40
 			enabled <=> "revisionIsSelectedAuditor"
 			onClick[|
 				new CheckRevisionWindow(this, this.modelObject.revisionSelected, this.modelObject.userLoged).open
@@ -150,6 +151,9 @@ class AuditorWindow extends DefaultWindow<AuditorAppModel> {
 
 		new Button(options) => [
 			caption = "Editar"
+			fontSize = 10
+			width = 140
+			height = 40
 			enabled <=> "revisionIsNotFinished"
 			onClick[|
 				new EditRevisionWindow(this, this.modelObject.revisionSelected).open
