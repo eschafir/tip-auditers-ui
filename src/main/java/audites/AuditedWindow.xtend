@@ -150,11 +150,13 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 		 */
 		]
 
-		if (modelObject.userLoged.maximumResponsable(this.modelObject.revisionSelected.responsable)) {
-			new Column<Revision>(table) => [
-				title = "Asignado a"
-				bindContentsToProperty("attendant.name")
-			]
+		if (modelObject.revisionSelected != null) {
+			if (modelObject.userLoged.maximumResponsable(this.modelObject.revisionSelected.responsable)) {
+				new Column<Revision>(table) => [
+					title = "Asignado a"
+					bindContentsToProperty("attendant.name")
+				]
+			}
 		}
 
 		new Column<Revision>(table) => [
@@ -165,10 +167,12 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 	}
 
 	def revisionAsign(Panel panel) {
-		if (!this.modelObject.userLoged.revisions.empty &&
-			this.modelObject.userLoged.maximumResponsable(this.modelObject.revisionSelected.responsable)) {
-			val revisionDetailPanel = new Panel(panel)
-			validateMaximumAuthority(revisionDetailPanel)
+		if (modelObject.revisionSelected != null) {
+			if (!this.modelObject.userLoged.revisions.empty &&
+				this.modelObject.userLoged.maximumResponsable(this.modelObject.revisionSelected.responsable)) {
+				val revisionDetailPanel = new Panel(panel)
+				validateMaximumAuthority(revisionDetailPanel)
+			}
 		}
 	}
 
@@ -185,18 +189,20 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 	}
 
 	def buttonApprove(Panel mainPanel) {
-		if (!this.modelObject.userLoged.revisions.empty &&
-			this.modelObject.userLoged.maximumResponsable(this.modelObject.revisionSelected.responsable)) {
-			new Button(mainPanel) => [
-				caption = "Aprobar"
-				fontSize = 10
-				width = 140
-				height = 40
-				enabled <=> "revisionFinished"
-				onClick[|
-					openConfirmationDialog
+		if (modelObject.revisionSelected != null) {
+			if (!this.modelObject.userLoged.revisions.empty &&
+				this.modelObject.userLoged.maximumResponsable(this.modelObject.revisionSelected.responsable)) {
+				new Button(mainPanel) => [
+					caption = "Aprobar"
+					fontSize = 10
+					width = 140
+					height = 40
+					enabled <=> "revisionFinished"
+					onClick[|
+						openConfirmationDialog
+					]
 				]
-			]
+			}
 		}
 	}
 

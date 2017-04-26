@@ -159,5 +159,16 @@ class AuditorWindow extends DefaultWindow<AuditorAppModel> {
 				new EditRevisionWindow(this, this.modelObject.revisionSelected).open
 			]
 		]
+
+		new Button(options) => [
+			caption = "Archivar"
+			fontSize = 10
+			width = 140
+			height = 40
+//			enabled <=> "revisionSelected.isCompleted"
+			onClick[|
+				this.modelObject.archive
+			]
+		]
 	}
 }
