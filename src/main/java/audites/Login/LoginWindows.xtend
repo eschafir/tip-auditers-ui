@@ -16,8 +16,8 @@ import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 
 class LoginWindows extends DefaultWindow<LoginAppModel> {
 
-	new(WindowOwner parent, LoginAppModel model) {
-		super(parent, model)
+	new(WindowOwner parent) {
+		super(parent, new LoginAppModel)
 	}
 
 	override createButtonPanels(Panel panel) {

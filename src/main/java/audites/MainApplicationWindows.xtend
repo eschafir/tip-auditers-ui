@@ -4,7 +4,6 @@ import audites.Login.LoginWindows
 import audites.TemplatesWindows.DefaultWindow
 import audites.appModel.AdminPanelAppModel
 import audites.appModel.AuditedAppModel
-import audites.appModel.LoginAppModel
 import audites.appModel.MainApplicationAppModel
 import audites.domain.Role
 import java.util.HashMap
@@ -26,7 +25,7 @@ class MainApplicationWindows extends DefaultWindow<MainApplicationAppModel> {
 			onClick[
 				this.modelObject.writeLog(this.modelObject.userLoged)
 				this.close
-				new LoginWindows(this, new LoginAppModel).open
+				new LoginWindows(this).open
 			]
 		]
 	}

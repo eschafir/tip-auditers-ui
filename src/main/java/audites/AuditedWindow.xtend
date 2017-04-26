@@ -7,6 +7,7 @@ import audites.appModel.AuditedAppModel
 import audites.appModel.MainApplicationAppModel
 import audites.domain.Revision
 import audites.domain.User
+import java.awt.Color
 import javax.swing.JOptionPane
 import org.uqbar.arena.bindings.PropertyAdapter
 import org.uqbar.arena.graphics.Image
@@ -14,9 +15,11 @@ import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.GroupPanel
 import org.uqbar.arena.widgets.Label
-import org.uqbar.arena.widgets.List
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.Selector
+import org.uqbar.arena.widgets.TextBox
+import org.uqbar.arena.widgets.tables.Column
+import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
@@ -25,7 +28,7 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 
 	new(WindowOwner parent, AuditedAppModel model) {
 		super(parent, model)
-		this.taskDescription = "Panel de Auditado"
+		modelObject.search
 	}
 
 	override createButtonPanels(Panel actionsPanel) {
@@ -47,30 +50,51 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 			])
 		]
 
+		searchBar(mainPanel)
+
 		val principal = new Panel(mainPanel)
 		principal.layout = new HorizontalLayout
 
 		revisionList(principal)
-		revisionDetail(principal)
+		createRevisionButtons(principal)
+	}
+
+	def searchBar(Panel panel) {
+		val searchPanel = new GroupPanel(panel) => [
+			title = ""
+			layout = new HorizontalLayout
+		]
+
+		new Label(searchPanel) => [
+			text = "Buscar: "
+		]
+
+		new TextBox(searchPanel) => [
+			value <=> "revisionSearch"
+			width = 200
+		]
 	}
 
 	protected def revisionList(Panel principal) {
-		val ppanel = new GroupPanel(principal) => [title = ""]
 
-		new Label(ppanel) => [
-			text = "Revisiones Asignadas"
+		val tablePanel = new GroupPanel(principal) => [title = ""]
+		new Label(tablePanel) => [
+			text = "Revisiones asignadas"
 			fontSize = 13
 		]
 
-		new List<Revision>(ppanel) => [
+		val table = new Table<Revision>(tablePanel, typeof(Revision)) => [
+			items <=> "results"
 			value <=> "revisionSelected"
-			(items.bindToProperty("userLoged.revisions")).adapter = new PropertyAdapter(Revision, "name")
-			height = 250
-			width = 250
+			numberVisibleRows = 10
 		]
 
-		val buttonPanel = new Panel(ppanel)
-		buttonPanel.layout = new HorizontalLayout
+		resultsTableGrid(table)
+		revisionAsign(tablePanel)
+	}
+
+	protected def createRevisionButtons(Panel panel) {
+		val buttonPanel = new GroupPanel(panel) => [title = ""]
 		new Button(buttonPanel) => [
 			caption = "Atender"
 			enabled <=> "revisionIsSelectedAudited"
@@ -78,6 +102,8 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 				this.close
 				new AttendRevisionWindow(this, this.modelObject.revisionSelected, this.modelObject.userLoged).open
 			]
+			width = 150
+			height = 50
 		]
 
 		new Button(buttonPanel) => [
@@ -86,32 +112,63 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 			onClick[|
 				new CheckRevisionWindow(this, this.modelObject.revisionSelected, this.modelObject.userLoged).open
 			]
+			width = 150
+			height = 50
 		]
 
 		buttonApprove(buttonPanel)
 	}
 
-	def revisionDetail(Panel panel) {
-		if (!this.modelObject.userLoged.revisions.empty &&
-			this.modelObject.userLoged.maximumResponsable(this.modelObject.revisionSelected.responsable)) {
+	def resultsTableGrid(Table<Revision> table) {
+		new Column<Revision>(table) => [
+			title = "Nombre"
+			fixedSize = 250
+			bindContentsToProperty("name")
+		]
 
-			val revisionDetailPanel = new GroupPanel(panel) => [title = ""]
-			new Label(revisionDetailPanel) => [
-				text = "Detalles"
-				fontSize = 13
+		new Column<Revision>(table) => [
+			title = "Departamento"
+			fixedSize = 180
+			bindContentsToProperty("responsable.name")
+		]
+
+		new Column<Revision>(table) => [
+			title = "Creada"
+			bindContentsToProperty("initDate")
+		/**
+		 * Poner un transformer de fecha del estilo "DD-MM-AAAA"
+		 */
+		]
+
+		new Column<Revision>(table) => [
+			title = "Finaliza"
+			bindContentsToProperty("endDate")
+		/**
+		 * Poner un transformer de fecha del estilo "DD-MM-AAAA"
+		 * y un transforme de color para indicar si venció o no.
+		 */
+		]
+
+		if (modelObject.userLoged.maximumResponsable(this.modelObject.revisionSelected.responsable)) {
+			new Column<Revision>(table) => [
+				title = "Asignado a"
+				bindContentsToProperty("attendant.name")
 			]
-
-			validateMaximumAuthority(revisionDetailPanel)
-			infoAssigned(revisionDetailPanel)
 		}
+
+		new Column<Revision>(table) => [
+			title = "Progreso (%)"
+			bindContentsToProperty("average")
+			bindBackground("isCompleted").transformer = [Boolean completed|if(completed) Color.GREEN else Color.ORANGE]
+		]
 	}
 
-	def infoAssigned(Panel mainPanel) {
-		val panel = new Panel(mainPanel).layout = new HorizontalLayout
-		new Label(panel).text = "Asignado a: "
-		new Label(panel) => [
-			value <=> "revisionSelected.attendant.name"
-		]
+	def revisionAsign(GroupPanel panel) {
+		if (!this.modelObject.userLoged.revisions.empty &&
+			this.modelObject.userLoged.maximumResponsable(this.modelObject.revisionSelected.responsable)) {
+			val revisionDetailPanel = new GroupPanel(panel) => [title = ""]
+			validateMaximumAuthority(revisionDetailPanel)
+		}
 	}
 
 	def validateMaximumAuthority(Panel mainPanel) {
@@ -122,7 +179,7 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 			enabled <=> "isAsignedToAuthor"
 			value <=> "selectedUser"
 			(items.bindToProperty("obtainUsers")).adapter = new PropertyAdapter(Revision, "name")
-			width = 200
+			width = 400
 		]
 	}
 
@@ -135,6 +192,8 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 				onClick[|
 					openConfirmationDialog
 				]
+				width = 150
+				height = 50
 			]
 		}
 	}

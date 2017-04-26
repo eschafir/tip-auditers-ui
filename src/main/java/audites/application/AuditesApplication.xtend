@@ -1,8 +1,8 @@
 package audites.application
 
 import audites.Login.LoginWindows
-import audites.appModel.LoginAppModel
 import org.uqbar.arena.Application
+import org.uqbar.arena.windows.Window
 
 class AuditesApplication extends Application {
 
@@ -10,14 +10,12 @@ class AuditesApplication extends Application {
 		super(bootstrap)
 	}
 
-	override protected createMainWindow() {
-		val model = new LoginAppModel()
-		new LoginWindows(this, model)
+	override protected Window<?> createMainWindow() {
+		new LoginWindows(this)
 
 	}
 
 	def static main(String[] args) {
-
 		new AuditesApplication(new AuditesBootstrap).start()
 	}
 
