@@ -12,8 +12,6 @@ import org.uqbar.arena.widgets.PasswordField
 import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.windows.WindowOwner
 
-import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-
 class LoginWindows extends DefaultWindow<LoginAppModel> {
 
 	new(WindowOwner parent) {
@@ -25,7 +23,7 @@ class LoginWindows extends DefaultWindow<LoginAppModel> {
 		new Button(panel) => [
 			caption = "Login"
 			width = 65
-			enabled <=> "passwordIngresed"
+//			enabled <=> "passwordIngresed"
 			onClick [|
 				val model = new MainApplicationAppModel => [
 					userLoged = this.modelObject.obtainUser
