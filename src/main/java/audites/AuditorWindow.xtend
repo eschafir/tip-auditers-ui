@@ -170,7 +170,6 @@ class AuditorWindow extends DefaultWindow<AuditorAppModel> {
 			fontSize = 10
 			width = 140
 			height = 40
-//			enabled <=> "revisionSelected.isCompleted"
 			enabled <=> "revisionCompletedAndAsigned"
 			onClick[|
 				modelObject.archive

@@ -168,21 +168,16 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 	}
 
 	def revisionAsign(Panel panel) {
-		if (modelObject.revisionSelected != null) {
-			if (!this.modelObject.userLoged.revisions.empty &&
-				this.modelObject.userLoged.maximumResponsable(this.modelObject.revisionSelected.responsable)) {
-				val revisionDetailPanel = new Panel(panel)
-				validateMaximumAuthority(revisionDetailPanel)
-			}
-		}
-	}
 
-	def validateMaximumAuthority(Panel mainPanel) {
-		val panel = new Panel(mainPanel).layout = new HorizontalLayout
-		new Label(panel).text = "Asignar a:"
-		new Selector<User>(panel) => [
+		val selectorPanel = new Panel(panel).layout = new HorizontalLayout
+		new Label(selectorPanel) => [
+			text = "Asignar a:"
+			visible <=> "userLogedIsMaxResponsable"
+		]
+		new Selector<User>(selectorPanel) => [
 			width = 250
 			allowNull(false)
+			visible <=> "userLogedIsMaxResponsable"
 			enabled <=> "isAsignedToAuthor"
 			value <=> "selectedUser"
 			(items.bindToProperty("obtainUsers")).adapter = new PropertyAdapter(Revision, "name")
@@ -190,21 +185,18 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 	}
 
 	def buttonApprove(Panel mainPanel) {
-		if (modelObject.revisionSelected != null) {
-			if (!this.modelObject.userLoged.revisions.empty &&
-				this.modelObject.userLoged.maximumResponsable(this.modelObject.revisionSelected.responsable)) {
-				new Button(mainPanel) => [
-					caption = "Aprobar"
-					fontSize = 10
-					width = 140
-					height = 40
-					enabled <=> "revisionFinished"
-					onClick[|
-						openConfirmationDialog
-					]
-				]
-			}
-		}
+
+		new Button(mainPanel) => [
+			caption = "Aprobar"
+			fontSize = 10
+			width = 140
+			height = 40
+			visible <=> "userLogedIsMaxResponsable"
+			enabled <=> "revisionFinished"
+			onClick[|
+				openConfirmationDialog
+			]
+		]
 	}
 
 	def openConfirmationDialog() {
