@@ -24,6 +24,7 @@ import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
+import org.uqbar.arena.widgets.CheckBox
 
 class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 
@@ -57,10 +58,12 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 	}
 
 	def searchBar(Panel panel) {
-		val searchPanel = new GroupPanel(panel) => [
+		val groupPanel = new GroupPanel(panel) => [
 			title = ""
-			layout = new HorizontalLayout
 		]
+		
+		val searchPanel = new Panel(groupPanel) => [layout = new HorizontalLayout]
+		val checkBoxPanel = new Panel(groupPanel) => [layout = new HorizontalLayout]
 
 		new Label(searchPanel) => [
 			text = "Buscar: "
@@ -70,6 +73,16 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 			value <=> "revisionSearch"
 			width = 200
 		]
+		
+		new Label(checkBoxPanel) => [
+			text = "Mostrar archivadas "
+			fontSize = 8
+		]
+		
+		new CheckBox(checkBoxPanel) =>[
+			value <=> "archivedRevisions"
+		]
+		
 	}
 
 	protected def revisionList(Panel mainPanel) {
