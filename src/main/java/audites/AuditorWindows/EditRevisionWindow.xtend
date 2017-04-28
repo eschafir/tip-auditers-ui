@@ -8,7 +8,6 @@ import org.uqbar.arena.bindings.PropertyAdapter
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.GroupPanel
-import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.List
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.Selector
@@ -98,14 +97,6 @@ class EditRevisionWindow extends NewRevisionWindow {
 		new TextBox(revisionName) => [
 			value <=> "revisionName"
 			width = 500
-		]
-
-		new Label(revisionName).text = "Departamento"
-		new Selector(revisionName) => [
-			width = 185
-			allowNull(false)
-			value <=> "editRevisionDepartment"
-			(items.bindToProperty("departments")).adapter = new PropertyAdapter(Department, "name")
 		]
 	}
 
