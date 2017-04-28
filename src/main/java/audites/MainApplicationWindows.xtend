@@ -41,6 +41,8 @@ class MainApplicationWindows extends DefaultWindow<MainApplicationAppModel> {
 		botonera.put("Administrator", [|
 			new Button(panel) => [
 				caption = "Administracion"
+				width = 150
+				height = 30
 				onClick[|
 					this.close
 					new AdminWindow(this, new AdminPanelAppModel(this.modelObject.userLoged)).open
@@ -52,7 +54,8 @@ class MainApplicationWindows extends DefaultWindow<MainApplicationAppModel> {
 			[|
 				new Button(panel) => [
 					caption = "Auditor"
-					width = 200
+					width = 150
+					height = 30
 					onClick[|
 						this.close
 						new AuditorWindow(this, this.modelObject.userLoged).open
@@ -66,7 +69,8 @@ class MainApplicationWindows extends DefaultWindow<MainApplicationAppModel> {
 			[|
 				new Button(panel) => [
 					caption = "Revisiones"
-					width = 200
+					width = 150
+					height = 30
 					onClick[|
 						this.close
 						new AuditedWindow(this, new AuditedAppModel(this.modelObject.userLoged)).open

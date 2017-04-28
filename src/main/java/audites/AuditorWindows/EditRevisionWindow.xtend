@@ -1,13 +1,17 @@
 package audites.AuditorWindows
 
 import audites.appModel.NewRevisionAppModel
+import audites.domain.Department
 import audites.domain.Revision
+import org.uqbar.arena.bindings.DateTransformer
 import org.uqbar.arena.bindings.PropertyAdapter
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.GroupPanel
+import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.List
 import org.uqbar.arena.widgets.Panel
+import org.uqbar.arena.widgets.Selector
 import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.windows.WindowOwner
 
@@ -31,7 +35,9 @@ class EditRevisionWindow extends NewRevisionWindow {
 
 	override createWindowToFormPanel(Panel mainPanel) {
 		revisionName(mainPanel)
+		revisionDepartment(mainPanel)
 		revisionDescription(mainPanel)
+		revisionEndDate(mainPanel)
 		revisionRequirements(mainPanel)
 	}
 
@@ -92,6 +98,32 @@ class EditRevisionWindow extends NewRevisionWindow {
 		new TextBox(revisionName) => [
 			value <=> "revisionName"
 			width = 500
+		]
+
+		new Label(revisionName).text = "Departamento"
+		new Selector(revisionName) => [
+			width = 185
+			allowNull(false)
+			value <=> "editRevisionDepartment"
+			(items.bindToProperty("departments")).adapter = new PropertyAdapter(Department, "name")
+		]
+	}
+
+	protected def revisionDepartment(Panel mainPanel) {
+		val revisionDepartmentPanel = new GroupPanel(mainPanel) => [title = "Departamento"]
+		new Selector(revisionDepartmentPanel) => [
+			width = 185
+			allowNull(false)
+			value <=> "editRevisionDepartment"
+			(items.bindToProperty("departments")).adapter = new PropertyAdapter(Department, "name")
+		]
+
+	}
+
+	protected def revisionEndDate(Panel mainPanel) {
+		val revisionName = new GroupPanel(mainPanel) => [title = "Fecha de finalizacion"]
+		new TextBox(revisionName) => [
+			value.bindToProperty("revision.endDate").transformer = new DateTransformer
 		]
 	}
 
