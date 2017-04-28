@@ -80,7 +80,7 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 		]
 		
 		new CheckBox(checkBoxPanel) =>[
-			value <=> "archivedRevisions"
+			value <=> "withArchivedRevisions"
 		]
 		
 	}

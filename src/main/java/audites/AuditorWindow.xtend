@@ -14,6 +14,7 @@ import java.util.Date
 import org.uqbar.arena.graphics.Image
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
+import org.uqbar.arena.widgets.CheckBox
 import org.uqbar.arena.widgets.GroupPanel
 import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.Panel
@@ -56,10 +57,12 @@ class AuditorWindow extends DefaultWindow<AuditorAppModel> {
 	}
 
 	def searchBar(Panel panel) {
-		val searchPanel = new GroupPanel(panel) => [
+		val groupPanel = new GroupPanel(panel) => [
 			title = ""
-			layout = new HorizontalLayout
 		]
+
+		val searchPanel = new Panel(groupPanel) => [layout = new HorizontalLayout]
+		val checkBoxPanel = new Panel(groupPanel) => [layout = new HorizontalLayout]
 
 		new Label(searchPanel) => [
 			text = "Buscar: "
@@ -68,6 +71,15 @@ class AuditorWindow extends DefaultWindow<AuditorAppModel> {
 		new TextBox(searchPanel) => [
 			value <=> "revisionSearch"
 			width = 200
+		]
+
+		new Label(checkBoxPanel) => [
+			text = "Mostrar archivadas "
+			fontSize = 8
+		]
+
+		new CheckBox(checkBoxPanel) => [
+			value <=> "withArchivedRevisions"
 		]
 	}
 
