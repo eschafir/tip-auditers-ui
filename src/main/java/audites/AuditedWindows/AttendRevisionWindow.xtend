@@ -32,6 +32,7 @@ class AttendRevisionWindow extends DefaultWindow<AttendRevisionAppModel> {
 	override createButtonPanels(Panel actionsPanel) {
 		new Button(actionsPanel) => [
 			caption = "Aceptar"
+			setAsDefault
 			onClick[|
 				RepoRevisions.instance.update(this.modelObject.revision)
 				if (this.modelObject.revisionCompletedAndUserIsNotMaxAuthority) {

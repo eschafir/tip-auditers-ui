@@ -23,6 +23,7 @@ class NewRequirementWindow extends DefaultWindow<NewRequirementAppModel> {
 
 		new Button(actionsPanel) => [
 			caption = "Aceptar"
+			setAsDefault
 			onClick[|
 				this.modelObject.validateRequirement
 				this.modelObject.createRequirement

@@ -27,6 +27,7 @@ class AuditesBootstrap implements Bootstrap {
 	Department rrhh
 	Revision revisionSegInf
 	Revision revisionAI
+	Revision revisionArchivada
 
 	def void initUsers() {
 
@@ -69,7 +70,7 @@ class AuditesBootstrap implements Bootstrap {
 			addDepartment(auditoria)
 			roles.add(new Audited)
 		]
-		
+
 		mdiez = new User => [
 			name = "Marcelo Diez"
 			username = "mdiez"
@@ -108,6 +109,7 @@ class AuditesBootstrap implements Bootstrap {
 		legales = new Department() => [
 			name = "Legales"
 			email = "legales@gmail.com"
+			addRevision(revisionArchivada)
 		]
 
 		riesgos = new Department() => [
@@ -146,7 +148,7 @@ class AuditesBootstrap implements Bootstrap {
 			addRequirement(new Requirement("Requerimiento 1", "Descripcion del requerimiento 1"))
 			addRequirement(new Requirement("Requerimiento 2", "Descripcion del requerimiento 2"))
 		]
-		
+
 		revisionAI = new Revision() => [
 			name = "Revision 2: Documentacion realizada"
 			description = "Primera revision asignada a Auditoria interna"
@@ -156,8 +158,21 @@ class AuditesBootstrap implements Bootstrap {
 			addRequirement(new Requirement("Requerimiento 1", "Descripcion del requerimiento 1"))
 			addRequirement(new Requirement("Requerimiento 2", "Descripcion del requerimiento 2"))
 		]
+
+		revisionArchivada = new Revision() => [
+			name = "Revision 3: Revision archivada"
+			description = "Esta es una revision archivada"
+			author = dperez
+			attendant = dperez
+			responsable = legales
+			addRequirement(new Requirement("Requerimiento 1", "Descripcion del requerimiento 1"))
+			addRequirement(new Requirement("Requerimiento 2", "Descripcion del requerimiento 2"))
+			archived = true
+		]
+
 		this.createRevision(revisionSegInf)
 		this.createRevision(revisionAI)
+		this.createRevision(revisionArchivada)
 	}
 
 	def createUser(User user) {

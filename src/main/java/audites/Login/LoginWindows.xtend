@@ -22,6 +22,7 @@ class LoginWindows extends DefaultWindow<LoginAppModel> {
 
 		new Button(panel) => [
 			caption = "Login"
+			setAsDefault
 			width = 65
 //			enabled <=> "passwordIngresed"
 			onClick [|

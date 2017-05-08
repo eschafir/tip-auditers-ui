@@ -31,6 +31,7 @@ class NewRevisionWindow extends DefaultWindow<NewRevisionAppModel> {
 
 		new Button(actionsPanel) => [
 			caption = "Aceptar"
+			setAsDefault
 			onClick[|
 				this.modelObject.validateRevision
 				RepoRevisions.instance.update(this.modelObject.revision)

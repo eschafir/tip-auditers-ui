@@ -37,7 +37,7 @@ class CheckRevisionWindow extends DefaultWindow<CheckRevisionAppModel> {
 		new Label(revisionGeneral) => [
 			text = this.modelObject.revision.name
 			fontSize = 13
-		] 
+		]
 
 		new Label(revisionGeneral) => [
 			text = this.modelObject.revisionComment
@@ -59,7 +59,7 @@ class CheckRevisionWindow extends DefaultWindow<CheckRevisionAppModel> {
 		new Label(reqPanel) => [
 			text = "Requerimientos"
 			fontSize = 13
-		] 
+		]
 
 		new List(reqPanel) => [
 			value <=> "selectedRequirement"
@@ -71,11 +71,11 @@ class CheckRevisionWindow extends DefaultWindow<CheckRevisionAppModel> {
 
 	def createReqDescriptionPanel(Panel panel) {
 		val reqDescPanel = new GroupPanel(panel) => [title = ""]
-		
+
 		new Label(reqDescPanel) => [
 			text = "Descripcion"
 			fontSize = 13
-		] 
+		]
 
 		new Label(reqDescPanel) => [
 			value <=> "selectedRequirement.descripcion"
@@ -86,12 +86,12 @@ class CheckRevisionWindow extends DefaultWindow<CheckRevisionAppModel> {
 
 	def createStatePanel(Panel panel) {
 		val ppanel = new GroupPanel(panel) => [title = ""]
-		
+
 		new Label(ppanel) => [
 			text = "Detalles"
 			fontSize = 13
-		] 
-		
+		]
+
 		val state = new Panel(ppanel) => [
 			layout = new HorizontalLayout
 		]
@@ -102,8 +102,8 @@ class CheckRevisionWindow extends DefaultWindow<CheckRevisionAppModel> {
 			value <=> "selectedRequirement.requirementStatus"
 		]
 
-		val responsableDescription = new Panel(ppanel) => [layout = new HorizontalLayout]
-		new Label(responsableDescription).text = "Comentarios de " + this.modelObject.revision.responsable.name + ":"
+		val responsableDescription = new Panel(ppanel)
+		new Label(responsableDescription).text = "Comentarios de " + this.modelObject.revision.responsable.name + ":" + "\r\n"
 		new Label(responsableDescription) => [
 			value <=> "selectedRequirement.comments"
 			height = 257
