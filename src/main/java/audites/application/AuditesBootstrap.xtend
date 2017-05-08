@@ -66,9 +66,9 @@ class AuditesBootstrap implements Bootstrap {
 			username = "rmachado"
 			password = "123"
 			email = "esteban.schafir@gmail.com"
+			roles.add(new Audited)
 			addDepartment(seginf)
 			addDepartment(auditoria)
-			roles.add(new Audited)
 		]
 
 		mdiez = new User => [
@@ -76,8 +76,8 @@ class AuditesBootstrap implements Bootstrap {
 			username = "mdiez"
 			password = "123"
 			email = "esteban.schafir@gmail.com"
-			addDepartment(auditoria)
 			roles.add(new Audited)
+			addDepartment(auditoria)
 		]
 
 		dcullari = new User => [
