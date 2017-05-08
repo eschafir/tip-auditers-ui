@@ -184,6 +184,12 @@ class AuditesBootstrap implements Bootstrap {
 		} else {
 			val userBD = listUsers.head
 			user.id = userBD.id
+			user.name = userBD.name
+			user.email = userBD.email
+			user.username = userBD.username
+			user.roles = userBD.roles
+			user.departments = userBD.departments
+			user.revisions = userBD.revisions
 			repoUsers.update(user)
 		}
 	}
@@ -197,6 +203,9 @@ class AuditesBootstrap implements Bootstrap {
 		} else {
 			val depBD = listDepartments.head
 			department.id = depBD.id
+			department.name = depBD.name
+			department.email = depBD.email
+			department.revisions = depBD.revisions
 			repoDep.update(department)
 		}
 	}
@@ -210,6 +219,11 @@ class AuditesBootstrap implements Bootstrap {
 		} else {
 			val revBD = listRevisions.head
 			revision.id = revBD.id
+			revision.name = revBD.name
+			revision.description = revBD.description
+			revision.initDate = revBD.initDate
+			revision.endDate = revBD.endDate
+			revision.archived = revBD.archived
 			repoRev.update(revision)
 		}
 	}

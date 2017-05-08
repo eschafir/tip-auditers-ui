@@ -61,7 +61,7 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 		val groupPanel = new GroupPanel(panel) => [
 			title = ""
 		]
-		
+
 		val searchPanel = new Panel(groupPanel) => [layout = new HorizontalLayout]
 		val checkBoxPanel = new Panel(groupPanel) => [layout = new HorizontalLayout]
 
@@ -73,16 +73,16 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 			value <=> "revisionSearch"
 			width = 200
 		]
-		
+
 		new Label(checkBoxPanel) => [
 			text = "Mostrar archivadas "
 			fontSize = 8
 		]
-		
-		new CheckBox(checkBoxPanel) =>[
+
+		new CheckBox(checkBoxPanel) => [
 			value <=> "withArchivedRevisions"
 		]
-		
+
 	}
 
 	protected def revisionList(Panel mainPanel) {
@@ -193,7 +193,8 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 			visible <=> "userLogedIsMaxResponsable"
 			enabled <=> "isAsignedToAuthor"
 			value <=> "selectedUser"
-			(items.bindToProperty("obtainUsers")).adapter = new PropertyAdapter(Revision, "name")
+//			(items.bindToProperty("obtainUsers")).adapter = new PropertyAdapter(User, "name")
+			(items.bindToProperty("revisionSelected.responsable.obtainUsers")).adapter = new PropertyAdapter(User, "name")
 		]
 	}
 
