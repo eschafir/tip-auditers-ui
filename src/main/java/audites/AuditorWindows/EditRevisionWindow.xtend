@@ -114,7 +114,7 @@ class EditRevisionWindow extends NewRevisionWindow {
 	protected def revisionEndDate(Panel mainPanel) {
 		val revisionName = new GroupPanel(mainPanel) => [title = "Fecha de finalizacion"]
 		new TextBox(revisionName) => [
-			value.bindToProperty("revision.endDate").transformer = new DateTransformer
+			value.bindToProperty("revisionEndDate").transformer = new DateTransformer
 		]
 	}
 

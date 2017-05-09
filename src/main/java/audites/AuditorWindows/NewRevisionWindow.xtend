@@ -120,7 +120,6 @@ class NewRevisionWindow extends DefaultWindow<NewRevisionAppModel> {
 			caption = "Agregar..."
 			enabled <=> "departmentIngresed"
 			onClick[|
-//				modelObject.validateRevisionName
 				modelObject.createRevison
 				new NewRequirementWindow(this, this.modelObject.revision, this.modelObject.userLoged).open
 			]

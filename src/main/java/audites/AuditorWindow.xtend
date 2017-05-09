@@ -123,15 +123,13 @@ class AuditorWindow extends DefaultWindow<AuditorAppModel> {
 		new Column<Revision>(table) => [
 			title = "Finaliza"
 			bindContentsToProperty("endDate").transformer = [Date date|modelObject.formatDate(date)]
-		/**
-		 * Poner un transforme de color para indicar si venció o no.
-		 */
+			bindBackground("isExpired").transformer = [Boolean expired|if(!expired) Color.WHITE else Color.RED]
 		]
 
 		new Column<Revision>(table) => [
-			title = "Progreso (%)"
-			bindContentsToProperty("average")
-			bindBackground("isCompleted").transformer = [Boolean completed|if(completed) Color.GREEN else Color.ORANGE]
+			title = "Progreso"
+			bindContentsToProperty("average").transformer = [Float avg|modelObject.formatAverage(avg)]
+			bindBackground("isCompleted").transformer = [Boolean completed|if(completed) Color.GREEN else Color.WHITE]
 		]
 
 		new Column<Revision>(table) => [

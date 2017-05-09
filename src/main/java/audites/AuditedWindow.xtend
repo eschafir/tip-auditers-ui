@@ -14,6 +14,7 @@ import org.uqbar.arena.bindings.PropertyAdapter
 import org.uqbar.arena.graphics.Image
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
+import org.uqbar.arena.widgets.CheckBox
 import org.uqbar.arena.widgets.GroupPanel
 import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.Panel
@@ -24,7 +25,6 @@ import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-import org.uqbar.arena.widgets.CheckBox
 
 class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 
@@ -143,40 +143,45 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 		new Column<Revision>(table) => [
 			title = "Nombre"
 			bindContentsToProperty("name")
+			fixedSize = 200
 		]
 
 		new Column<Revision>(table) => [
 			title = "Departamento"
 			bindContentsToProperty("responsable.name")
+			fixedSize = 150
 		]
 
 		new Column<Revision>(table) => [
 			title = "Creada"
 			bindContentsToProperty("initDate").transformer = [Date date|modelObject.formatDate(date)]
+			fixedSize = 100
 		]
 
 		new Column<Revision>(table) => [
 			title = "Finaliza"
 			bindContentsToProperty("endDate").transformer = [Date date|modelObject.formatDate(date)]
-		/**
-		 * Poner un transforme de color para indicar si venció o no.
-		 */
+			bindBackground("isExpired").transformer = [Boolean expired|if(!expired) Color.WHITE else Color.RED]
+			fixedSize = 100
 		]
 
 		new Column<Revision>(table) => [
 			title = "Asignado a"
 			bindContentsToProperty("attendant.name")
+			fixedSize = 100
 		]
 
 		new Column<Revision>(table) => [
-			title = "Progreso (%)"
-			bindContentsToProperty("average")
-			bindBackground("isCompleted").transformer = [Boolean completed|if(completed) Color.GREEN else Color.ORANGE]
+			title = "Progreso"
+			bindContentsToProperty("average").transformer = [Float avg|modelObject.formatAverage(avg)]
+			bindBackground("isCompleted").transformer = [Boolean completed|if(completed) Color.GREEN else Color.WHITE]
+			fixedSize = 100
 		]
 
 		new Column<Revision>(table) => [
 			title = "Archivada"
 			bindContentsToProperty("archived").transformer = [Boolean archived|if(archived) "Si" else "No"]
+			fixedSize = 100
 		]
 	}
 
@@ -194,7 +199,6 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 			enabled <=> "isAsignedToAuthor"
 			value <=> "selectedUser"
 			(items.bindToProperty("obtainUsers")).adapter = new PropertyAdapter(User, "name")
-//			(items.bindToProperty("revisionSelected.responsable.obtainUsers")).adapter = new PropertyAdapter(User, "name")
 		]
 	}
 
