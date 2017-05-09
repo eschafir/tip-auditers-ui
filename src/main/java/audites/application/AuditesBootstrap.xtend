@@ -4,13 +4,10 @@ import audites.domain.Admin
 import audites.domain.Audited
 import audites.domain.Auditor
 import audites.domain.Department
-import audites.domain.Revision
 import audites.domain.User
 import audites.repos.RepoDepartments
 import audites.repos.RepoUsers
 import org.uqbar.arena.bootstrap.Bootstrap
-import audites.domain.Requirement
-import audites.repos.RepoRevisions
 
 class AuditesBootstrap implements Bootstrap {
 
@@ -25,9 +22,6 @@ class AuditesBootstrap implements Bootstrap {
 	Department riesgos
 	Department auditoria
 	Department rrhh
-	Revision revisionSegInf
-	Revision revisionAI
-	Revision revisionArchivada
 
 	def void initUsers() {
 
@@ -57,8 +51,6 @@ class AuditesBootstrap implements Bootstrap {
 			password = "123"
 			email = "esteban.schafir@gmail.com"
 			roles.add(new Auditor)
-			addRevision(revisionSegInf)
-			addRevision(revisionAI)
 		]
 
 		rmachado = new User => [
@@ -103,13 +95,11 @@ class AuditesBootstrap implements Bootstrap {
 			name = "Seguridad Informatica"
 			email = "seginf@gmail.com"
 			maxAuthority = rmachado
-			addRevision(revisionSegInf)
 		]
 
 		legales = new Department() => [
 			name = "Legales"
 			email = "legales@gmail.com"
-			addRevision(revisionArchivada)
 		]
 
 		riesgos = new Department() => [
@@ -122,7 +112,6 @@ class AuditesBootstrap implements Bootstrap {
 			name = "Auditoria Interna"
 			email = "ai@gmail.com"
 			maxAuthority = mdiez
-			addRevision(revisionAI)
 		]
 
 		rrhh = new Department() => [
@@ -135,44 +124,6 @@ class AuditesBootstrap implements Bootstrap {
 		this.createDepartment(riesgos)
 		this.createDepartment(auditoria)
 		this.createDepartment(rrhh)
-		initRevision
-	}
-
-	def initRevision() {
-		revisionSegInf = new Revision() => [
-			name = "Revision 1: Usuarios y Perfiles"
-			description = "Primera revision asignada a Seguridad Informatica"
-			author = dperez
-			attendant = rmachado
-			responsable = seginf
-			addRequirement(new Requirement("Requerimiento 1", "Descripcion del requerimiento 1"))
-			addRequirement(new Requirement("Requerimiento 2", "Descripcion del requerimiento 2"))
-		]
-
-		revisionAI = new Revision() => [
-			name = "Revision 2: Documentacion realizada"
-			description = "Primera revision asignada a Auditoria interna"
-			author = dperez
-			attendant = mdiez
-			responsable = auditoria
-			addRequirement(new Requirement("Requerimiento 1", "Descripcion del requerimiento 1"))
-			addRequirement(new Requirement("Requerimiento 2", "Descripcion del requerimiento 2"))
-		]
-
-		revisionArchivada = new Revision() => [
-			name = "Revision 3: Revision archivada"
-			description = "Esta es una revision archivada"
-			author = dperez
-			attendant = dperez
-			responsable = legales
-			addRequirement(new Requirement("Requerimiento 1", "Descripcion del requerimiento 1"))
-			addRequirement(new Requirement("Requerimiento 2", "Descripcion del requerimiento 2"))
-			archived = true
-		]
-
-		this.createRevision(revisionSegInf)
-		this.createRevision(revisionAI)
-		this.createRevision(revisionArchivada)
 	}
 
 	def createUser(User user) {
@@ -210,30 +161,11 @@ class AuditesBootstrap implements Bootstrap {
 		}
 	}
 
-	def createRevision(Revision revision) {
-		val repoRev = RepoRevisions.instance
-		val listRevisions = repoRev.searchByExample(revision)
-		if (listRevisions.isEmpty) {
-			repoRev.create(revision)
-			println("Revision " + revision.name + " creado")
-		} else {
-			val revBD = listRevisions.head
-			revision.id = revBD.id
-			revision.name = revBD.name
-			revision.description = revBD.description
-			revision.initDate = revBD.initDate
-			revision.endDate = revBD.endDate
-			revision.archived = revBD.archived
-			repoRev.update(revision)
-		}
-	}
-
 	override isPending() {
 		false
 	}
 
 	override run() {
-		initRevision
 		initDepartments
 		initUsers
 	}

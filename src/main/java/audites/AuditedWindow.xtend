@@ -193,8 +193,8 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 			visible <=> "userLogedIsMaxResponsable"
 			enabled <=> "isAsignedToAuthor"
 			value <=> "selectedUser"
-//			(items.bindToProperty("obtainUsers")).adapter = new PropertyAdapter(User, "name")
-			(items.bindToProperty("revisionSelected.responsable.obtainUsers")).adapter = new PropertyAdapter(User, "name")
+			(items.bindToProperty("obtainUsers")).adapter = new PropertyAdapter(User, "name")
+//			(items.bindToProperty("revisionSelected.responsable.obtainUsers")).adapter = new PropertyAdapter(User, "name")
 		]
 	}
 
