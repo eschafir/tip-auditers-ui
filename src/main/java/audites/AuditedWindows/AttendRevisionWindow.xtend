@@ -4,7 +4,6 @@ import audites.AuditedWindow
 import audites.TemplatesWindows.DefaultWindow
 import audites.Transformers.RequirementStatusTransformer
 import audites.appModel.AttendRevisionAppModel
-import audites.appModel.AuditedAppModel
 import audites.domain.Evidence
 import audites.domain.Revision
 import audites.domain.User
@@ -40,7 +39,7 @@ class AttendRevisionWindow extends DefaultWindow<AttendRevisionAppModel> {
 				}
 
 				this.close
-				new AuditedWindow(this, new AuditedAppModel(this.modelObject.userLoged)).open
+				new AuditedWindow(this, modelObject.userLoged).open
 			]
 		]
 
@@ -48,7 +47,7 @@ class AttendRevisionWindow extends DefaultWindow<AttendRevisionAppModel> {
 			caption = "Atras"
 			onClick[|
 				this.close
-				new AuditedWindow(this, new AuditedAppModel(this.modelObject.userLoged)).open
+				new AuditedWindow(this, modelObject.userLoged).open
 			]
 		]
 	}

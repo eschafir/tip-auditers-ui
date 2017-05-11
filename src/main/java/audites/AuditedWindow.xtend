@@ -28,8 +28,8 @@ import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 
 class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 
-	new(WindowOwner parent, AuditedAppModel model) {
-		super(parent, model)
+	new(WindowOwner parent, User user) {
+		super(parent, new AuditedAppModel(user))
 		modelObject.search
 	}
 

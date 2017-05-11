@@ -2,8 +2,6 @@ package audites
 
 import audites.Login.LoginWindows
 import audites.TemplatesWindows.DefaultWindow
-import audites.appModel.AdminPanelAppModel
-import audites.appModel.AuditedAppModel
 import audites.appModel.MainApplicationAppModel
 import audites.domain.Role
 import java.util.HashMap
@@ -23,7 +21,7 @@ class MainApplicationWindows extends DefaultWindow<MainApplicationAppModel> {
 		new Button(mainPanel) => [
 			caption = "Logout"
 			onClick[
-				this.modelObject.writeLog(this.modelObject.userLoged)
+				this.modelObject.writeLog(modelObject.userLoged)
 				this.close
 				new LoginWindows(this).open
 			]
@@ -45,7 +43,7 @@ class MainApplicationWindows extends DefaultWindow<MainApplicationAppModel> {
 				height = 30
 				onClick[|
 					this.close
-					new AdminWindow(this, new AdminPanelAppModel(this.modelObject.userLoged)).open
+					new AdminWindow(this, modelObject.userLoged).open
 				]
 			]
 		])
@@ -58,7 +56,7 @@ class MainApplicationWindows extends DefaultWindow<MainApplicationAppModel> {
 					height = 30
 					onClick[|
 						this.close
-						new AuditorWindow(this, this.modelObject.userLoged).open
+						new AuditorWindow(this, modelObject.userLoged).open
 					]
 				]
 
@@ -73,7 +71,7 @@ class MainApplicationWindows extends DefaultWindow<MainApplicationAppModel> {
 					height = 30
 					onClick[|
 						this.close
-						new AuditedWindow(this, new AuditedAppModel(this.modelObject.userLoged)).open
+						new AuditedWindow(this, modelObject.userLoged).open
 					]
 
 				]

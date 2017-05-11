@@ -97,7 +97,6 @@ class NewRevisionWindow extends DefaultWindow<NewRevisionAppModel> {
 		new TextBox(dates) => [
 			value.bindToProperty("revision.endDate").transformer = new DateTransformer
 		]
-
 	}
 
 	def createRequirementsPanel(Panel panel) {
