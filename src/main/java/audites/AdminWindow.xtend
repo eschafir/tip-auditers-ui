@@ -133,6 +133,8 @@ class AdminWindow extends DefaultWindow<AdminPanelAppModel> {
 			height = 40
 			visible <=> "hasUserSelected"
 			onClick[|
+				this.close
+				new NewOrEditUserWindow(this, modelObject.userLoged, modelObject.selectedUser).open
 			]
 		]
 

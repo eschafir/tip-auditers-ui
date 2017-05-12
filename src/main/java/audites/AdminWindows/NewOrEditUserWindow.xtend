@@ -4,6 +4,7 @@ import audites.AdminWindow
 import audites.TemplatesWindows.DefaultWindow
 import audites.appModel.NewOrEditUserAppModel
 import audites.domain.Department
+import audites.domain.Role
 import audites.domain.User
 import org.uqbar.arena.bindings.PropertyAdapter
 import org.uqbar.arena.graphics.Image
@@ -22,6 +23,10 @@ class NewOrEditUserWindow extends DefaultWindow<NewOrEditUserAppModel> {
 
 	new(WindowOwner parent, User user) {
 		super(parent, new NewOrEditUserAppModel(user))
+	}
+
+	new(WindowOwner parent, User user, User toEdit) {
+		super(parent, new NewOrEditUserAppModel(user, toEdit))
 	}
 
 	override createWindowToFormPanel(Panel panel) {
@@ -96,9 +101,35 @@ class NewOrEditUserWindow extends DefaultWindow<NewOrEditUserAppModel> {
 			]
 		]
 
+		new Label(panel).text = "Roles"
+
+		new List<Department>(panel) => [
+			value <=> "selectedRole"
+			(items.bindToProperty("user.roles")).adapter = new PropertyAdapter(Role, "name")
+			height = 50
+			width = 200
+		]
+
+		new Selector(panel) => [
+			width = 185
+			allowNull(false)
+			value <=> "selectorRole"
+			(items.bindToProperty("roles")).adapter = new PropertyAdapter(Role, "name")
+		]
+
 	}
 
 	override createButtonPanels(Panel panel) {
+
+		new Button(panel) => [
+			caption = "Aceptar"
+			onClick[|
+				modelObject.saveOrUpdate()
+				this.close
+				new AdminWindow(this, modelObject.userLoged).open
+			]
+		]
+
 		new Button(panel) => [
 			caption = "Atras"
 			onClick[|
