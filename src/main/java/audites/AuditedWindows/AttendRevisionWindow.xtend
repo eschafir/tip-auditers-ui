@@ -129,7 +129,6 @@ class AttendRevisionWindow extends DefaultWindow<AttendRevisionAppModel> {
 		]
 
 		new List(ppanel) => [
-			// value <=> "selectedRequirement"			
 			(items.bindToProperty("selectedRequirement.evidences")).adapter = new PropertyAdapter(Evidence, "path")
 			height = 30
 			width = 150
