@@ -86,7 +86,7 @@ class NewOrEditUserWindow extends DefaultWindow<NewOrEditUserAppModel> {
 
 		new Button(panel) => [
 			caption = "Agregar"
-//			enabled <=> "departmentIngresed"
+			enabled <=> "isDepartmentIngresed"
 			onClick[|
 				modelObject.createUser
 				modelObject.addDepartment
@@ -95,7 +95,7 @@ class NewOrEditUserWindow extends DefaultWindow<NewOrEditUserAppModel> {
 
 		new Button(panel) => [
 			caption = "Eliminar"
-//			enabled <=> "departmentIngresed"
+			enabled <=> "isDepartmentSelected"
 			onClick[|
 				modelObject.removeDepartment
 			]
@@ -117,6 +117,23 @@ class NewOrEditUserWindow extends DefaultWindow<NewOrEditUserAppModel> {
 			(items.bindToProperty("roles")).adapter = new PropertyAdapter(Role, "name")
 		]
 
+		new Button(panel) => [
+			caption = "Agregar"
+			enabled <=> "isRoleIngresed"
+			onClick[|
+				modelObject.createUser
+				modelObject.addRole
+			]
+		]
+
+		new Button(panel) => [
+			caption = "Eliminar"
+			enabled <=> "isRoleSelected"
+			onClick[|
+				modelObject.removeRole
+			]
+		]
+
 	}
 
 	override createButtonPanels(Panel panel) {
@@ -131,9 +148,10 @@ class NewOrEditUserWindow extends DefaultWindow<NewOrEditUserAppModel> {
 		]
 
 		new Button(panel) => [
-			caption = "Atras"
+			caption = "Cancelar"
 			onClick[|
 				this.close
+				modelObject.cancellCreation
 				new AdminWindow(this, modelObject.userLoged).open
 			]
 		]

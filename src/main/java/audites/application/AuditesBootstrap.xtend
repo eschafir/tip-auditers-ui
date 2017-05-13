@@ -4,10 +4,12 @@ import audites.domain.Admin
 import audites.domain.Audited
 import audites.domain.Auditor
 import audites.domain.Department
+import audites.domain.Role
 import audites.domain.User
 import audites.repos.RepoDepartments
 import audites.repos.RepoUsers
 import org.uqbar.arena.bootstrap.Bootstrap
+import audites.repos.RepoRoles
 
 class AuditesBootstrap implements Bootstrap {
 
@@ -17,6 +19,9 @@ class AuditesBootstrap implements Bootstrap {
 	User rmachado
 	User dcullari
 	User mdiez
+	Role administrator
+	Role auditor
+	Role audited
 	Department seginf
 	Department legales
 	Department riesgos
@@ -30,7 +35,7 @@ class AuditesBootstrap implements Bootstrap {
 			username = "admin"
 			password = "admin"
 			email = "admin"
-			roles.add(new Admin)
+			roles.add(administrator)
 		]
 
 		eschafir = new User => [
@@ -38,7 +43,7 @@ class AuditesBootstrap implements Bootstrap {
 			username = "eschafir"
 			password = "123"
 			email = "esteban.schafir@gmail.com"
-			roles.add(new Audited)
+			roles.add(audited)
 			addDepartment(seginf)
 			addDepartment(riesgos)
 		]
@@ -48,7 +53,7 @@ class AuditesBootstrap implements Bootstrap {
 			username = "dperez"
 			password = "123"
 			email = "esteban.schafir@gmail.com"
-			roles.add(new Auditor)
+			roles.add(auditor)
 		]
 
 		rmachado = new User => [
@@ -56,7 +61,7 @@ class AuditesBootstrap implements Bootstrap {
 			username = "rmachado"
 			password = "123"
 			email = "esteban.schafir@gmail.com"
-			roles.add(new Audited)
+			roles.add(audited)
 			addDepartment(seginf)
 			addDepartment(auditoria)
 		]
@@ -66,7 +71,7 @@ class AuditesBootstrap implements Bootstrap {
 			username = "mdiez"
 			password = "123"
 			email = "esteban.schafir@gmail.com"
-			roles.add(new Audited)
+			roles.add(audited)
 			addDepartment(auditoria)
 		]
 
@@ -75,17 +80,28 @@ class AuditesBootstrap implements Bootstrap {
 			username = "dcullari"
 			password = "123"
 			email = "esteban.schafir@gmail.com"
-			roles.add(new Audited)
+			roles.add(audited)
 			addDepartment(seginf)
 		]
 
-		this.createUser(admin)
-		this.createUser(eschafir)
-		this.createUser(dperez)
-		this.createUser(rmachado)
-		this.createUser(dcullari)
-		this.createUser(mdiez)
+		createUser(admin)
+		createUser(eschafir)
+		createUser(dperez)
+		createUser(rmachado)
+		createUser(dcullari)
+		createUser(mdiez)
+		initRoles
 		initDepartments
+	}
+
+	def void initRoles() {
+		administrator = new Admin
+		auditor = new Auditor
+		audited = new Audited
+
+		createRole(administrator)
+		createRole(auditor)
+		createRole(audited)
 	}
 
 	def void initDepartments() {
@@ -117,11 +133,11 @@ class AuditesBootstrap implements Bootstrap {
 			email = "rrhh@gmail.com"
 		]
 
-		this.createDepartment(seginf)
-		this.createDepartment(legales)
-		this.createDepartment(riesgos)
-		this.createDepartment(auditoria)
-		this.createDepartment(rrhh)
+		createDepartment(seginf)
+		createDepartment(legales)
+		createDepartment(riesgos)
+		createDepartment(auditoria)
+		createDepartment(rrhh)
 	}
 
 	def createUser(User user) {
@@ -159,11 +175,26 @@ class AuditesBootstrap implements Bootstrap {
 		}
 	}
 
+	def createRole(Role role) {
+		val repoRoles = RepoRoles.instance
+		val listRoles = repoRoles.searchByExample(role)
+		if (listRoles.isEmpty) {
+			repoRoles.create(role)
+			println("Rol " + role.name + " creado")
+		} else {
+			val roleBD = listRoles.head
+			role.id = roleBD.id
+			role.name = roleBD.name
+			repoRoles.update(role)
+		}
+	}
+
 	override isPending() {
 		false
 	}
 
 	override run() {
+		initRoles
 		initDepartments
 		initUsers
 	}
