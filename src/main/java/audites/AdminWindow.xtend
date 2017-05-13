@@ -1,5 +1,7 @@
 package audites
 
+import audites.AdminWindows.EditUserWindow
+import audites.AdminWindows.NewUserWindow
 import audites.TemplatesWindows.DefaultWindow
 import audites.appModel.AdminPanelAppModel
 import audites.appModel.MainApplicationAppModel
@@ -16,7 +18,6 @@ import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-import audites.AdminWindows.NewOrEditUserWindow
 
 class AdminWindow extends DefaultWindow<AdminPanelAppModel> {
 
@@ -122,7 +123,7 @@ class AdminWindow extends DefaultWindow<AdminPanelAppModel> {
 			height = 40
 			onClick[|
 				this.close
-				new NewOrEditUserWindow(this, modelObject.userLoged).open
+				new NewUserWindow(this, modelObject.userLoged).open
 			]
 		]
 
@@ -134,7 +135,7 @@ class AdminWindow extends DefaultWindow<AdminPanelAppModel> {
 			visible <=> "hasUserSelected"
 			onClick[|
 				this.close
-				new NewOrEditUserWindow(this, modelObject.userLoged, modelObject.selectedUser).open
+				new EditUserWindow(this, modelObject.userLoged, modelObject.selectedUser).open
 			]
 		]
 

@@ -12,14 +12,13 @@ import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.List
 import org.uqbar.arena.widgets.Panel
-import org.uqbar.arena.widgets.PasswordField
 import org.uqbar.arena.widgets.Selector
 import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 
-class NewOrEditUserWindow extends DefaultWindow<NewOrEditUserAppModel> {
+abstract class NewOrEditUserWindow extends DefaultWindow<NewOrEditUserAppModel> {
 
 	new(WindowOwner parent, User user) {
 		super(parent, new NewOrEditUserAppModel(user))
@@ -50,11 +49,7 @@ class NewOrEditUserWindow extends DefaultWindow<NewOrEditUserAppModel> {
 			width = 200
 		]
 
-		new Label(panel).text = "Contraseña"
-		new PasswordField(panel) => [
-			value <=> "passwordIngresed"
-			width = 200
-		]
+		passwordLabel(panel)
 
 		new Label(panel).text = "Nombre Completo"
 		new TextBox(panel) => [
@@ -151,10 +146,13 @@ class NewOrEditUserWindow extends DefaultWindow<NewOrEditUserAppModel> {
 			caption = "Cancelar"
 			onClick[|
 				this.close
-				modelObject.cancellCreation
+				cancelCreateOrEdit
 				new AdminWindow(this, modelObject.userLoged).open
 			]
 		]
 	}
+	
+	abstract def void passwordLabel(Panel panel)
+	abstract def void cancelCreateOrEdit()
 
 }

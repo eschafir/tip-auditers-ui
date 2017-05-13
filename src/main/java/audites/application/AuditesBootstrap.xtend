@@ -35,7 +35,7 @@ class AuditesBootstrap implements Bootstrap {
 			username = "admin"
 			password = "admin"
 			email = "admin"
-			roles.add(administrator)
+			addRole(administrator)
 		]
 
 		eschafir = new User => [
@@ -43,7 +43,7 @@ class AuditesBootstrap implements Bootstrap {
 			username = "eschafir"
 			password = "123"
 			email = "esteban.schafir@gmail.com"
-			roles.add(audited)
+			addRole(audited)
 			addDepartment(seginf)
 			addDepartment(riesgos)
 		]
@@ -53,7 +53,7 @@ class AuditesBootstrap implements Bootstrap {
 			username = "dperez"
 			password = "123"
 			email = "esteban.schafir@gmail.com"
-			roles.add(auditor)
+			addRole(auditor)
 		]
 
 		rmachado = new User => [
@@ -61,7 +61,7 @@ class AuditesBootstrap implements Bootstrap {
 			username = "rmachado"
 			password = "123"
 			email = "esteban.schafir@gmail.com"
-			roles.add(audited)
+			addRole(audited)
 			addDepartment(seginf)
 			addDepartment(auditoria)
 		]
@@ -71,7 +71,7 @@ class AuditesBootstrap implements Bootstrap {
 			username = "mdiez"
 			password = "123"
 			email = "esteban.schafir@gmail.com"
-			roles.add(audited)
+			addRole(audited)
 			addDepartment(auditoria)
 		]
 
@@ -80,7 +80,7 @@ class AuditesBootstrap implements Bootstrap {
 			username = "dcullari"
 			password = "123"
 			email = "esteban.schafir@gmail.com"
-			roles.add(audited)
+			addRole(audited)
 			addDepartment(seginf)
 		]
 
