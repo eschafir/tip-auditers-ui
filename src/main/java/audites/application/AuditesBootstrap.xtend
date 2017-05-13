@@ -152,6 +152,7 @@ class AuditesBootstrap implements Bootstrap {
 			user.name = userBD.name
 			user.email = userBD.email
 			user.username = userBD.username
+			user.enabled = userBD.enabled
 			user.roles = userBD.roles
 			user.departments = userBD.departments
 			user.revisions = userBD.revisions

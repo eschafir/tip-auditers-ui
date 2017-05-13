@@ -23,7 +23,6 @@ class AdminWindow extends DefaultWindow<AdminPanelAppModel> {
 
 	new(WindowOwner parent, User user) {
 		super(parent, new AdminPanelAppModel(user))
-		this.title = this.modelObject.userLoged.name
 		modelObject.search
 	}
 
@@ -111,6 +110,13 @@ class AdminWindow extends DefaultWindow<AdminPanelAppModel> {
 			bindContentsToProperty("departmentsNames")
 		]
 
+		new Column<User>(table) => [
+			title = "Status"
+			bindContentsToProperty("enabled").transformer = [Boolean enabled|
+				if(enabled) "Habilitado" else "Deshabilitado"
+			]
+		]
+
 	}
 
 	def createUserButtons(GroupPanel principal) {
@@ -136,16 +142,6 @@ class AdminWindow extends DefaultWindow<AdminPanelAppModel> {
 			onClick[|
 				this.close
 				new EditUserWindow(this, modelObject.userLoged, modelObject.selectedUser).open
-			]
-		]
-
-		new Button(options) => [
-			caption = "Deshabilitar"
-			fontSize = 10
-			width = 140
-			height = 40
-			visible <=> "hasUserSelected"
-			onClick[|
 			]
 		]
 	}

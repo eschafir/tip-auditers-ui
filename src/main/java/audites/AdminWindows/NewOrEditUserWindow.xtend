@@ -38,10 +38,7 @@ abstract class NewOrEditUserWindow extends DefaultWindow<NewOrEditUserAppModel> 
 			])
 		]
 
-		new Label(panel) => [
-			text = "Nuevo Usuario"
-			fontSize = 15
-		]
+		titleLabel(panel)
 
 		new Label(panel).text = "User ID"
 		new TextBox(panel) => [
@@ -129,6 +126,8 @@ abstract class NewOrEditUserWindow extends DefaultWindow<NewOrEditUserAppModel> 
 			]
 		]
 
+		statusButton(panel)
+
 	}
 
 	override createButtonPanels(Panel panel) {
@@ -146,13 +145,18 @@ abstract class NewOrEditUserWindow extends DefaultWindow<NewOrEditUserAppModel> 
 			caption = "Cancelar"
 			onClick[|
 				this.close
-				cancelCreateOrEdit
+				cancelCreateOrEdit()
 				new AdminWindow(this, modelObject.userLoged).open
 			]
 		]
 	}
-	
+
+	abstract def void titleLabel(Panel panel)
+
 	abstract def void passwordLabel(Panel panel)
+
+	abstract def void statusButton(Panel panel)
+
 	abstract def void cancelCreateOrEdit()
 
 }
