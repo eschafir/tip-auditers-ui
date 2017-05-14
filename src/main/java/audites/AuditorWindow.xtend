@@ -2,6 +2,7 @@ package audites
 
 import audites.AuditorWindows.CheckRevisionWindow
 import audites.AuditorWindows.EditRevisionWindow
+import audites.AuditorWindows.GenerateReportWindow
 import audites.AuditorWindows.NewRevisionWindow
 import audites.TemplatesWindows.DefaultWindow
 import audites.appModel.AuditorAppModel
@@ -182,6 +183,7 @@ class AuditorWindow extends DefaultWindow<AuditorAppModel> {
 			height = 40
 			visible <=> "revisionCompletedAndAsigned"
 			onClick[|
+				new GenerateReportWindow(this, modelObject.userLoged, modelObject.revisionSelected).open
 			]
 		]
 
