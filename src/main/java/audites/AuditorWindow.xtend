@@ -176,11 +176,21 @@ class AuditorWindow extends DefaultWindow<AuditorAppModel> {
 		]
 
 		new Button(options) => [
+			caption = "Generar informe"
+			fontSize = 10
+			width = 140
+			height = 40
+			visible <=> "revisionCompletedAndAsigned"
+			onClick[|
+			]
+		]
+
+		new Button(options) => [
 			caption = "Archivar"
 			fontSize = 10
 			width = 140
 			height = 40
-			enabled <=> "revisionCompletedAndAsigned"
+			visible <=> "revisionCompletedAndAsigned"
 			onClick[|
 				modelObject.archive
 			]

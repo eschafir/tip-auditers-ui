@@ -71,7 +71,7 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 
 		new TextBox(searchPanel) => [
 			value <=> "revisionSearch"
-			width = 200
+			width = 250
 		]
 
 		new Label(checkBoxPanel) => [
@@ -83,6 +83,14 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 			value <=> "withArchivedRevisions"
 		]
 
+		new Label(checkBoxPanel) => [
+			text = "	Solo asignadas"
+			fontSize = 8
+		]
+
+		new CheckBox(checkBoxPanel) => [
+			value <=> "onlyAssigned"
+		]
 	}
 
 	protected def revisionList(Panel mainPanel) {

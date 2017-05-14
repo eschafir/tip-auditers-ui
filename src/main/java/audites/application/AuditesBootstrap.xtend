@@ -53,7 +53,9 @@ class AuditesBootstrap implements Bootstrap {
 			username = "dperez"
 			password = "123"
 			email = "esteban.schafir@gmail.com"
+			addDepartment(auditoria)
 			addRole(auditor)
+			addRole(audited)
 		]
 
 		rmachado = new User => [
