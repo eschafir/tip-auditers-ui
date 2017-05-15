@@ -28,12 +28,14 @@ class GenerateReportWindow extends DefaultWindow<GenerateOrEditReportAppModel> {
 			])
 		]
 
-		new Label(panel).text = modelObject.revision.report.name
+		new Label(panel) => [
+			text = modelObject.revision.report.name
+			fontSize = 10
+		]
 		new TextBox(panel) => [
 			multiLine = true
 			height = 200
 			width = 500
-//			value <=> "report.observations"
 			value <=> "revision.report.observations"
 		]
 	}
