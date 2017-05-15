@@ -25,6 +25,7 @@ import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
+import audites.AuditedWindows.CheckRevisionReportWindow
 
 class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 
@@ -221,6 +222,18 @@ class AuditedWindow extends DefaultWindow<AuditedAppModel> {
 			enabled <=> "revisionFinished"
 			onClick[|
 				openConfirmationDialog
+			]
+		]
+
+		new Button(mainPanel) => [
+			caption = "Informe"
+			fontSize = 10
+			width = 140
+			height = 40
+			visible <=> "hasReport"
+//			enabled <=> "revisionFinished"
+			onClick[|
+				new CheckRevisionReportWindow(this, modelObject.userLoged, modelObject.revisionSelected).open
 			]
 		]
 	}

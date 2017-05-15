@@ -1,21 +1,22 @@
 package audites.AuditorWindows
 
 import audites.TemplatesWindows.DefaultWindow
-import audites.appModel.GenerateReportAppModel
+import audites.appModel.GenerateOrEditReportAppModel
 import audites.domain.Revision
 import audites.domain.User
-import org.uqbar.arena.widgets.Panel
-import org.uqbar.arena.windows.WindowOwner
-import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.graphics.Image
-import org.uqbar.arena.widgets.TextBox
-import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 import org.uqbar.arena.widgets.Button
+import org.uqbar.arena.widgets.Label
+import org.uqbar.arena.widgets.Panel
+import org.uqbar.arena.widgets.TextBox
+import org.uqbar.arena.windows.WindowOwner
 
-class GenerateReportWindow extends DefaultWindow<GenerateReportAppModel> {
+import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
+
+class GenerateReportWindow extends DefaultWindow<GenerateOrEditReportAppModel> {
 
 	new(WindowOwner parent, User user, Revision revision) {
-		super(parent, new GenerateReportAppModel(user, revision))
+		super(parent, new GenerateOrEditReportAppModel(user, revision))
 	}
 
 	override createWindowToFormPanel(Panel panel) {
@@ -27,12 +28,13 @@ class GenerateReportWindow extends DefaultWindow<GenerateReportAppModel> {
 			])
 		]
 
-		new Label(panel).text = modelObject.report.name
+		new Label(panel).text = modelObject.revision.report.name
 		new TextBox(panel) => [
 			multiLine = true
 			height = 200
 			width = 500
-			value <=> "observations"
+//			value <=> "report.observations"
+			value <=> "revision.report.observations"
 		]
 	}
 
