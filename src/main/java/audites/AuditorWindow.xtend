@@ -124,7 +124,7 @@ class AuditorWindow extends DefaultWindow<AuditorAppModel> {
 		new Column<Revision>(table) => [
 			title = "Finaliza"
 			bindContentsToProperty("endDate").transformer = [Date date|modelObject.formatDate(date)]
-			bindBackground("isExpired").transformer = [Boolean expired|if(!expired) Color.WHITE else Color.RED]
+			bindBackground("isExpiredAndNotCompleted").transformer = [Boolean expired|if(!expired) Color.WHITE else Color.RED]
 		]
 
 		new Column<Revision>(table) => [
