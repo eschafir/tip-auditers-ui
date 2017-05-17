@@ -132,14 +132,7 @@ abstract class NewOrEditUserWindow extends DefaultWindow<NewOrEditUserAppModel> 
 
 	override createButtonPanels(Panel panel) {
 
-		new Button(panel) => [
-			caption = "Aceptar"
-			onClick[|
-				modelObject.saveOrUpdate()
-				this.close
-				new AdminWindow(this, modelObject.userLoged).open
-			]
-		]
+		acceptButton(panel)
 
 		new Button(panel) => [
 			caption = "Cancelar"
@@ -150,6 +143,8 @@ abstract class NewOrEditUserWindow extends DefaultWindow<NewOrEditUserAppModel> 
 			]
 		]
 	}
+
+	abstract def void acceptButton(Panel panel)
 
 	abstract def void titleLabel(Panel panel)
 

@@ -152,6 +152,7 @@ class AuditesBootstrap implements Bootstrap {
 			val userBD = listUsers.head
 			user.id = userBD.id
 			user.name = userBD.name
+//			user.password = userBD.password
 			user.email = userBD.email
 			user.username = userBD.username
 			user.enabled = userBD.enabled

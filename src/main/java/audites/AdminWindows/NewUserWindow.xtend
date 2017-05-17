@@ -7,6 +7,8 @@ import org.uqbar.arena.widgets.PasswordField
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
+import org.uqbar.arena.widgets.Button
+import audites.AdminWindow
 
 class NewUserWindow extends NewOrEditUserWindow {
 
@@ -34,6 +36,17 @@ class NewUserWindow extends NewOrEditUserWindow {
 	}
 
 	override statusButton(Panel panel) {
+	}
+
+	override acceptButton(Panel panel) {
+		new Button(panel) => [
+			caption = "Aceptar"
+			onClick[|
+				modelObject.save()
+				this.close
+				new AdminWindow(this, modelObject.userLoged).open
+			]
+		]
 	}
 
 }
