@@ -111,7 +111,6 @@ class EditUserWindow extends DefaultWindow<EditUserAppModel> {
 			caption = "Agregar"
 			enabled <=> "isRoleIngresed"
 			onClick[|
-				modelObject.createUser
 				modelObject.addRole
 			]
 		]
