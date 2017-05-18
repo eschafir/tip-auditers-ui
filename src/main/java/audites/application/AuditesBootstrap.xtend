@@ -7,9 +7,9 @@ import audites.domain.Department
 import audites.domain.Role
 import audites.domain.User
 import audites.repos.RepoDepartments
+import audites.repos.RepoRoles
 import audites.repos.RepoUsers
 import org.uqbar.arena.bootstrap.Bootstrap
-import audites.repos.RepoRoles
 
 class AuditesBootstrap implements Bootstrap {
 
@@ -152,7 +152,7 @@ class AuditesBootstrap implements Bootstrap {
 			val userBD = listUsers.head
 			user.id = userBD.id
 			user.name = userBD.name
-//			user.password = userBD.password
+			user.password = userBD.password
 			user.email = userBD.email
 			user.username = userBD.username
 			user.enabled = userBD.enabled

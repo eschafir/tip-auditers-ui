@@ -2,7 +2,7 @@ package audites.AdminWindows
 
 import audites.AdminWindow
 import audites.TemplatesWindows.DefaultWindow
-import audites.appModel.NewOrEditUserAppModel
+import audites.appModel.NewUserAppModel
 import audites.domain.Department
 import audites.domain.Role
 import audites.domain.User
@@ -18,14 +18,14 @@ import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 
-abstract class NewOrEditUserWindow extends DefaultWindow<NewOrEditUserAppModel> {
+abstract class NewOrEditUserWindow extends DefaultWindow<NewUserAppModel> {
 
 	new(WindowOwner parent, User user) {
-		super(parent, new NewOrEditUserAppModel(user))
+		super(parent, new NewUserAppModel(user))
 	}
 
 	new(WindowOwner parent, User user, User toEdit) {
-		super(parent, new NewOrEditUserAppModel(user, toEdit))
+		super(parent, new NewUserAppModel(user, toEdit))
 	}
 
 	override createWindowToFormPanel(Panel panel) {
