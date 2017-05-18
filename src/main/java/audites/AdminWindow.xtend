@@ -45,6 +45,8 @@ class AdminWindow extends DefaultWindow<AdminPanelAppModel> {
 				new Image(imagePath)
 			])
 		]
+		
+		new Label(imagePanel) => [text = "\r\n" + "Usuario: " + modelObject.userLoged.name]
 
 		searchBar(mainPanel)
 		revisionsList(mainPanel)

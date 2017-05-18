@@ -53,6 +53,8 @@ class AuditorWindow extends DefaultWindow<AuditorAppModel> {
 			])
 		]
 
+		new Label(imagePanel) => [text = "\r\n" + "Usuario: " + modelObject.userLoged.name]
+
 		searchBar(mainPanel)
 		revisionsList(mainPanel)
 	}
@@ -124,7 +126,9 @@ class AuditorWindow extends DefaultWindow<AuditorAppModel> {
 		new Column<Revision>(table) => [
 			title = "Finaliza"
 			bindContentsToProperty("endDate").transformer = [Date date|modelObject.formatDate(date)]
-			bindBackground("isExpiredAndNotCompleted").transformer = [Boolean expired|if(!expired) Color.WHITE else Color.RED]
+			bindBackground("isExpiredAndNotCompleted").transformer = [Boolean expired|
+				if(!expired) Color.WHITE else Color.RED
+			]
 		]
 
 		new Column<Revision>(table) => [

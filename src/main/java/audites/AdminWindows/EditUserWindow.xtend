@@ -8,6 +8,8 @@ import audites.domain.Role
 import audites.domain.User
 import org.uqbar.arena.bindings.PropertyAdapter
 import org.uqbar.arena.graphics.Image
+import org.uqbar.arena.layout.ColumnLayout
+import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.List
@@ -16,7 +18,6 @@ import org.uqbar.arena.widgets.Selector
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-import org.uqbar.arena.layout.HorizontalLayout
 
 class EditUserWindow extends DefaultWindow<EditUserAppModel> {
 
@@ -39,96 +40,49 @@ class EditUserWindow extends DefaultWindow<EditUserAppModel> {
 			fontSize = 15
 		]
 
-		val useridPanel = new Panel(panel) => [layout = new HorizontalLayout]
-		new Label(useridPanel) => [text = "User ID: "]
-		new Label(useridPanel) => [text = modelObject.user.username]
+		val userInfo = new Panel(panel) => [layout = new ColumnLayout(3)]
+		new Label(userInfo) => [
+			text = "User ID:"
+			fontSize = 10
+		]
+		new Label(userInfo) => [text = modelObject.user.username]
+		new Label(userInfo)
 
-		val namePanel = new Panel(panel) => [layout = new HorizontalLayout]
-		new Label(namePanel).text = "Nombre Completo: "
-		new Label(namePanel) => [value <=> "user.name"]
-		new Button(namePanel) => [
+		new Label(userInfo) => [
+			text = "Nombre Completo:"
+			fontSize = 10
+		]
+		new Label(userInfo) => [value <=> "user.name"]
+		new Button(userInfo) => [
 			caption = "Editar..."
 			onClick[|new EditUserName(this, modelObject.user, modelObject.user.name).open]
 		]
 
-		val emailPanel = new Panel(panel) => [layout = new HorizontalLayout]
-		new Label(emailPanel).text = "Email: "
-		new Label(emailPanel) => [value <=> "user.email"]
-		new Button(emailPanel) => [
+		new Label(userInfo) => [
+			text = "Email:"
+			fontSize = 10
+		]
+		new Label(userInfo) => [value <=> "user.email"]
+		new Button(userInfo) => [
 			caption = "Editar..."
 			onClick[|new EditUserEmail(this, modelObject.user, modelObject.user.email).open]
 		]
 
-		new Label(panel).text = "Departamentos"
+		departmentEdition(panel)
 
-		new List<Department>(panel) => [
-			value <=> "selectedDepartment"
-			(items.bindToProperty("userDepartments")).adapter = new PropertyAdapter(Department, "name")
-			height = 50
-			width = 200
+		rolesEdition(panel)
+
+		val passAndStatus = new Panel(panel) => [
+			width = 300
+			layout = new HorizontalLayout
 		]
-
-		new Selector(panel) => [
-			width = 185
-			allowNull(false)
-			value <=> "selectorDepartment"
-			(items.bindToProperty("departments")).adapter = new PropertyAdapter(Department, "name")
-		]
-
-		new Button(panel) => [
-			caption = "Agregar"
-			enabled <=> "isDepartmentIngresed"
-			onClick[|
-				modelObject.addDepartment
-			]
-		]
-
-		new Button(panel) => [
-			caption = "Eliminar"
-			enabled <=> "isDepartmentSelected"
-			onClick[|
-				modelObject.removeDepartment
-			]
-		]
-
-		new Label(panel).text = "Roles"
-
-		new List<Department>(panel) => [
-			value <=> "selectedRole"
-			(items.bindToProperty("userRoles")).adapter = new PropertyAdapter(Role, "name")
-			height = 50
-			width = 200
-		]
-
-		new Selector(panel) => [
-			width = 185
-			allowNull(false)
-			value <=> "selectorRole"
-			(items.bindToProperty("roles")).adapter = new PropertyAdapter(Role, "name")
-		]
-
-		new Button(panel) => [
-			caption = "Agregar"
-			enabled <=> "isRoleIngresed"
-			onClick[|
-				modelObject.addRole
-			]
-		]
-
-		new Button(panel) => [
-			caption = "Eliminar"
-			enabled <=> "isRoleSelected"
-			onClick[|
-				modelObject.removeRole
-			]
-		]
-
-		new Button(panel) => [
-			caption = "Restablecer contraseña"
+		new Button(passAndStatus) => [
+			caption = "Cambiar Contraseña"
+			fontSize = 10
 			onClick[|new EditUserPassword(this, modelObject.user, modelObject.passwordIngresed).open]
 		]
 
-		statusButton(panel)
+		statusButton(passAndStatus)
 
 	}
 
@@ -142,13 +96,83 @@ class EditUserWindow extends DefaultWindow<EditUserAppModel> {
 		]
 	}
 
+	def departmentEdition(Panel panel) {
+		val depPanel = new Panel(panel)
+		new Label(depPanel).text = "Departamentos"
+
+		new List<Department>(depPanel) => [
+			value <=> "selectedDepartment"
+			(items.bindToProperty("userDepartments")).adapter = new PropertyAdapter(Department, "name")
+			height = 50
+			width = 200
+		]
+
+		new Selector(depPanel) => [
+			width = 185
+			allowNull(false)
+			value <=> "selectorDepartment"
+			(items.bindToProperty("departments")).adapter = new PropertyAdapter(Department, "name")
+		]
+
+		val depButtons = new Panel(depPanel) => [layout = new HorizontalLayout]
+		new Button(depButtons) => [
+			caption = "Agregar"
+			enabled <=> "isDepartmentIngresed"
+			onClick[|
+				modelObject.addDepartment
+			]
+		]
+
+		new Button(depButtons) => [
+			caption = "Eliminar"
+			enabled <=> "isDepartmentSelected"
+			onClick[|
+				modelObject.removeDepartment
+			]
+		]
+	}
+
+	def rolesEdition(Panel panel) {
+		val rolePanel = new Panel(panel)
+		new Label(rolePanel).text = "Roles"
+
+		new List<Department>(rolePanel) => [
+			value <=> "selectedRole"
+			(items.bindToProperty("userRoles")).adapter = new PropertyAdapter(Role, "name")
+			height = 50
+			width = 200
+		]
+
+		new Selector(rolePanel) => [
+			width = 185
+			allowNull(false)
+			value <=> "selectorRole"
+			(items.bindToProperty("roles")).adapter = new PropertyAdapter(Role, "name")
+		]
+
+		val roleButtons = new Panel(rolePanel) => [layout = new HorizontalLayout]
+		new Button(roleButtons) => [
+			caption = "Agregar"
+			enabled <=> "isRoleIngresed"
+			onClick[|
+				modelObject.addRole
+			]
+		]
+
+		new Button(roleButtons) => [
+			caption = "Eliminar"
+			enabled <=> "isRoleSelected"
+			onClick[|
+				modelObject.removeRole
+			]
+		]
+	}
+
 	def statusButton(Panel panel) {
 		if (modelObject.user.enabled) {
 			new Button(panel) => [
 				caption = "Deshabilitar"
 				fontSize = 10
-				width = 140
-				height = 40
 				visible <=> "userIsEnabled"
 				onClick[|
 					modelObject.changeUserStatus
@@ -160,8 +184,6 @@ class EditUserWindow extends DefaultWindow<EditUserAppModel> {
 			new Button(panel) => [
 				caption = "Habilitar"
 				fontSize = 10
-				width = 140
-				height = 40
 				visible <=> "userIsDisabled"
 				onClick[|
 					modelObject.changeUserStatus
