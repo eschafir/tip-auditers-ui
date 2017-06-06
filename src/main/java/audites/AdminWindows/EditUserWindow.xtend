@@ -69,7 +69,6 @@ class EditUserWindow extends DefaultWindow<EditUserAppModel> {
 		]
 
 		departmentEdition(panel)
-
 		rolesEdition(panel)
 
 		val passAndStatus = new Panel(panel) => [

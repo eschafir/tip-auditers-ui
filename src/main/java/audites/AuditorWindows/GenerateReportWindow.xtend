@@ -12,6 +12,7 @@ import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
+import audites.domain.Requirement
 
 class GenerateReportWindow extends DefaultWindow<GenerateOrEditReportAppModel> {
 
@@ -32,12 +33,31 @@ class GenerateReportWindow extends DefaultWindow<GenerateOrEditReportAppModel> {
 			text = modelObject.revision.report.name
 			fontSize = 10
 		]
-		new TextBox(panel) => [
-			multiLine = true
-			height = 200
-			width = 500
-			value <=> "revision.report.observations"
+
+		new Label(panel) => [
+			text = modelObject.revision.report.requirements.size.toString
+			fontSize = 10
 		]
+//		new TextBox(panel) => [
+//			multiLine = true
+//			height = 200
+//			width = 500
+//			value <=> "revision.report.observations"
+//		]
+		for (Requirement req : modelObject.revision.report.requirements) {
+			new Label(panel) => [
+				text = req.name
+				fontSize = 11
+			]
+
+			new TextBox(panel) => [
+				multiLine = true
+				height = 100
+				width = 100
+				value <=> "revision.report.observations"
+			]
+
+		}
 	}
 
 	override createButtonPanels(Panel panel) {
