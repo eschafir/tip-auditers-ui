@@ -2,6 +2,7 @@ package audites.AuditorWindows
 
 import audites.TemplatesWindows.DefaultWindow
 import audites.appModel.GenerateOrEditReportAppModel
+import audites.domain.Observation
 import audites.domain.Revision
 import audites.domain.User
 import org.uqbar.arena.graphics.Image
@@ -10,9 +11,6 @@ import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.windows.WindowOwner
-
-import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-import audites.domain.Requirement
 
 class GenerateReportWindow extends DefaultWindow<GenerateOrEditReportAppModel> {
 
@@ -30,23 +28,13 @@ class GenerateReportWindow extends DefaultWindow<GenerateOrEditReportAppModel> {
 		]
 
 		new Label(panel) => [
-			text = modelObject.revision.report.name
+			text = "Reporte de " + modelObject.revision.name
 			fontSize = 10
 		]
 
-		new Label(panel) => [
-			text = modelObject.revision.report.requirements.size.toString
-			fontSize = 10
-		]
-//		new TextBox(panel) => [
-//			multiLine = true
-//			height = 200
-//			width = 500
-//			value <=> "revision.report.observations"
-//		]
-		for (Requirement req : modelObject.revision.report.requirements) {
+		for (Observation obs : modelObject.report.observations) {
 			new Label(panel) => [
-				text = req.name
+				text = obs.requirement.name
 				fontSize = 11
 			]
 
@@ -54,10 +42,10 @@ class GenerateReportWindow extends DefaultWindow<GenerateOrEditReportAppModel> {
 				multiLine = true
 				height = 100
 				width = 100
-				value <=> "revision.report.observations"
+//				value <=> "comment"
 			]
-
 		}
+
 	}
 
 	override createButtonPanels(Panel panel) {

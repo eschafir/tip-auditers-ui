@@ -19,7 +19,7 @@ class CheckRevisionReportWindow extends DefaultWindow<GenerateOrEditReportAppMod
 			text = modelObject.revision.report.name
 			fontSize = 10
 		]
-		new Label(panel).text = modelObject.revision.report.observations
+//		new Label(panel).text = modelObject.revision.report.observations
 	}
 
 	override createButtonPanels(Panel panel) {
