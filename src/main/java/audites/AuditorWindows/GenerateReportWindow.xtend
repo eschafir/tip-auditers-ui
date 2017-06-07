@@ -9,13 +9,15 @@ import org.uqbar.arena.graphics.Image
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.Panel
-import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.windows.WindowOwner
 
 class GenerateReportWindow extends DefaultWindow<GenerateOrEditReportAppModel> {
 
 	new(WindowOwner parent, User user, Revision revision) {
 		super(parent, new GenerateOrEditReportAppModel(user, revision))
+		if (revision.report == null) {
+			modelObject.createReport
+		}
 	}
 
 	override createWindowToFormPanel(Panel panel) {
@@ -32,17 +34,23 @@ class GenerateReportWindow extends DefaultWindow<GenerateOrEditReportAppModel> {
 			fontSize = 10
 		]
 
-		for (Observation obs : modelObject.report.observations) {
+		for (Observation obs : modelObject.revision.report.observations) {
 			new Label(panel) => [
 				text = obs.requirement.name
 				fontSize = 11
 			]
 
-			new TextBox(panel) => [
-				multiLine = true
-				height = 100
-				width = 100
-//				value <=> "comment"
+			new Label(panel) => [
+				text = obs.comment
+				fontSize = 11
+			]
+
+			new Button(panel) => [
+				caption = "Editar observacion"
+				onClick[|
+					this.close
+					new EditObservationWindow(this, obs, this.modelObject.userLoged, modelObject.revision).open
+				]
 			]
 		}
 
