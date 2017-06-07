@@ -21,6 +21,8 @@ class EditObservationWindow extends DefaultWindow<EditObservationAppModel> {
 		new TextBox(panel) => [
 			width = 300
 			height = 300
+			fontSize = 8
+			multiLine = true
 			value <=> "comments"
 		]
 	}

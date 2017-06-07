@@ -6,7 +6,9 @@ import audites.domain.Observation
 import audites.domain.Revision
 import audites.domain.User
 import org.uqbar.arena.graphics.Image
+import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
+import org.uqbar.arena.widgets.GroupPanel
 import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.WindowOwner
@@ -31,27 +33,30 @@ class GenerateReportWindow extends DefaultWindow<GenerateOrEditReportAppModel> {
 
 		new Label(panel) => [
 			text = "Reporte de " + modelObject.revision.name
-			fontSize = 10
+			fontSize = 15
 		]
 
 		for (Observation obs : modelObject.revision.report.observations) {
-			new Label(panel) => [
+			val gPanel = new GroupPanel(panel) => [title = ""]
+			val reqPanel = new Panel(gPanel).layout = new HorizontalLayout
+			new Label(reqPanel) => [
 				text = obs.requirement.name
-				fontSize = 11
+				fontSize = 10
 			]
 
-			new Label(panel) => [
-				text = obs.comment
-				fontSize = 11
-			]
-
-			new Button(panel) => [
+			new Button(reqPanel) => [
 				caption = "Editar observacion"
 				onClick[|
 					this.close
 					new EditObservationWindow(this, obs, this.modelObject.userLoged, modelObject.revision).open
 				]
 			]
+
+			new Label(gPanel) => [
+				text = obs.comment
+				fontSize = 8
+			]
+
 		}
 
 	}
