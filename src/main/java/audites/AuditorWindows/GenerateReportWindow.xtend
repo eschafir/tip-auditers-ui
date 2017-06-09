@@ -6,7 +6,7 @@ import audites.domain.Observation
 import audites.domain.Revision
 import audites.domain.User
 import org.uqbar.arena.graphics.Image
-import org.uqbar.arena.layout.HorizontalLayout
+import org.uqbar.arena.layout.ColumnLayout
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.GroupPanel
 import org.uqbar.arena.widgets.Label
@@ -37,24 +37,25 @@ class GenerateReportWindow extends DefaultWindow<GenerateOrEditReportAppModel> {
 		]
 
 		for (Observation obs : modelObject.revision.report.observations) {
-			val gPanel = new GroupPanel(panel) => [title = ""]
-			val reqPanel = new Panel(gPanel).layout = new HorizontalLayout
-			new Label(reqPanel) => [
-				text = obs.requirement.name
-				fontSize = 10
-			]
-
-			new Button(reqPanel) => [
-				caption = "Editar observacion"
-				onClick[|
-					this.close
-					new EditObservationWindow(this, obs, this.modelObject.userLoged, modelObject.revision).open
-				]
+			val observationColumn = new Panel(panel).layout = new ColumnLayout(2)
+			val gPanel = new GroupPanel(observationColumn) => [
+				title = obs.requirement.name
 			]
 
 			new Label(gPanel) => [
 				text = obs.comment
 				fontSize = 8
+			]
+
+			new Button(observationColumn) => [
+				caption = ""
+				bindImageToProperty("editImage", [ imagePath |
+					new Image(imagePath)
+				])
+				onClick[|
+					this.close
+					new EditObservationWindow(this, obs, this.modelObject.userLoged, modelObject.revision).open
+				]
 			]
 
 		}

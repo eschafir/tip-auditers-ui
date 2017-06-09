@@ -42,7 +42,7 @@ class CheckRevisionWindow extends DefaultWindow<CheckRevisionAppModel> {
 		new Label(revisionGeneral) => [
 			text = this.modelObject.revisionComment
 			height = 200
-			width = 500
+			width = 400
 		]
 
 		val principalPanel = new Panel(mainPanel)
@@ -73,14 +73,14 @@ class CheckRevisionWindow extends DefaultWindow<CheckRevisionAppModel> {
 		val reqDescPanel = new GroupPanel(panel) => [title = ""]
 
 		new Label(reqDescPanel) => [
-			text = "Descripcion"
+			text = "Descripción"
 			fontSize = 13
 		]
 
 		new Label(reqDescPanel) => [
 			value <=> "selectedRequirement.descripcion"
 			height = 325
-			width = 500
+			width = 400
 		]
 	}
 
@@ -96,23 +96,34 @@ class CheckRevisionWindow extends DefaultWindow<CheckRevisionAppModel> {
 			layout = new HorizontalLayout
 		]
 
-		new Label(state).text = "Estado: "
+		new Label(state) => [
+			text = "Estado: "
+			fontSize = 10
+		]
 		new Label(state) => [
 			(background <=> "selectedRequirement.requirementStatus").transformer = new RequirementStatusTransformer
 			value <=> "selectedRequirement.requirementStatus"
+			fontSize = 10
 		]
 
-		val responsableDescription = new Panel(ppanel)
-		new Label(responsableDescription).text = "Comentarios de " + this.modelObject.revision.responsable.name + ":" + "\r\n"
+		val responsableDescription = new Panel(ppanel).layout = new HorizontalLayout
 		new Label(responsableDescription) => [
+			text = "Comentarios de " + this.modelObject.revision.responsable.name + ":" + "\r\n"
+			fontSize = 10
+		]
+
+		new Label(ppanel) => [
 			value <=> "selectedRequirement.comments"
 			height = 257
 			width = 400
 		]
 
-		new Button(ppanel) => [
+		val bpanel = new Panel(ppanel)
+		new Button(bpanel) => [
 			caption = "Ver evidencias"
 			enabled <=> "hasEvidence"
+			width = 110
+			height = 30
 			onClick[|
 				new AttachtmentWindow(this, this.modelObject.selectedRequirement).open
 			]

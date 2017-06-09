@@ -95,24 +95,23 @@ class NewUserWindow extends DefaultWindow<NewUserAppModel> {
 	}
 
 	def departmentFields(Panel panel) {
-		val depPanel = new Panel(panel)
-		new Label(depPanel).text = "Departamentos"
+		new Label(panel).text = "Departamentos"
 
-		new List<Department>(depPanel) => [
+		new List<Department>(panel) => [
 			value <=> "selectedDepartment"
 			(items.bindToProperty("user.departments")).adapter = new PropertyAdapter(Department, "name")
 			height = 50
 			width = 200
 		]
 
-		new Selector(depPanel) => [
+		new Selector(panel) => [
 			width = 185
 			allowNull(false)
 			value <=> "selectorDepartment"
 			(items.bindToProperty("departments")).adapter = new PropertyAdapter(Department, "name")
 		]
 
-		val depButtons = new Panel(depPanel) => [layout = new HorizontalLayout]
+		val depButtons = new Panel(panel) => [layout = new HorizontalLayout]
 		new Button(depButtons) => [
 			caption = "Agregar"
 			enabled <=> "isDepartmentIngresed"
@@ -132,24 +131,23 @@ class NewUserWindow extends DefaultWindow<NewUserAppModel> {
 	}
 
 	def rolesFields(Panel panel) {
-		val rolePanel = new Panel(panel)
-		new Label(rolePanel).text = "Roles"
+		new Label(panel).text = "Roles"
 
-		new List<Department>(rolePanel) => [
+		new List<Department>(panel) => [
 			value <=> "selectedRole"
 			(items.bindToProperty("user.roles")).adapter = new PropertyAdapter(Role, "name")
 			height = 50
 			width = 200
 		]
 
-		new Selector(rolePanel) => [
+		new Selector(panel) => [
 			width = 185
 			allowNull(false)
 			value <=> "selectorRole"
 			(items.bindToProperty("roles")).adapter = new PropertyAdapter(Role, "name")
 		]
 
-		val roleButtons = new Panel(rolePanel) => [layout = new HorizontalLayout]
+		val roleButtons = new Panel(panel) => [layout = new HorizontalLayout]
 		new Button(roleButtons) => [
 			caption = "Agregar"
 			enabled <=> "isRoleIngresed"

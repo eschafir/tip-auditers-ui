@@ -10,6 +10,7 @@ import org.uqbar.arena.windows.WindowOwner
 import audites.domain.Observation
 import org.uqbar.arena.widgets.GroupPanel
 import org.uqbar.arena.layout.HorizontalLayout
+import org.uqbar.arena.widgets.Button
 
 class CheckRevisionReportWindow extends DefaultWindow<GenerateOrEditReportAppModel> {
 
@@ -20,7 +21,7 @@ class CheckRevisionReportWindow extends DefaultWindow<GenerateOrEditReportAppMod
 	override createWindowToFormPanel(Panel panel) {
 		new Label(panel) => [
 			text = modelObject.revision.report.name
-			fontSize = 10
+			fontSize = 15
 		]
 
 		for (Observation obs : modelObject.revision.report.observations) {
@@ -29,7 +30,7 @@ class CheckRevisionReportWindow extends DefaultWindow<GenerateOrEditReportAppMod
 				val reqPanel = new Panel(gPanel).layout = new HorizontalLayout
 				new Label(reqPanel) => [
 					text = obs.requirement.name
-					fontSize = 10
+					fontSize = 12
 				]
 
 				new Label(gPanel) => [
@@ -43,6 +44,10 @@ class CheckRevisionReportWindow extends DefaultWindow<GenerateOrEditReportAppMod
 	}
 
 	override createButtonPanels(Panel panel) {
+		new Button(panel) => [
+			caption = "Aceptar"
+			onClick[|this.close]
+		]
 	}
 
 }
