@@ -41,6 +41,14 @@ class CheckRevisionReportWindow extends DefaultWindow<GenerateOrEditReportAppMod
 
 		}
 
+		val exportPanel = new Panel(panel)
+		new Button(exportPanel) => [
+			caption = "Exportar a PDF"
+			width = 150
+			height = 30
+			onClick[|]
+		]
+
 	}
 
 	override createButtonPanels(Panel panel) {
