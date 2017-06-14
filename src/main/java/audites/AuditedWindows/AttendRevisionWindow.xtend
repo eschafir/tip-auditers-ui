@@ -68,14 +68,17 @@ class AttendRevisionWindow extends DefaultWindow<AttendRevisionAppModel> {
 
 		val infoPanel = new Panel(mainPanel)
 		infoPanel.layout = new HorizontalLayout
-		new Label(infoPanel).text = "Autor: "
+		new Label(infoPanel) => [text = "Autor: " fontSize = 10]
 		new Label(infoPanel).text = this.modelObject.revision.author.name
 	}
 
 	def createRequirementsPanel(Panel panel) {
 		val reqPanel = new Panel(panel)
 
-		new Label(reqPanel).text = "Requerimientos"
+		new Label(reqPanel) => [
+			text = "Requerimientos"
+			fontSize = 10
+		]
 		new List(reqPanel) => [
 			value <=> "selectedRequirement"
 			(items.bindToProperty("revision.requirements")).adapter = new PropertyAdapter(Revision, "name")
@@ -86,7 +89,7 @@ class AttendRevisionWindow extends DefaultWindow<AttendRevisionAppModel> {
 
 	def createReqDescriptionPanel(Panel panel) {
 		val reqDescPanel = new Panel(panel)
-		new Label(reqDescPanel).text = "Descripcion"
+		new Label(reqDescPanel) => [text = "Descripcion" fontSize = 10]
 
 		new Label(reqDescPanel) => [
 			value <=> "selectedRequirement.descripcion"
@@ -114,7 +117,7 @@ class AttendRevisionWindow extends DefaultWindow<AttendRevisionAppModel> {
 			]
 		]
 
-		new Label(ppanel).text = "Comentarios:"
+		new Label(ppanel) => [text = "Comentarios:" fontSize = 10]
 		new TextBox(ppanel) => [
 			value <=> "selectedRequirement.comments"
 			multiLine = true
@@ -122,17 +125,31 @@ class AttendRevisionWindow extends DefaultWindow<AttendRevisionAppModel> {
 			width = 500
 		]
 
-		new FileSelector(ppanel) => [
-			caption = "Agregar evidencia"
-			enabled <=> "hasRequirements"
-			value <=> "selectedFile"
-		]
+		new Label(ppanel) => [text = "Evidencias:" fontSize = 10]
 
 		new List(ppanel) => [
+			value <=> "evidenceSelected"
 			(items.bindToProperty("selectedRequirement.evidences")).adapter = new PropertyAdapter(Evidence, "path")
 			height = 30
 			width = 150
 		]
+
+		val buttonPanel = new Panel(ppanel).layout = new HorizontalLayout
+
+		new FileSelector(buttonPanel) => [
+			caption = "Agregar"
+			fontSize = 9
+			enabled <=> "hasRequirements"
+			value <=> "selectedFile"
+		]
+
+		new Button(buttonPanel) => [
+			caption = "Eliminar"
+			fontSize = 9
+			enabled <=> "hasEvidence"
+			onClick[|modelObject.deleteEvidence]
+		]
+
 	}
 
 	protected def openConfirmationDialog() {
