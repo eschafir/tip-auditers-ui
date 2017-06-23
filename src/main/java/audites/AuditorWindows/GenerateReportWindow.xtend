@@ -6,7 +6,7 @@ import audites.domain.Observation
 import audites.domain.Revision
 import audites.domain.User
 import org.uqbar.arena.graphics.Image
-import org.uqbar.arena.layout.ColumnLayout
+import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.GroupPanel
 import org.uqbar.arena.widgets.Label
@@ -37,7 +37,7 @@ class GenerateReportWindow extends DefaultWindow<GenerateOrEditReportAppModel> {
 		]
 
 		for (Observation obs : modelObject.revision.report.observations) {
-			val observationColumn = new Panel(panel).layout = new ColumnLayout(2)
+			val observationColumn = new Panel(panel).layout = new HorizontalLayout
 			val gPanel = new GroupPanel(observationColumn) => [
 				title = obs.requirement.name
 			]

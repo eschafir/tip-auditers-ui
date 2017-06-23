@@ -10,6 +10,7 @@ import org.uqbar.arena.widgets.TextBox
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 import org.uqbar.arena.widgets.Button
 import audites.domain.Revision
+import org.uqbar.arena.widgets.Label
 
 class EditObservationWindow extends DefaultWindow<EditObservationAppModel> {
 
@@ -18,6 +19,10 @@ class EditObservationWindow extends DefaultWindow<EditObservationAppModel> {
 	}
 
 	override createWindowToFormPanel(Panel panel) {
+		new Label(panel) => [
+			text = "Observación de: " + modelObject.observation.requirement.name
+			fontSize = 10
+		]
 		new TextBox(panel) => [
 			width = 300
 			height = 300
@@ -33,6 +38,13 @@ class EditObservationWindow extends DefaultWindow<EditObservationAppModel> {
 			setAsDefault
 			onClick[|
 				modelObject.saveComment
+				this.close
+				new GenerateReportWindow(this, modelObject.userLoged, modelObject.revision).open
+			]
+		]
+		new Button(panel) => [
+			caption = "Cancelar"
+			onClick[|
 				this.close
 				new GenerateReportWindow(this, modelObject.userLoged, modelObject.revision).open
 			]

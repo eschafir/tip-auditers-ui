@@ -18,6 +18,7 @@ import org.uqbar.arena.widgets.Selector
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
+import org.uqbar.arena.widgets.GroupPanel
 
 class EditUserWindow extends DefaultWindow<EditUserAppModel> {
 
@@ -96,23 +97,22 @@ class EditUserWindow extends DefaultWindow<EditUserAppModel> {
 	}
 
 	def departmentEdition(Panel panel) {
-		new Label(panel).text = "Departamentos"
-
-		new List<Department>(panel) => [
+		val departmentGP = new GroupPanel(panel) => [title = "Departamentos"]
+		new List<Department>(departmentGP) => [
 			value <=> "selectedDepartment"
 			(items.bindToProperty("userDepartments")).adapter = new PropertyAdapter(Department, "name")
 			height = 50
 			width = 200
 		]
 
-		new Selector(panel) => [
+		new Selector(departmentGP) => [
 			width = 185
 			allowNull(false)
 			value <=> "selectorDepartment"
 			(items.bindToProperty("departments")).adapter = new PropertyAdapter(Department, "name")
 		]
 
-		val depButtons = new Panel(panel) => [layout = new HorizontalLayout]
+		val depButtons = new Panel(departmentGP) => [layout = new HorizontalLayout]
 		new Button(depButtons) => [
 			caption = "Agregar"
 			enabled <=> "isDepartmentIngresed"
@@ -131,23 +131,22 @@ class EditUserWindow extends DefaultWindow<EditUserAppModel> {
 	}
 
 	def rolesEdition(Panel panel) {
-		new Label(panel).text = "Roles"
-
-		new List<Department>(panel) => [
+		val rolesGP = new GroupPanel(panel) => [title = "Roles"]
+		new List<Department>(rolesGP) => [
 			value <=> "selectedRole"
 			(items.bindToProperty("userRoles")).adapter = new PropertyAdapter(Role, "name")
 			height = 50
 			width = 200
 		]
 
-		new Selector(panel) => [
+		new Selector(rolesGP) => [
 			width = 185
 			allowNull(false)
 			value <=> "selectorRole"
 			(items.bindToProperty("roles")).adapter = new PropertyAdapter(Role, "name")
 		]
 
-		val roleButtons = new Panel(panel) => [layout = new HorizontalLayout]
+		val roleButtons = new Panel(rolesGP) => [layout = new HorizontalLayout]
 		new Button(roleButtons) => [
 			caption = "Agregar"
 			enabled <=> "isRoleIngresed"

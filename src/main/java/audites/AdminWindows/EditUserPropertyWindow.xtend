@@ -2,6 +2,8 @@ package audites.AdminWindows
 
 import audites.appModel.EditUserAppModel
 import audites.domain.User
+import org.apache.commons.codec.digest.DigestUtils
+import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.TextBox
@@ -9,8 +11,6 @@ import org.uqbar.arena.windows.Window
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-import org.uqbar.arena.layout.HorizontalLayout
-import org.apache.commons.codec.digest.DigestUtils
 
 abstract class EditUserPropertyWindow extends Window<EditUserAppModel> {
 
@@ -19,6 +19,7 @@ abstract class EditUserPropertyWindow extends Window<EditUserAppModel> {
 	}
 
 	override createContents(Panel mainPanel) {
+
 		new TextBox(mainPanel) => [
 			value <=> "propertyToEdit"
 		]

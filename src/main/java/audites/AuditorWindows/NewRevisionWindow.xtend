@@ -8,7 +8,7 @@ import audites.domain.Requirement
 import audites.repos.RepoRevisions
 import org.uqbar.arena.bindings.DateTransformer
 import org.uqbar.arena.bindings.PropertyAdapter
-import org.uqbar.arena.layout.ColumnLayout
+import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.layout.VerticalLayout
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.GroupPanel
@@ -52,7 +52,7 @@ class NewRevisionWindow extends DefaultWindow<NewRevisionAppModel> {
 
 	override createWindowToFormPanel(Panel mainPanel) {
 		val principalPanel = new Panel(mainPanel)
-		principalPanel.layout = new ColumnLayout(2)
+		principalPanel.layout = new HorizontalLayout
 
 		createRevisionPanel(principalPanel)
 		createRequirementsPanel(principalPanel)
