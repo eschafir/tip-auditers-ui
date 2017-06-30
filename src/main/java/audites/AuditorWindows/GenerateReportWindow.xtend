@@ -44,6 +44,7 @@ class GenerateReportWindow extends DefaultWindow<GenerateOrEditReportAppModel> {
 
 			new Label(gPanel) => [
 				text = obs.comment
+				width = 300
 				fontSize = 8
 			]
 
@@ -57,9 +58,7 @@ class GenerateReportWindow extends DefaultWindow<GenerateOrEditReportAppModel> {
 					new EditObservationWindow(this, obs, this.modelObject.userLoged, modelObject.revision).open
 				]
 			]
-
 		}
-
 	}
 
 	override createButtonPanels(Panel panel) {
@@ -72,5 +71,4 @@ class GenerateReportWindow extends DefaultWindow<GenerateOrEditReportAppModel> {
 			]
 		]
 	}
-
 }
