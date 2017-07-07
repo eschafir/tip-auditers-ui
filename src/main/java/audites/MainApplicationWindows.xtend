@@ -33,14 +33,19 @@ class MainApplicationWindows extends DefaultWindow<MainApplicationAppModel> {
 		putCompanyLogo(mainPanel)
 
 		val panel = new Panel(mainPanel)
-		new Label(panel).text = "Menues"
+		panel.width = 150
+
+		new Label(panel) => [
+			text = "Menues"
+			fontSize = 10
+		]
 		var botonera = new HashMap
 
 		botonera.put("Administrator", [|
 			new Button(panel) => [
 				caption = "Administracion"
 				width = 150
-				height = 30
+				height = 40
 				onClick[|
 					this.close
 					new AdminWindow(this, modelObject.userLoged).open
@@ -53,7 +58,7 @@ class MainApplicationWindows extends DefaultWindow<MainApplicationAppModel> {
 				new Button(panel) => [
 					caption = "Auditor"
 					width = 150
-					height = 30
+					height = 40
 					onClick[|
 						this.close
 						new AuditorWindow(this, modelObject.userLoged).open
@@ -68,7 +73,7 @@ class MainApplicationWindows extends DefaultWindow<MainApplicationAppModel> {
 				new Button(panel) => [
 					caption = "Revisiones"
 					width = 150
-					height = 30
+					height = 40
 					onClick[|
 						this.close
 						new AuditedWindow(this, modelObject.userLoged).open
@@ -92,5 +97,7 @@ class MainApplicationWindows extends DefaultWindow<MainApplicationAppModel> {
 				new Image(imagePath)
 			])
 		]
+
+		new Label(imagePanel).text = "Bienvenido: " + modelObject.userLoged.name + "\n"
 	}
 }

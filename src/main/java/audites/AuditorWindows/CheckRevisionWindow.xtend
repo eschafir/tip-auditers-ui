@@ -15,6 +15,7 @@ import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
+import org.uqbar.arena.graphics.Image
 
 class CheckRevisionWindow extends DefaultWindow<CheckRevisionAppModel> {
 
@@ -32,6 +33,14 @@ class CheckRevisionWindow extends DefaultWindow<CheckRevisionAppModel> {
 	}
 
 	override createWindowToFormPanel(Panel mainPanel) {
+
+		val imagePanel = new Panel(mainPanel)
+
+		new Label(imagePanel) => [
+			bindImageToProperty("pathImagen", [ imagePath |
+				new Image(imagePath)
+			])
+		]
 
 		val revisionGeneral = new GroupPanel(mainPanel) => [title = ""]
 		new Label(revisionGeneral) => [
